@@ -1,104 +1,79 @@
-# Tutorial Frontend in Vue 3
+# Vuetify (Default)
 
-This application allows users to create and maintain a list of tutorials that can have multiple lessons within. Please visit https://github.com/OC-ComputerScience/tutorial-backend for the backend repository.
+This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify application. It sets up a base template with all the necessary configurations and standard directory structure, enabling you to begin development without the hassle of setting up the project from scratch.
 
-#### Please note:
+## ❗️ Important Links
 
-- This project utilizes **Google Authentication** to allow users to log in.
-- You will need to provide a **Client ID and Client Secret from Google** for this project to run locally.
-- You will need to provide a **Refresh Token** generated through the **Google Developers OAuth 2.0 Playground** for Cypress testing to work.
+- 📄 [Docs](https://vuetifyjs.com/)
+- 🚨 [Issues](https://issues.vuetifyjs.com/)
+- 🏬 [Store](https://store.vuetifyjs.com/)
+- 🎮 [Playground](https://play.vuetifyjs.com/)
+- 💬 [Discord](https://community.vuetifyjs.com)
 
-## Project Setup
+## 💿 Install
 
-1. Clone the project into your **XAMPP/xamppfiles/htdocs** directory.
+Set up your project using your preferred package manager. Use the corresponding command to install the dependencies:
 
-```
-git clone https://github.com/OC-ComputerScience/tutorial-frontend-vue3.git
-```
+| Package Manager                                                | Command        |
+|---------------------------------------------------------------|----------------|
+| [yarn](https://yarnpkg.com/getting-started)                   | `yarn install` |
+| [npm](https://docs.npmjs.com/cli/v7/commands/npm-install)     | `npm install`  |
+| [pnpm](https://pnpm.io/installation)                          | `pnpm install` |
+| [bun](https://bun.sh/#getting-started)                        | `bun install`  |
 
-2. Install the project.
+After completing the installation, your environment is ready for Vuetify development.
 
-```
-npm install
-```
-3. Install cross-env to allow correct use of .env files.
+## ✨ Features
 
-```
-npm install cross-env
-```
-4. Make sure **Apache** is running.
+- 🖼️ **Optimized Front-End Stack**: Leverage the latest Vue 3 and Vuetify 3 for a modern, reactive UI development experience. [Vue 3](https://v3.vuejs.org/) | [Vuetify 3](https://vuetifyjs.com/en/)
+- 🗃️ **State Management**: Integrated with [Pinia](https://pinia.vuejs.org/), the intuitive, modular state management solution for Vue.
+- 🚦 **Routing and Layouts**: Utilizes Vue Router for SPA navigation and vite-plugin-vue-layouts for organizing Vue file layouts. [Vue Router](https://router.vuejs.org/) | [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
+- ⚡ **Next-Gen Tooling**: Powered by Vite, experience fast cold starts and instant HMR (Hot Module Replacement). [Vite](https://vitejs.dev/)
+- 🧩 **Automated Component Importing**: Streamline your workflow with unplugin-vue-components, automatically importing components as you use them. [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
 
-   - We recommend using XAMPP to serve this project.
-   - In XAMPP, make sure that **Apache** is running.
+These features are curated to provide a seamless development experience from setup to deployment, ensuring that your Vuetify application is both powerful and maintainable.
 
-5. In order to make the Google authentication work, have a project registered with the **Google Developer console**.
+## 💡 Usage
 
-   - https://console.developers.google.com/
-   - Enable **Google+ API** and **Google Analytics API**.
-   - Enable an **OAuth consent screen**.
-   - Create an **OAuth client ID**.
-   - Save your **Client ID** and **Client Secret** in a safe place.
+This section covers how to start the development server and build your project for production.
 
-6. In order to make the **Cypress testing** work, get a **Refresh Token** for your Google application through the **Google Developers OAuth 2.0 Playground**.
+### Starting the Development Server
 
-   - https://developers.google.com/oauthplayground/
-   - Click the gear button on the right.
-   - Check **Use your own OAuth credentials**.
-   - Configure the Playground to use your Google project's **client ID** and **client secret**.
-   - On the left, find Google OAuth2 API v2 and check all three items.
-     - https://www.googleapis.com/auth/userinfo.email
-     - https://www.googleapis.com/auth/userinfo.profile
-     - openid
-   - Click **Authorize APIs**.
-   - Click **Exchange authorization code for tokens**.
-   - Save the generated **Refresh token** in a safe place.
+To start the development server with hot-reload, run the following command. The server will be accessible at [http://localhost:3000](http://localhost:3000):
 
-7. Add a local **.env** file and make sure the **client ID** and **client secret** are the values you have registered with Google and that the **refresh token** is the value you generated through the OAuth 2.0 Playground.
-
-   - VITE_APP_CLIENT_ID = '**your-google-client-id**'
-   - VITE_APP_CLIENT_SECRET = '**your-google-client-secret**'
-   - VITE_APP_REFRESH_TOKEN = '**your-google-refresh-token**'
-   - VITE_APP_CLIENT_URL = 'http://localhost:8081'
-   - VITE_APP_API_URL = 'https://accounts.google.com/gsi/client'
-
-8. Compile and run the project locally.
-
-```
-npm run dev
+```bash
+yarn dev
 ```
 
-9. Test your project.
-   - Note that your frontend and backend must be running for testing to be successful.
+(Repeat for npm, pnpm, and bun with respective commands.)
 
-```
-npm run test
-```
+> Add NODE_OPTIONS='--no-warnings' to suppress the JSON import warnings that happen as part of the Vuetify import mapping. If you are on Node [v21.3.0](https://nodejs.org/en/blog/release/v21.3.0) or higher, you can change this to NODE_OPTIONS='--disable-warning=5401'. If you don't mind the warning, you can remove this from your package.json dev script.
 
-10. Test your project and watch the tests run with Cypress.
+### Building for Production
 
-```
-npm run test:open
-```
+To build your project for production, use:
 
-11. If you are wanting to serve your project for production:
-    - You will need to have a **.htaccess** file.
-    - It should be in your **public** folder.
-    - Visual Studio Code will auto format it to where the file will not be read correctly, so add the following rule to your **settings.json** in Visual Studio Code.
-
-```
-"files.associations": {
-    "**/*.htaccess": "plaintext"
-},
+```bash
+yarn build
 ```
 
-12. (Optional) Compile the project for production.
+(Repeat for npm, pnpm, and bun with respective commands.)
 
-```
-npm run build
-```
+Once the build process is completed, your application will be ready for deployment in a production environment.
 
-13. (Optional) Lint and fix the project files.
+## 💪 Support Vuetify Development
 
-```
-npm run lint
-```
+This project is built with [Vuetify](https://vuetifyjs.com/en/), a UI Library with a comprehensive collection of Vue components. Vuetify is an MIT licensed Open Source project that has been made possible due to the generous contributions by our [sponsors and backers](https://vuetifyjs.com/introduction/sponsors-and-backers/). If you are interested in supporting this project, please consider:
+
+- [Requesting Enterprise Support](https://support.vuetifyjs.com/)
+- [Sponsoring John on Github](https://github.com/users/johnleider/sponsorship)
+- [Sponsoring Kael on Github](https://github.com/users/kaelwd/sponsorship)
+- [Supporting the team on Open Collective](https://opencollective.com/vuetify)
+- [Becoming a sponsor on Patreon](https://www.patreon.com/vuetify)
+- [Becoming a subscriber on Tidelift](https://tidelift.com/subscription/npm/vuetify)
+- [Making a one-time donation with Paypal](https://paypal.me/vuetify)
+
+## 📑 License
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2016-present Vuetify, LLC
