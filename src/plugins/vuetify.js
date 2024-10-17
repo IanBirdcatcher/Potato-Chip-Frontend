@@ -1,19 +1,41 @@
 /**
- * plugins/vuetify.js
- *
- * Framework documentation: https://vuetifyjs.com`
+ * Vuetify3 Plugin
  */
+import { createVuetify } from "vuetify";
+
+// Misc
+import { loadFonts } from "./webfontloader";
+loadFonts();
 
 // Styles
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import "vuetify/styles";
+import "@mdi/font/css/materialdesignicons.css";
 
-// Composables
-import { createVuetify } from 'vuetify'
-
-// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
-export default createVuetify({
-  theme: {
-    defaultTheme: 'dark',
+const myCustomLightTheme = {
+  dark: false,
+  colors: {
+    primary: "#80162B",
+    secondary: "#E1E1E1",
+    accent: "#47121D",
+    success: "#47121D",
+    error: "#EE5044",
+    teal: "#63BAC0",
+    blue: "#196CA2",
+    yellow: "#F8C545",
+    darkblue: "#032F45",
   },
-})
+};
+
+const vuetify = createVuetify({
+  theme: {
+    defaultTheme: "myCustomLightTheme",
+    themes: {
+      myCustomLightTheme,
+    },
+  },
+  icons: {
+    defaultSet: "mdi",
+  },
+});
+
+export default vuetify;
