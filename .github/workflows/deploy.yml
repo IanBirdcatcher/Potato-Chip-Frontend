@@ -9,6 +9,10 @@ on:
 jobs:
   aws-deploy:
     runs-on: ubuntu-latest
+    env:
+      VITE_APP_API_URL: ${{ secrets.VITE_APP_API_URL }}
+      VITE_APP_CLIENT_ID: ${{ secrets.VITE_APP_CLIENT_ID }}
+      VITE_APP_CLIENT_URL: ${{ secrets.VITE_APP_CLIENT_URL }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,6 +21,11 @@ jobs:
         with:
           node-version: 20
       - run: npm install
+      - run: |
+          touch .env
+          echo VITE_APP_API_URL = "$VITE_APP_API_URL" >> .env
+          echo VITE_APP_CLIENT_ID = "$VITE_APP_CLIENT_ID" >> .env
+          echo VITE_APP_CLIENT_URL = "$VITE_APP_CLIENT_URL" >> .env
       - run: npm run build
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.1.1
