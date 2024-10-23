@@ -18,7 +18,7 @@
   import { VIcon } from '../../node_modules/vuetify/lib/components/VIcon'
   export default {
     components: {
-      PersonalInfo,
+    //   PersonalInfo,
     },
     setup() {
       const Person = reactive({
