@@ -63,9 +63,9 @@ export default {
     methods:{
         async submitForm() {
             const personalInfoForm = ref(null)
-            const { valid } = await this.$refs.form.validate();
+            const { valid } = await this.$refs.personalInfoForm.validate();
             if (valid) {
-                this.emit('PersonalInfo', { Person, ContactInfo });
+                this.$emit('getNext');
             }
             else {
                 console.log('Form validation failed.');

@@ -53,6 +53,9 @@ onMounted(() => {
         {{ title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <!-- <div v-if="user"> -->
+        <v-btn class="mx-2" :to="{ name: 'CreateResume' }"> Create Resume </v-btn>
+      <!-- </div> -->
       <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" icon x-large>
