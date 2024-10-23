@@ -41,18 +41,15 @@ onMounted(() => {
   <div>
     <v-app-bar app>
       <router-link :to="{ name: '' }">
-        <v-img
-          class="mx-2"
-          :src="logoURL"
-          height="50"
-          width="50"
-          contain
-        ></v-img>
+        <v-img class="mx-2" :src="logoURL" height="50" width="50" contain></v-img>
       </router-link>
       <v-toolbar-title class="title">
         {{ title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <!-- <div v-if="user"> -->
+        <v-btn class="mx-2" :to="{ name: 'CreateResume' }"> Create Resume </v-btn>
+      <!-- </div> -->
       <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" icon x-large>
@@ -67,7 +64,7 @@ onMounted(() => {
               <v-avatar color="secondary" class="mt-2 mb-2">
                 <span class="accent--text font-weight-bold">{{
                   initials
-                }}</span>
+                  }}</span>
               </v-avatar>
               <h3>{{ name }}</h3>
               <p class="text-caption mt-1">
