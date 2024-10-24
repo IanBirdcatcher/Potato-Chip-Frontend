@@ -1,7 +1,6 @@
 <script setup>
-import SocialLogin from "../components/SocialLogin.vue";
+import PersonalInfo from "../components/PersonalInfo.vue"
 </script>
-
 <template>
   <v-container>
     <br /><br />

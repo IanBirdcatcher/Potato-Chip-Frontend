@@ -4,21 +4,21 @@
       <br /><br />
       <SocialLogin />
       <br /><br />
-      <!-- <div v-if="location == 0"> -->
-        <!-- <PersonalInfo  :Person="Person" :ContactInfo="ContactInfo" @submit-person="updatePerson" /> -->
-      <!-- </div> -->
+
+      <div v-if="componentSelected == 0">
+        <PersonalInfo @getNext="getNext" :Person="Person" :ContactInfo="ContactInfo" @submit-person="updatePerson" />
+      </div>
     </v-container>
   </template>
   
-  
   <script>
-//   import PersonalInfo from "../components/PersonalInfo.vue"
+  import PersonalInfo from "../components/PersonalInfo.vue"
   import SocialLogin from "../components/SocialLogin.vue";
-  import { reactive, provide } from 'vue';
+  import { reactive, ref, provide } from 'vue';
   import { VIcon } from '../../node_modules/vuetify/lib/components/VIcon'
   export default {
     components: {
-    //   PersonalInfo,
+        PersonalInfo,
     },
     setup() {
       const Person = reactive({
@@ -32,21 +32,20 @@
         PhoneNumber: '',
         Address: ''
       });
-
-      var location = 0;
-
-      return { Person, ContactInfo };
+      const componentSelected = ref(0);
+      return { Person, ContactInfo,componentSelected };
     },
     methods: {
         getNext(){
-            if(location < 0){
-                location = 0;
+            if(this.componentSelected < 0){
+                this.componentSelected = 0;
             }
-            else if(location > 7){
-                location = 7;
+            else if(this.componentSelected > 7){
+                this.componentSelected = 7;
             }
             else{
-                location++
+                this.componentSelected++
+
             }
         }
     }
