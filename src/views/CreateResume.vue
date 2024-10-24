@@ -1,8 +1,10 @@
+
 <template>
     <v-container>
       <br /><br />
       <SocialLogin />
       <br /><br />
+
       <div v-if="componentSelected == 0">
         <PersonalInfo @getNext="getNext" :Person="Person" :ContactInfo="ContactInfo" @submit-person="updatePerson" />
       </div>
@@ -30,7 +32,6 @@
         PhoneNumber: '',
         Address: ''
       });
-
       const componentSelected = ref(0);
       return { Person, ContactInfo,componentSelected };
     },
@@ -44,6 +45,7 @@
             }
             else{
                 this.componentSelected++
+
             }
         }
     }

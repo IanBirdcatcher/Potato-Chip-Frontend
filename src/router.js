@@ -17,7 +17,7 @@ const router = createRouter({
       alias: "/CreateResume",
       name: "CreateResume",
       component: CreateResume,
-    },
+
   ],
 });
 export default router;
