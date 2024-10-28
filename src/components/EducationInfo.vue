@@ -4,8 +4,8 @@ const required = (label) => (value) => !!value || `The ${label} field is require
 <template>
     <div>
         <v-form ref="educationForm">
-            <v-row align="center" justify="center">
-                <v-card class="mx-auto" width="400" height="515" style="overflow-y: scroll">
+            <v-row align="center" justify="center" >
+                <v-card class="mx-auto" width="400" height="515" :style="[Education.length > 1 ? 'overflow-y: scroll' : '']">
                     <v-card-title style="text-align:center">
                         <span class="text-h6">Education</span>
                     </v-card-title>
