@@ -1,13 +1,11 @@
 <script setup>
-import { toRefs, ref, reactive } from 'vue';
-import { mdiMenuRight } from '@mdi/js';
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 </script>
 <template>
     <div>
         <v-form ref="personalInfoForm">
             <v-row align="center" justify="center">
-                <v-card class="mx-auto" max-width="400">
+                <v-card class="mx-auto" width="400" height="515" >    
                     <v-card-title style="text-align:center">
                         <span class="text-h6">Personal Information</span>
                     </v-card-title>
@@ -38,8 +36,8 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <div style="float:right">
-                            <v-btn @click="submitForm">
+                        <div>
+                            <v-btn @click="submitForm" style="float:right">
                                 <v-icon icon="mdi-chevron-right" style="font-size: 30px;"></v-icon>
                             </v-btn>
                         </div>
@@ -62,13 +60,9 @@ export default {
     },
     methods:{
         async submitForm() {
-            const personalInfoForm = ref(null)
             const { valid } = await this.$refs.personalInfoForm.validate();
             if (valid) {
                 this.$emit('getNext');
-            }
-            else {
-                console.log('Form validation failed.');
             }
         }
     }
