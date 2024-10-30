@@ -54,7 +54,7 @@ export default {
       }
     ]);
     const componentSelected = ref(1);
-    return { Person, ContactInfo, Education, componentSelected };
+    return { Person, ContactInfo, Education, componentSelected, Experience };
   },
   methods: {
     getNext() {

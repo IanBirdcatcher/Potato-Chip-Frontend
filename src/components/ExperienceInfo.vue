@@ -1,11 +1,12 @@
 <script setup>
+import { VDateInput } from 'vuetify/labs/VDateInput'
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 </script>
 <template>
     <div>
         <v-form ref="ExperienceForm">
             <v-row align="center" justify="center">
-                <v-card class="mx-auto" width="400" height="515"
+                <v-card class="mx-auto" width="480" height="600"
                     :style="[Experience.length > 1 ? 'overflow-y: scroll' : '']">
                     <v-card-title style="text-align:center">
                         <span class="text-h6">Experience</span>
@@ -14,19 +15,20 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                     <v-card-text>
                         <v-row v-for="(item, index)  in Experience" :key="index">
                             <v-col cols="6">
-                                <v-text-field class="formField" v-model="item.Organization" label="Organization Name"
-                                    :rules="[required('School Name')]"></v-text-field>
+                                <v-text-field class="formField" v-model="item.Organization" label="Organization Name*"
+                                    :rules="[required('Organization Name')]"></v-text-field>
                             </v-col>
                             <v-col cols="6">
-                                <v-text-field class="formField" v-model="item.Title" label="Job Title"></v-text-field>
+                                <v-text-field class="formField" v-model="item.Title" label="Job Title*" 
+                                :rules="[required('Job Title')]"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea class="formField" v-model="item.JobDescription"
-                                    label="Job Description"></v-textarea>
+                                <v-textarea class="formField" v-model="item.JobDescription" label="Job Description" 
+                                :rules="[required('Job Description*')]"></v-textarea>
                             </v-col>
                             <v-col cols="12">
-                                <v-date-input class="formField" v-model="item.Date" label="Select Date range"
-                                    multiple="range"></v-date-input>
+                                <v-date-input class="formField" v-model="item.Date" label="Start and End Date*"
+                                    multiple="range" :rules="[required('Start and End Date')]"></v-date-input>
                             </v-col>
 
                             <div v-if="index > 0" class="mx-auto">
@@ -72,11 +74,7 @@ const required = (label) => (value) => !!value || `The ${label} field is require
 </template>
 
 <script>
-import { VDateInput } from 'vuetify/labs/VDateInput'
 export default {
-    components: {
-        VDateInput
-    },
     props: {
         Experience: {
             type: Object,
