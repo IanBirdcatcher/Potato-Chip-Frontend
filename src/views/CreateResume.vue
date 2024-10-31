@@ -53,7 +53,7 @@ export default {
         Date: null
       }
     ]);
-    const componentSelected = ref(1);
+    const componentSelected = ref(0);
     return { Person, ContactInfo, Education, componentSelected, Experience };
   },
   methods: {
