@@ -1,55 +1,59 @@
 
 <template>
-    <v-container>
-      <br /><br />
-      <SocialLogin />
-      <br /><br />
-      <!-- <div v-if="location == 0"> -->
-        <!-- <PersonalInfo  :Person="Person" :ContactInfo="ContactInfo" @submit-person="updatePerson" /> -->
-      <!-- </div> -->
-    </v-container>
-  </template>
-  
-  
-  <script>
-//   import PersonalInfo from "../components/PersonalInfo.vue"
-  import SocialLogin from "../components/SocialLogin.vue";
-  import { reactive, provide } from 'vue';
-  import { VIcon } from '../../node_modules/vuetify/lib/components/VIcon'
-  export default {
-    components: {
-    //   PersonalInfo,
-    },
-    setup() {
-      const Person = reactive({
-        id: 0,
-        fName: '',
-        lName: ''
-      });
-      const ContactInfo = reactive({
-        id: 0,
-        Email: '',
-        PhoneNumber: '',
-        Address: ''
-      });
+  <v-container>
+    <div v-if="componentSelected == 0">
+      <PersonalInfo @getNext="getNext" :Person="Person" :ContactInfo="ContactInfo" />
+    </div>
+    <div v-if="componentSelected == 1">
+      <EducationInfo @getNext="getNext" :Education="Education"  @getPrevious="getPrevious"/>
+    </div>
+  </v-container>
+</template>
 
-      var location = 0;
+<script>
+import PersonalInfo from "../components/PersonalInfo.vue"
+import EducationInfo from "../components/EducationInfo.vue"
+import { reactive, ref } from 'vue';
 
-      return { Person, ContactInfo };
+export default {
+  components: {
+    PersonalInfo,
+    EducationInfo
+  },
+  setup() {
+    const Person = reactive({
+      id: 0,
+      fName: '',
+      lName: ''
+    });
+    const ContactInfo = reactive({
+      id: 0,
+      Email: '',
+      PhoneNumber: '',
+      Address: ''
+    });
+    const Education = reactive([
+      {
+        id: 0,
+        SchoolName: "",
+        Degree: "",
+        GPA: 0
+      }
+    ]);
+    const componentSelected = ref(1);
+    return { Person, ContactInfo, Education, componentSelected };
+  },
+  methods: {
+    getNext() {
+      if(this.componentSelected < 7){
+        this.componentSelected ++
+      }
     },
-    methods: {
-        getNext(){
-            if(location < 0){
-                location = 0;
-            }
-            else if(location > 7){
-                location = 7;
-            }
-            else{
-                location++
-            }
-        }
+    getPrevious() {
+      if (this.componentSelected > 0) {
+        this.componentSelected --
+      }
     }
-  };
-  </script>
-  
+  }
+};
+</script>
