@@ -40,7 +40,7 @@ onMounted(() => {
 <template>
   <div>
     <v-app-bar app>
-      <router-link :to="{ name: '' }">
+      <router-link :to="{ name: 'HomePage' }">
         <v-img class="mx-2" :src="logoURL" height="50" width="50" contain></v-img>
       </router-link>
       <v-toolbar-title class="title">
