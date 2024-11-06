@@ -1,29 +1,38 @@
 <script setup>
+import { VDateInput } from 'vuetify/labs/VDateInput'
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 </script>
 <template>
     <div>
-        <v-form ref="educationForm">
-            <v-row align="center" justify="center" >
-                <v-card class="mx-auto" width="400" height="515" :style="'overflow-y: scroll'">
+        <v-form ref="ExperienceForm">
+            <v-row align="center" justify="center">
+                <v-card class="mx-auto" width="440" height="600"
+                    :style="'overflow-y: scroll'">
                     <v-card-title style="text-align:center">
-                        <span class="text-h6">Education</span>
+                        <span class="text-h6">Experience</span>
                     </v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
-                        <v-row v-for="(item, index)  in Education" :key="index">
-                            <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.SchoolName" label="School Name"
-                                    :rules="[required('School Name')]"></v-text-field>
+                        <v-row v-for="(item, index)  in Experience" :key="index">
+                            <v-col cols="6">
+                                <v-text-field class="formField" v-model="item.Organization" label="Organization Name*"
+                                    :rules="[required('Organization Name')]"></v-text-field>
+                            </v-col>
+                            <v-col cols="6">
+                                <v-text-field class="formField" v-model="item.Title" label="Job Title*" 
+                                :rules="[required('Job Title')]"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.Degree" label="Degree"></v-text-field>
+                                <v-textarea class="formField" v-model="item.JobDescription" label="Job Description*" 
+                                :rules="[required('Job Description')]"></v-textarea>
                             </v-col>
                             <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.GPA" label="GPA"></v-text-field>
+                                <v-date-input class="formField" v-model="item.Date" label="Start and End Date*"
+                                    multiple="range" :rules="[required('Start and End Date')]"></v-date-input>
                             </v-col>
+
                             <div v-if="index > 0" class="mx-auto">
-                                <v-btn @click="removeEducation(index)" style="float:left">
+                                <v-btn @click="removeExperience(index)" style="float:left">
                                     <v-icon icon="mdi-minus" style="font-size: 20px;"></v-icon>
                                 </v-btn>
                             </div>
@@ -32,7 +41,7 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                         </v-row>
                         <v-row>
                             <div class="mx-auto">
-                                <v-btn @click="addNewEducation" style="float:left" class="mx-5">
+                                <v-btn @click="addNewExperience" style="float:left" class="mx-5">
                                     <v-icon icon="mdi-plus" style="font-size: 20px;"></v-icon>
                                 </v-btn>
                             </div>
@@ -47,7 +56,7 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                         </div>
                         <v-spacer></v-spacer>
                         <div>
-                            <v-btn variant="outlined"  @click="skip" class="mx-auto">
+                            <v-btn variant="outlined" @click="skip" class="mx-auto">
                                 Skip
                             </v-btn>
                         </div>
@@ -67,33 +76,35 @@ const required = (label) => (value) => !!value || `The ${label} field is require
 <script>
 export default {
     props: {
-        Education: {
+        Experience: {
             type: Object,
         },
     },
     methods: {
         async submitForm() {
-            const { valid } = await this.$refs.educationForm.validate();
+            const { valid } = await this.$refs.ExperienceForm.validate();
             if (valid) {
+                //insert backend logic here
                 this.$emit('getNext');
             }
         },
-        addNewEducation() {
-            this.Education.push({
+        addNewExperience() {
+            this.Experience.push({
                 id: 0,
-                SchoolName: "",
-                Degree: "",
-                GPA: ""
+                Organization: "",
+                Title: "",
+                JobDescription: "",
+                Date: null
             })
         },
-        removeEducation(index) {
-            this.Education.splice(index,1);
+        removeExperience(index) {
+            this.Experience.splice(index, 1);
         },
-        getPrevious(){
+        getPrevious() {
             this.$emit('getPrevious');
         },
         skip() {
-            this.Education.splice(0,this.Education.length);
+            this.Experience.splice(0, this.Experience.length);
             this.$emit('getNext');
         },
     }
