@@ -5,7 +5,7 @@ import Router from "../router.js";
 
 var baseurl = "";
 if (import.meta.env.DEV) {
-  baseurl = "http://localhost:3012";
+  baseurl = "http://localhost:3022";
 } else {
   baseurl = "/project3/";
 }
