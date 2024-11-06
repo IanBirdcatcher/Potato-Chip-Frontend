@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import AuthServices from "../services/authServices";
 import Utils from "../config/utils.js";
 import { useRouter } from "vue-router";
+import HomeComponent from "./HomeComponent.vue";
 
 const router = useRouter();
 const fName = ref("");
@@ -38,7 +39,8 @@ const handleCredentialResponse = async (response) => {
       Utils.setStore("user", user.value);
       fName.value = user.value.fName;
       lName.value = user.value.lName;
-      router.push({ name: "home" });
+      router.push({ name: 'HomePage'}
+      );
     })
     .catch((error) => {
       console.log("error", error);
