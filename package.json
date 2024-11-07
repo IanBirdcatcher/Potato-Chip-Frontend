@@ -14,6 +14,7 @@
   "dependencies": {
     "@mdi/font": "^7.0.96",
     "axios": "^1.1.3",
+    "cohere-ai": "^7.14.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.28.0",
     "eslint-plugin-vue": "^9.7.0",
@@ -30,5 +31,10 @@
     "cross-env": "^7.0.3",
     "cypress": "^13.15.1",
     "vite": "^5.4.10"
-  }
+  },
+  "description": "This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify application. It sets up a base template with all the necessary configurations and standard directory structure, enabling you to begin development without the hassle of setting up the project from scratch.",
+  "main": ".eslintrc.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
