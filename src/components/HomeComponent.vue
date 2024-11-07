@@ -64,7 +64,7 @@
   </template>
   
   <script>
-    export default defineComponent({
+    export default({
   
       // Data Properties ------------------
       data: () => ({
