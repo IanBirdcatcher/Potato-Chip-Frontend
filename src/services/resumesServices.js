@@ -4,7 +4,7 @@ import apiClient from '../services/services';
 const resumesService = {
   // Get all resumes for a specific user
   getAllResumes(userId) {
-    return apiClient.get(`/resume/byUser/${userId}`);
+    return apiClient.get(`/resume/byuser/${userId}`);
   },
   
   // Get a specific resume by ID
