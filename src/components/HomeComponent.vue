@@ -64,25 +64,7 @@
   </template>
   
   <script>
-    // Import Statements and Component Definition ------------------
-    import { defineComponent } from 'vue';
-    import { VDataTable } from 'vuetify/labs/VDataTable';
-    import { VToolbar, VTextField, VIcon, VDivider, VContainer, VRow, VCol, VSpacer, VSnackbar } from 'vuetify/components';
-  
     export default defineComponent({
-      // Components Registration ------------------
-      components: {
-        VDataTable,
-        VToolbar,
-        VTextField,
-        VIcon,
-        VDivider,
-        VContainer,
-        VRow,
-        VCol,
-        VSpacer,
-        VSnackbar,
-      },
   
       // Data Properties ------------------
       data: () => ({
