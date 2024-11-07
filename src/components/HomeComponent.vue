@@ -1,4 +1,4 @@
-<template>
+I<template>
     <!-- Main Template Structure ------------------ -->
     <main>
       <!-- External CSS Stylesheet Link ------------------ -->
@@ -64,8 +64,7 @@
   </template>
   
   <script>
-    export default({
-  
+    export default{
       // Data Properties ------------------
       data: () => ({
         search: '',
@@ -105,7 +104,7 @@
           this.showSnackbar('Resume deleted successfully', 'success');
         },
       }
-    });
+    };
   </script>
   
   <style scoped>
