@@ -66,6 +66,7 @@
 <script>
 import resumesService from '../services/resumesServices';
 import Utils from '../config/utils';
+
 export default {
   // Data Properties ------------------
   data: () => ({
@@ -79,8 +80,9 @@ export default {
       { title: 'Job', key: 'job' },
       { title: 'Actions', key: 'actions', sortable: false }
     ],
-    resumes: [],  
+    resumes: [],
   }),
+
   // on loading the component it will call this
   mounted() {
     this.initialize();
@@ -120,8 +122,25 @@ export default {
 
     // Delete Item Action ------------------
     deleteItem(item) {
-      this.resumes = this.resumes.filter(resume => resume.resumeID !== item.resumeID);
-      this.showSnackbar('Resume deleted successfully', 'success');
+      if (!item.resumeId) {  
+        this.showSnackbar('Resume ID is missing', 'error');
+        return; 
+      }
+
+      // Optimistically remove the item from the list for better user experience
+      this.resumes = this.resumes.filter(resume => resume.resumeId !== item.resumeId);  // Changed from resumeID to resumeId
+
+      // Call the delete API
+      resumesService.deleteResume(item.resumeId)  
+        .then(() => {
+          this.showSnackbar('Resume deleted successfully', 'success');
+        })
+        .catch(error => {
+          // Re-add item on error if necessary
+          this.resumes.push(item);
+          this.showSnackbar('Error deleting resume', 'error');
+          console.log("Error deleting resume:", error);
+        });
     },
   }
 };
