@@ -3,7 +3,6 @@ import { ref, onMounted } from "vue";
 import AuthServices from "../services/authServices";
 import Utils from "../config/utils.js";
 import { useRouter } from "vue-router";
-import HomeComponent from "./HomeComponent.vue";
 
 const router = useRouter();
 const fName = ref("");

@@ -1,6 +1,7 @@
 <script setup>
-import ocLogo from "/oc-logo-white.png";
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";  // Import useRouter
+import ocLogo from "/oc-logo-white.png";
 import Utils from "../config/utils";
 import AuthServices from "../services/authServices";
 
@@ -9,6 +10,8 @@ const title = ref("Resume Builder");
 const initials = ref("");
 const name = ref("");
 const logoURL = ref("");
+
+const router = useRouter();  // Initialize the router
 
 const resetMenu = () => {
   user.value = null;
@@ -24,7 +27,7 @@ const logout = () => {
     .then((response) => {
       console.log(response);
       Utils.removeItem("user");
-      $router.push({ name: "login" });
+      router.push({ name: "login" });  // Navigate to the login page after logout
     })
     .catch((error) => {
       console.log("error", error);
@@ -47,9 +50,7 @@ onMounted(() => {
         {{ title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <!-- <div v-if="user"> -->
-        <v-btn class="mx-2" :to="{ name: 'CreateResume' }"> Create Resume </v-btn>
-      <!-- </div> -->
+      <v-btn class="mx-2" :to="{ name: 'CreateResume' }"> Create Resume </v-btn>
       <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" icon x-large>
@@ -62,9 +63,7 @@ onMounted(() => {
           <v-card-text>
             <div class="mx-auto text-center">
               <v-avatar color="secondary" class="mt-2 mb-2">
-                <span class="accent--text font-weight-bold">{{
-                  initials
-                  }}</span>
+                <span class="accent--text font-weight-bold">{{ initials }}</span>
               </v-avatar>
               <h3>{{ name }}</h3>
               <p class="text-caption mt-1">
