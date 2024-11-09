@@ -36,7 +36,7 @@ import SocialLogin from "../components/SocialLogin.vue"
 .circle-background {
   background: radial-gradient(circle, rgba(25, 118, 210, 0.8), rgba(0, 0, 0, 0.5));
   border-radius: 50%;
-  padding: 40px;
+  padding: 10px;
 }
 
 .center-content {

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";  // Import useRouter
+import { useRouter } from "vue-router";  
 import ocLogo from "/oc-logo-white.png";
 import Utils from "../config/utils";
 import AuthServices from "../services/authServices";
