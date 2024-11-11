@@ -10,7 +10,6 @@
             <v-toolbar-title style="margin-left: 20px;"><b>Resumes List</b></v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             
-            <!-- Search Field in Toolbar ------------------ -->
             <v-spacer></v-spacer>
             <div style="width:30%">
               <v-text-field
