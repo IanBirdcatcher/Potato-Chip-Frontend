@@ -15,7 +15,7 @@
       <!-- Display chat messages -->
       <div class="chat-messages">
         <div v-for="message in chatMessages" :key="message.id" class="chat-message">
-          <p><strong>{{ message.sender }}:</strong> {{ message.text }}</p>
+          <p><strong>{{ message.sender }}:</strong> {{ message.content.text }}</p>
         </div>
       </div>
 
@@ -77,7 +77,7 @@ export default {
       chatMessages.value.push({
         id: Date.now(),
         sender: 'AI',
-        text: 'Hello! You can upload a PDF resume or ask me anything.',
+        content: { text: 'Hello! You can upload a PDF resume or ask me anything.' },
       });
     };
 
@@ -103,7 +103,7 @@ export default {
         chatMessages.value.push({
           id: Date.now(),
           sender: 'User',
-          text: `Uploaded a PDF: ${file.name}`,
+          content: { text: `Uploaded a PDF: ${file.name}` },
         });
 
         // Send the PDF file to Cohere for analysis
@@ -111,7 +111,6 @@ export default {
           const formData = new FormData();
           formData.append('pdf', file);
 
-          // Assuming your API service accepts a FormData object with the PDF
           const response = await getResumeFeedback(formData);
 
           if (response && response.body && response.body.text) {
@@ -119,14 +118,14 @@ export default {
             chatMessages.value.push({
               id: Date.now(),
               sender: 'AI',
-              text: feedback.value,
+              content: { text: feedback.value },
             });
           } else {
             feedback.value = 'No feedback available from the PDF.';
             chatMessages.value.push({
               id: Date.now(),
               sender: 'AI',
-              text: 'Sorry, I couldn’t provide feedback at this moment.',
+              content: { text: 'Sorry, I couldn’t provide feedback at this moment.' },
             });
           }
         } catch (error) {
@@ -135,14 +134,14 @@ export default {
           chatMessages.value.push({
             id: Date.now(),
             sender: 'AI',
-            text: 'Error uploading PDF. Please try again.',
+            content: { text: 'Error uploading PDF. Please try again.' },
           });
         }
       } else {
         chatMessages.value.push({
           id: Date.now(),
           sender: 'AI',
-          text: 'Please upload a PDF file only.',
+          content: { text: 'Please upload a PDF file only.' },
         });
       }
     };
@@ -153,7 +152,7 @@ export default {
         chatMessages.value.push({
           id: Date.now(),
           sender: 'User',
-          text: userMessage.value,
+          content: { text: userMessage.value },
         });
 
         try {
@@ -164,14 +163,14 @@ export default {
             chatMessages.value.push({
               id: Date.now(),
               sender: 'AI',
-              text: feedback.value,
+              content: { text: feedback.value },
             });
           } else {
             feedback.value = 'No feedback available.';
             chatMessages.value.push({
               id: Date.now(),
               sender: 'AI',
-              text: 'Sorry, I couldn’t provide feedback at this moment.',
+              content: { text: 'Sorry, I couldn’t provide feedback at this moment.' },
             });
           }
         } catch (error) {
@@ -179,7 +178,7 @@ export default {
           chatMessages.value.push({
             id: Date.now(),
             sender: 'AI',
-            text: 'Error fetching feedback, please try again.',
+            content: { text: 'Error fetching feedback, please try again.' },
           });
         }
 
