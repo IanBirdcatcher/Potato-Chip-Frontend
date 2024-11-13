@@ -1,21 +1,15 @@
 <template>
   <!-- Main Template Structure ------------------ -->
   <main>
-    <!-- External CSS Stylesheet Link ------------------ -->
-    <head>
-      <link href="./assets/main.css" rel="stylesheet" />
-    </head>
 
     <!-- Toolbar Section: Top bar with title and search field ------------------ -->
     <v-container fluid class="no-padding">
       <v-row class="no-padding">
         <v-col cols="12" class="no-padding">
           <v-toolbar flat color="#F7F6FE" dense>
-            <!-- Title for Toolbar ------------------ -->
             <v-toolbar-title style="margin-left: 20px;"><b>Resumes List</b></v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             
-            <!-- Search Field in Toolbar ------------------ -->
             <v-spacer></v-spacer>
             <div style="width:30%">
               <v-text-field
@@ -41,9 +35,44 @@
             :headers="headers"
             :items="resumes"
             :search="search"
-            :sort-by="[{ key: 'resumeName', order: 'asc' }]"
-            class="table-border">
+            :sort-by="[{ key: 'resumeName', order: 'asc' }]">
             
+            <!-- Editable Columns: Resume Name and Job ------------------ -->
+            <template v-slot:item.resumeName="{ item }">
+              <div v-if="!item.isEditingResumeName">
+                <span @click="editField(item, 'resumeName')">{{ item.resumeName }}</span>
+              </div>
+              <div v-else>
+                <v-text-field
+                  v-model="item.resumeName"
+                  label="Resume Name"
+                  @blur="updateResume(item)"
+                  @keyup.enter="updateResume(item)"
+                  single-line
+                  hide-details
+                  class="edit-field"
+                  autofocus
+                />
+              </div>
+            </template>
+
+            <template v-slot:item.job="{ item }">
+              <div v-if="!item.isEditingJob">
+                <span @click="editField(item, 'job')">{{ item.job }}</span>
+              </div>
+              <div v-else>
+                <v-text-field
+                  v-model="item.job"
+                  label="Job"
+                  @blur="updateResume(item)"
+                  @keyup.enter="updateResume(item)"
+                  single-line
+                  hide-details
+                  class="edit-field"
+                />
+              </div>
+            </template>
+
             <!-- Actions Column: View and Delete Icons ------------------ -->
             <template v-slot:item.actions="{ item }">
               <v-icon icon="mdi-eye" color="#624DE3" class="me-2" size="small" @click="viewItem(item)">
@@ -68,7 +97,6 @@ import resumesService from '../services/resumesServices';
 import Utils from '../config/utils';
 
 export default {
-  // Data Properties ------------------
   data: () => ({
     search: '',
     snackbar: false,
@@ -83,12 +111,10 @@ export default {
     resumes: [],
   }),
 
-  // on loading the component it will call this
   mounted() {
     this.initialize();
   },
 
-  // Methods for Event Handling ------------------
   methods: {
     initialize() {
       const user = Utils.getStore("user");
@@ -97,7 +123,11 @@ export default {
       if (userId) {
         resumesService.getAllResumes(userId)
           .then(response => {
-            this.resumes = response.data;  // Populate resumes with data from backend
+            this.resumes = response.data;  
+            this.resumes.forEach(resume => {
+              resume.isEditingResumeName = false; 
+              resume.isEditingJob = false;        
+            });
           })
           .catch(error => {
             console.log("Error fetching resumes:", error);
@@ -107,27 +137,46 @@ export default {
       }
     },
 
-    // Show Snackbar with a Message ------------------
     showSnackbar(message, color) {
       this.snackbarMessage = message;
       this.snackbarColor = color === 'success' ? 'green' : 'red';
       this.snackbar = true;
     },
 
-    // View Item Action ------------------
-    viewItem(item) {
-      this.showSnackbar(`Viewing: ${item.resumeName}`, 'success');
-      //view resume code here
+    editField(item, field) {
+      if (field === 'resumeName') {
+        item.isEditingResumeName = true;
+        item.isEditingJob = false; 
+      } else if (field === 'job') {
+        item.isEditingJob = true;
+        item.isEditingResumeName = false; 
+      }
     },
 
-    // Delete Item Action ------------------
+    updateResume(item) {
+      // Update resume name and job on the server when user finishes editing
+      resumesService.updateResume(item.resumeId, item)
+        .then(() => {
+          this.showSnackbar('Resume updated successfully', 'success');
+          item.isEditingResumeName = false; 
+          item.isEditingJob = false;        
+        })
+        .catch(error => {
+          this.showSnackbar('Error updating resume', 'error');
+          console.log("Error updating resume:", error);
+        });
+    },
+
+    viewItem(item) {
+      this.showSnackbar(`Viewing: ${item.resumeName}`, 'success');
+    },
+
     deleteItem(item) {
       if (!item.resumeId) {  
         this.showSnackbar('Resume ID is missing', 'error');
         return; 
       }
 
-      // Optimistically remove the item from the list for better user experience
       this.resumes = this.resumes.filter(resume => resume.resumeId !== item.resumeId);  // Changed from resumeID to resumeId
 
       // Call the delete API
@@ -147,32 +196,41 @@ export default {
 </script>
 
 <style scoped>
-/* Container Padding Removal ------------------ */
 .no-padding {
   padding: 0 !important;
   margin: 0 !important;
 }
 
-/* Toolbar Styling ------------------ */
 .v-toolbar {
   min-height: 48px !important;
   padding: 0 16px !important;
 }
 
-/* Data Table Border ------------------ */
 .table-border {
   border: 1px solid #E0E0E0 !important;
 }
 
-/* Toolbar Title Styling ------------------ */
 .v-toolbar-title {
   line-height: 1.2 !important;
   font-size: 1.1rem;
 }
 
-/* Search Field Styling ------------------ */
 .v-text-field {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+.edit-field {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 1rem;
+  padding-left: 8px;
+}
+
+.edit-field input:focus {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
 }
 </style>
