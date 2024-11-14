@@ -13,15 +13,14 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
                         <v-row v-for="(item, index)  in Link" :key="index">
-                            <v-col cols="6">
-                                <v-text-field class="formField" v-model="item.linkName" label="Link Name*"
+                            <v-col cols="12">
+                                <v-text-field class="formField" v-model="item.linkName" label="Link Name*" 
                                     :rules="[required('Link Name')]"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea class="formField" v-model="item.link" label="Link*" 
-                                :rules="[required('Link')]"></v-textarea>
+                                <v-text-field class="formField" v-model="item.link" label="Link*"
+                                    :rules="[required('Link')]"></v-text-field>
                             </v-col>
-
                             <div v-if="index > 0" class="mx-auto">
                                 <v-btn @click="removeLink(index)" style="float:left">
                                     <v-icon icon="mdi-minus" style="font-size: 20px;"></v-icon>

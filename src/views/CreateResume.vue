@@ -14,7 +14,7 @@
       <InterestInfo @getNext="getNext" :Interest="Interest"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 4">
-      <InterestInfo @getNext="getNext" :Link="Link"  @getPrevious="getPrevious"/>
+      <LinksInfo @getNext="getNext" :Link="Link"  @getPrevious="getPrevious"/>
     </div>
   </v-container>
 </template>
