@@ -11,7 +11,6 @@
       <ExperienceInfo @getNext="getNext" :Experience="Experience"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 3">
-      <ProjectInfo @getNext="getNext" :Project="Project"  @getPrevious="getPrevious"/>
       <InterestInfo @getNext="getNext" :Interest="Interest"  @getPrevious="getPrevious"/>
     </div>
   </v-container>
@@ -23,14 +22,12 @@ import EducationInfo from "../components/EducationInfo.vue"
 import ExperienceInfo from "../components/ExperienceInfo.vue"
 import InterestInfo from "../components/InterestInfo.vue"
 import { reactive, ref } from 'vue';
-import ProjectInfo from "../components/ProjectInfo.vue";
 
 export default {
   components: {
     PersonalInfo,
     EducationInfo,
     ExperienceInfo,
-    ProjectInfo
     InterestInfo
   },
   setup() {
@@ -62,15 +59,6 @@ export default {
         Date: null
       }
     ]);
-    const Project = reactive([
-      {
-        id: 0,
-        ProjectName: "",
-        ProjectDesc: "",
-      }
-    ]);
-    const componentSelected = ref(0);
-    return { Person, ContactInfo, Education, componentSelected, Experience, Project}
     const Interest = reactive([
       {
         id: 0,
