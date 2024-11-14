@@ -1,5 +1,5 @@
 <script setup>
-import SocialLogin from "../components/SocialLogin.vue"
+import SocialLogin from "../components/SocialLogin.vue";
 </script>
 
 <template>
@@ -9,8 +9,8 @@ import SocialLogin from "../components/SocialLogin.vue"
         <!-- Page Title -->
         <v-row justify="center">
           <v-col class="text-center">
-            <h1 class="display-1">Welcome Back!</h1>
-            <p class="subheading">Sign in to your account using your preferred method.</p>
+            <h1 class="display-1 title-text">Resume builder</h1>
+            <p class="subheading">Sign in to your account</p>
           </v-col>
         </v-row>
         
@@ -34,27 +34,30 @@ import SocialLogin from "../components/SocialLogin.vue"
 }
 
 .circle-background {
-  background: radial-gradient(circle, rgba(25, 118, 210, 0.8), rgba(0, 0, 0, 0.5));
-  border-radius: 50%;
-  padding: 10px;
+  background: radial-gradient(circle at center, #9d00ff 0%, #ffffff 80%);
+  padding: 20px;
 }
 
 .center-content {
-  background: #fff;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(165, 0, 52, 0.85);
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   text-align: center;
+  max-width: 500px;
+  width: 100%;
 }
 
-h1 {
+.title-text {
   font-weight: bold;
-  color: #1976D2;
+  color: #ffffffd9;
+  margin-bottom: 8px;
 }
 
 .subheading {
-  font-size: 1.2rem;
-  color: #616161;
+  font-size: 1.1rem;
+  color: #ffffffb3;
+  margin-bottom: 24px;
 }
 
 .text-center {
