@@ -13,6 +13,9 @@
     <div v-if="componentSelected == 3">
       <InterestInfo @getNext="getNext" :Interest="Interest"  @getPrevious="getPrevious"/>
     </div>
+    <div v-if="componentSelected == 4">
+      <AwardsInfo @getNext="getNext" :Award="Award"  @getPrevious="getPrevious"/>
+    </div>
   </v-container>
 </template>
 
@@ -21,6 +24,7 @@ import PersonalInfo from "../components/PersonalInfo.vue"
 import EducationInfo from "../components/EducationInfo.vue"
 import ExperienceInfo from "../components/ExperienceInfo.vue"
 import InterestInfo from "../components/InterestInfo.vue"
+import AwardsInfo from "../components/AwardsInfo.vue"
 import { reactive, ref } from 'vue';
 
 export default {
@@ -28,7 +32,8 @@ export default {
     PersonalInfo,
     EducationInfo,
     ExperienceInfo,
-    InterestInfo
+    InterestInfo,
+    AwardsInfo
   },
   setup() {
     const Person = reactive({
@@ -66,8 +71,15 @@ export default {
         InterestDesc: "",
       }
     ]);
+    const Award = reactive([
+      {
+        id: 0,
+        AwardName: "",
+        AwardDesc: "",
+      }
+    ]);
     const componentSelected = ref(0);
-    return { Person, ContactInfo, Education, Interest, componentSelected, Experience };
+    return { Person, ContactInfo, Education, Interest, componentSelected, Experience, Award };
   },
   methods: {
     getNext() {
