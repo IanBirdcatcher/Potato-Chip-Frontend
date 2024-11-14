@@ -1,9 +1,3 @@
-<script setup>
-import { VDateInput } from 'vuetify/labs/VDateInput';
-
-const required = (label) => (value) => !!value || `The ${label} field is required.`;
-</script>
-
 <template>
     <div>
         <v-form ref="ProjectForm">
@@ -14,21 +8,31 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                     </v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
-                        <v-row v-for="(item, index) in projects" :key="index">
-                            <v-col cols="6">
-                                <v-text-field class="formField" v-model="item.ProjectName" label="Project Name*"
-                                    :rules="[required('Project Name')]"></v-text-field>
+                        <v-row v-for="(item, index) in Project" :key="index">
+                            <v-col cols="12">
+                                <v-text-field
+                                    class="formField"
+                                    v-model="item.ProjectName"
+                                    label="Project Name*"
+                                    :rules="[required('Project Name')]"
+                                ></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea class="formField" v-model="item.ProjectDescription" label="Project Description*" 
-                                    :rules="[required('Project Description')]"></v-textarea>
+                                <v-textarea
+                                    class="formField"
+                                    v-model="item.ProjectDesc"
+                                    label="Project Description*"
+                                    :rules="[required('Project Description')]"
+                                ></v-textarea>
                             </v-col>
+
                             <div v-if="index > 0" class="mx-auto">
                                 <v-btn @click="removeProject(index)" style="float:left">
                                     <v-icon icon="mdi-minus" style="font-size: 20px;"></v-icon>
                                 </v-btn>
                             </div>
                             <v-divider class="my-5"></v-divider>
+                            <v-spacer></v-spacer>
                         </v-row>
                         <v-row>
                             <div class="mx-auto">
@@ -38,18 +42,25 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                             </div>
                         </v-row>
                     </v-card-text>
-                    <v-card-actions>
-                        <v-btn @click="getPrevious" style="float:left">
-                            <v-icon icon="mdi-chevron-left" style="font-size: 30px;"></v-icon>
-                        </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-card-actions style="position: relative; bottom: 0;">
+                        <div>
+                            <v-btn @click="getPrevious" style="float:left">
+                                <v-icon icon="mdi-chevron-left" style="font-size: 30px;"></v-icon>
+                            </v-btn>
+                        </div>
                         <v-spacer></v-spacer>
-                        <v-btn variant="outlined" @click="skip" class="mx-auto">
-                            Skip
-                        </v-btn>
+                        <div>
+                            <v-btn variant="outlined" @click="skip" class="mx-auto">
+                                Skip
+                            </v-btn>
+                        </div>
                         <v-spacer></v-spacer>
-                        <v-btn @click="submitForm" style="float:right">
-                            <v-icon icon="mdi-chevron-right" style="font-size: 30px;"></v-icon>
-                        </v-btn>
+                        <div>
+                            <v-btn @click="submitForm" style="float:right">
+                                <v-icon icon="mdi-chevron-right" style="font-size: 30px;"></v-icon>
+                            </v-btn>
+                        </div>
                     </v-card-actions>
                 </v-card>
             </v-row>
@@ -60,35 +71,44 @@ const required = (label) => (value) => !!value || `The ${label} field is require
 <script>
 export default {
     props: {
-        projects: {
-            type: Array,
-            default: () => []
+        Project: {
+            type: Object, 
         },
     },
     methods: {
+        required(label) {
+            return (value) => !!value || `The ${label} field is required.`;
+        },
         async submitForm() {
             const { valid } = await this.$refs.ProjectForm.validate();
             if (valid) {
+                // Insert backend logic here
                 this.$emit('getNext');
             }
         },
         addNewProject() {
-            this.projects.push({
+            this.Project.push({
                 id: 0,
                 ProjectName: "",
-                ProjectDescription: "",
+                ProjectDesc: ""
             });
         },
         removeProject(index) {
-            this.projects.splice(index, 1);
+            this.Project.splice(index, 1);
         },
         getPrevious() {
             this.$emit('getPrevious');
         },
         skip() {
-            this.projects.splice(0, this.projects.length);
+            this.Project.splice(0, this.Project.length);
             this.$emit('getNext');
         },
     }
 }
 </script>
+
+<style scoped>
+.formField {
+    margin-bottom: 16px; 
+}
+</style>

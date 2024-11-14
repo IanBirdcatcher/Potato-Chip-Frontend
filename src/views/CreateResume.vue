@@ -62,12 +62,12 @@ export default {
     const Project = reactive([
       {
         id: 0,
-        SchoolName: "",
+        ProjectName: "",
         ProjectDesc: "",
       }
     ]);
     const componentSelected = ref(0);
-    return { Person, ContactInfo, Education, componentSelected, Experience, Project };
+    return { Person, ContactInfo, Education, componentSelected, Experience, Project};
   },
   methods: {
     getNext() {
