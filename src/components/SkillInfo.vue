@@ -28,8 +28,7 @@ function getPrevious() {
     emit('getPrevious');
 }
 function skip() {
-    selectedSkills.value.pop()
-    props.Skill = selectedSkills
+    props.Skill.value.splice(0,props.Skill.value.length);
     emit('getNext')
 }
 </script>
