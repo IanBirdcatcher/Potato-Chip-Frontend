@@ -10,6 +10,9 @@
       <ExperienceInfo @getNext="getNext" :Experience="Experience"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 3">
+      <InterestInfo @getNext="getNext" :Interest="Interest"  @getPrevious="getPrevious"/>
+    </div>    
+    <div v-if="componentSelected == 4">
       <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
     </div>
   </v-container>
@@ -20,6 +23,8 @@ import PersonalInfo from "../components/PersonalInfo.vue"
 import EducationInfo from "../components/EducationInfo.vue"
 import ExperienceInfo from "../components/ExperienceInfo.vue"
 import SkillInfo from "../components/SkillInfo.vue"
+import InterestInfo from "../components/InterestInfo.vue"
+
 import { reactive, ref } from 'vue';
 
 export default {
@@ -27,7 +32,8 @@ export default {
     PersonalInfo,
     EducationInfo,
     ExperienceInfo,
-    SkillInfo
+    SkillInfo,
+    InterestInfo
   },
   setup() {
     const Person = reactive({
@@ -59,8 +65,15 @@ export default {
       }
     ]);
     const Skill = ref([])
-    const componentSelected = ref(3);
-    return { Person, ContactInfo, Education, componentSelected, Experience, Skill };
+    const Interest = reactive([
+      {
+        id: 0,
+        InterestName: "",
+        InterestDesc: "",
+      }
+    ]);
+    const componentSelected = ref(0);
+    return { Person, ContactInfo, Education, Interest, componentSelected, Experience };
   },
   methods: {
     getNext() {
