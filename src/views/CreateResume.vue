@@ -1,4 +1,3 @@
-
 <template>
   <v-container>
     <div v-if="componentSelected == 0">
@@ -12,6 +11,12 @@
     </div>
     <div v-if="componentSelected == 3">
       <InterestInfo @getNext="getNext" :Interest="Interest"  @getPrevious="getPrevious"/>
+    </div>    
+    <div v-if="componentSelected == 4">
+      <LinksInfo @getNext="getNext" :Link="Link"  @getPrevious="getPrevious"/>
+    </div>
+    <div v-if="componentSelected == 5">
+      <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 4">
       <ProjectInfo @getNext="getNext" :Award="Award"  @getPrevious="getPrevious"/>
@@ -26,10 +31,11 @@
 import PersonalInfo from "../components/PersonalInfo.vue"
 import EducationInfo from "../components/EducationInfo.vue"
 import ExperienceInfo from "../components/ExperienceInfo.vue"
+import SkillInfo from "../components/SkillInfo.vue"
 import InterestInfo from "../components/InterestInfo.vue"
 import AwardsInfo from "../components/AwardsInfo.vue"
 import ProjectInfo from "../components/ProjectInfo.vue";
-
+import LinksInfo from "../components/LinksInfo.vue"
 import { reactive, ref } from 'vue';
 
 export default {
@@ -40,6 +46,8 @@ export default {
     InterestInfo,
     ProjectInfo,
     AwardsInfo
+    LinksInfo,
+    SkillInfo,
   },
   setup() {
     const Person = reactive({
@@ -70,6 +78,7 @@ export default {
         Date: null
       }
     ]);
+    const Skill = ref([])
     const Interest = reactive([
       {
         id: 0,
@@ -93,10 +102,21 @@ export default {
     ]);
     const componentSelected = ref(0);
     return { Person, ContactInfo, Education, Interest, componentSelected, Experience, Project, Award };
+
+    const Link = reactive([
+      {
+        id: 0,
+        linkName: "",
+        link: "",
+      }
+    ]);
+    const componentSelected = ref(0);
+    return { Person, ContactInfo, Education, Interest, componentSelected, Experience, Link };
+
   },
   methods: {
     getNext() {
-      if(this.componentSelected < 7){
+      if(this.componentSelected < 6){
         this.componentSelected ++
       }
     },
