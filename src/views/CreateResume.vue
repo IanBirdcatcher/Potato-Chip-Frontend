@@ -45,9 +45,9 @@ export default {
     ExperienceInfo,
     InterestInfo,
     ProjectInfo,
-    AwardsInfo
+    AwardsInfo,
     LinksInfo,
-    SkillInfo,
+    SkillInfo
   },
   setup() {
     const Person = reactive({
@@ -100,16 +100,7 @@ export default {
         AwardDesc: "",
       }
     ]);
-    const componentSelected = ref(0);
-    return { Person, ContactInfo, Education, Interest, componentSelected, Experience, Project, Award };
 
-    const Link = reactive([
-      {
-        id: 0,
-        linkName: "",
-        link: "",
-      }
-    ]);
     const componentSelected = ref(0);
     return { Person, ContactInfo, Education, Interest, componentSelected, Experience, Link };
 
