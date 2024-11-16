@@ -43,6 +43,7 @@ export default {
     PersonalInfo,
     EducationInfo,
     ExperienceInfo,
+    InterestInfo,
     ProjectInfo,
     AwardsInfo,
     LinksInfo,
@@ -101,7 +102,7 @@ export default {
         ProjectDesc: "",
       }
     ]);
-    
+
     const componentSelected = ref(0);
     return { Person, ContactInfo, Education, Interest, componentSelected, Experience, Award, Project, Skill};
   },
