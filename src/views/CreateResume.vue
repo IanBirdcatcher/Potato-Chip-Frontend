@@ -18,10 +18,10 @@
     <div v-if="componentSelected == 5">
       <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
     </div>
-    <div v-if="componentSelected == 4">
+    <div v-if="componentSelected == 6">
       <ProjectInfo @getNext="getNext" :Award="Award"  @getPrevious="getPrevious"/>
     </div>
-    <div v-if="componentSelected == 5">
+    <div v-if="componentSelected == 7">
       <AwardsInfo @getNext="getNext" :Project="Project"  @getPrevious="getPrevious"/>
     </div>
   </v-container>
