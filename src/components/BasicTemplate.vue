@@ -19,6 +19,8 @@ export default {
     const name = ref("");
     const email = ref("");
     const address = ref("");
+    const phoneNumber = ref("");
+    const link = ref("");
 
     onMounted(() => {
       const storedUser = Utils.getStore("user");
@@ -27,6 +29,8 @@ export default {
         name.value = `${storedUser.fName} ${storedUser.lName}`;
         email.value = storedUser.email;
         address.value = props.ContactInfo.Address || "No address provided"; 
+        phoneNumber.value = props.ContactInfo.PhoneNumber || "No PhoneNumber provided"; 
+        link.value = props.Link.Link || "No link provided";
       }
     });
 
@@ -35,11 +39,14 @@ export default {
       name,
       email,
       address,
+      phoneNumber,
+      link,
+      Education: props.Education,
+      Experience: props.Experience,
     };
   },
 };
 </script>
-
 
 <template>
   <html lang="en">
@@ -51,39 +58,34 @@ export default {
     <body>
       <div class="container">
         <header>
-          <h1 >{{ name }}</h1>
+          <h1>{{ name }}</h1>
           <p>
-            {{address}} | (555) 555-5555 |
+            {{ address }} | {{ phoneNumber }} |
             <a>{{ email }}</a> |
-            <a href="#">LinkedIn/Website URL</a>
+            <a href="#">{{ link }}</a>
           </p>
         </header>
-
-        <section id="summary">
-          <h2>Professional Summary</h2>
-          <p></p>
-        </section>
 
         <!-- Education Section -->
         <section id="education">
           <h2>Education</h2>
-          <p>
-            <strong>Oklahoma Christian University, Oklahoma City, OK</strong><br />
-          </p>
+          <div v-for="edu in Education" :key="edu.id">
+            <p>
+              <strong>{{ edu.SchoolName }}</strong><br />
+              {{ edu.Degree }} | {{ edu.GPA }} GPA<br />
+              Start Month, Year - Projected Month, Year
+            </p>
+          </div>
         </section>
 
+        <!-- Professional Experience Section -->
         <section id="experience">
           <h2>Professional Experience</h2>
-          <div class="job">
-            <h3>Employer, Your Title</h3>
-            <p>City, State | Date (Start Month, Year - End Month, Year)</p>
-            <ul>
-              <li><!-- Bullet point 1 --></li>
-              <li><!-- Bullet point 2 --></li>
-              <li><!-- Bullet point 3 --></li>
-            </ul>
+          <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
+            <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
+
+            <p>{{ Experience.JobDescription }}</p>            
           </div>
-          <!-- Duplicate the .job block for each additional role -->
         </section>
 
         <!-- Skills & Leadership Section -->
@@ -99,6 +101,7 @@ export default {
   </html>
 </template>
 
+
 <style>
 /* General Reset */
 body {
@@ -110,7 +113,6 @@ body {
   background-color: #f4f4f9;
 }
 
-/* Container */
 .container {
   max-width: 800px;
   margin: 20px auto;
@@ -119,7 +121,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Header */
 header {
   text-align: center;
   margin-bottom: 20px;
@@ -149,7 +150,15 @@ section h2 {
   color: #222;
 }
 
-/* Professional Experience */
+#education p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+#education strong {
+  font-weight: bold;
+}
+
 .job {
   margin-bottom: 15px;
 }
