@@ -14,7 +14,7 @@
   "dependencies": {
     "@mdi/font": "^7.0.96",
     "axios": "^1.1.3",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.4.5",
     "eslint": "^8.28.0",
     "eslint-plugin-vue": "^9.7.0",
     "vite-plugin-vuetify": "^2.0.4",

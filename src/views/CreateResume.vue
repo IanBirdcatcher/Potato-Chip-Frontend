@@ -16,13 +16,13 @@
       <LinksInfo @getNext="getNext" :Link="Link"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 5">
-      <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
+      <ProjectInfo @getNext="getNext" :Project="Project"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 6">
-      <ProjectInfo @getNext="getNext" :Award="Award"  @getPrevious="getPrevious"/>
+      <AwardsInfo @getNext="getNext" :Award="Award"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 7">
-      <AwardsInfo @getNext="getNext" :Project="Project"  @getPrevious="getPrevious"/>
+      <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
     </div>
   </v-container>
 </template>
@@ -34,7 +34,7 @@ import ExperienceInfo from "../components/ExperienceInfo.vue"
 import SkillInfo from "../components/SkillInfo.vue"
 import InterestInfo from "../components/InterestInfo.vue"
 import AwardsInfo from "../components/AwardsInfo.vue"
-import ProjectInfo from "../components/ProjectInfo.vue";
+import ProjectInfo from "../components/ProjectInfo.vue"
 import LinksInfo from "../components/LinksInfo.vue"
 import { reactive, ref } from 'vue';
 
@@ -85,9 +85,13 @@ export default {
         Date: null
       }
     ]);
-
-    const Skill = ref([])
-
+    const Link = reactive([
+      {
+        id: 0,
+        LinkName: "",
+        LinkDesc: ""
+      }
+    ]);
     const Award = reactive([
       {
         id: 0,
@@ -103,13 +107,16 @@ export default {
       }
     ]);
 
+    const Skill = ref([])
+
+
     const componentSelected = ref(0);
-    return { Person, ContactInfo, Education, Interest, componentSelected, Experience, Award, Project, Skill};
+    return { Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill};
   },
 
   methods: {
     getNext() {
-      if(this.componentSelected < 6){
+      if(this.componentSelected < 7){
         this.componentSelected ++
       }
     },
