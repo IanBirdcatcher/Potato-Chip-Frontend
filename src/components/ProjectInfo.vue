@@ -1,34 +1,33 @@
-<script setup>
-const required = (label) => (value) => !!value || `The ${label} field is required.`;
-// URL validation rule
-const validURL = (value) => {
-  const pattern = /^(https?:\/\/)?([^\s$.?#].[^\s]*)$/;
-  return pattern.test(value) || "Please enter a valid URL.";
-};
-</script>
 <template>
     <div>
-        <v-form ref="LinkForm">
+        <v-form ref="ProjectForm">
             <v-row align="center" justify="center">
-                <v-card class="mx-auto" width="440" height="600"
-                    :style="'overflow-y: scroll'">
+                <v-card class="mx-auto" width="440" height="600" :style="'overflow-y: scroll'">
                     <v-card-title style="text-align:center">
-                        <span class="text-h6">Link</span>
+                        <span class="text-h6">Project</span>
                     </v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
-                        <v-row v-for="(item, index)  in Link" :key="index">
+                        <v-row v-for="(item, index) in Project" :key="index">
                             <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.LinkName" label="Link Name*"
-                                    :rules="[required('Link Name')]"></v-text-field>
+                                <v-text-field
+                                    class="formField"
+                                    v-model="item.ProjectName"
+                                    label="Project Name*"
+                                    :rules="[required('Project Name')]"
+                                ></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.Link" label="Link*"
-                                    :rules="[required('Link'), validURL]"></v-text-field>
+                                <v-textarea
+                                    class="formField"
+                                    v-model="item.ProjectDesc"
+                                    label="Project Description*"
+                                    :rules="[required('Project Description')]"
+                                ></v-textarea>
                             </v-col>
 
                             <div v-if="index > 0" class="mx-auto">
-                                <v-btn @click="removeLink(index)" style="float:left">
+                                <v-btn @click="removeProject(index)" style="float:left">
                                     <v-icon icon="mdi-minus" style="font-size: 20px;"></v-icon>
                                 </v-btn>
                             </div>
@@ -37,7 +36,7 @@ const validURL = (value) => {
                         </v-row>
                         <v-row>
                             <div class="mx-auto">
-                                <v-btn @click="addNewLink" style="float:left" class="mx-5">
+                                <v-btn @click="addNewProject" style="float:left" class="mx-5">
                                     <v-icon icon="mdi-plus" style="font-size: 20px;"></v-icon>
                                 </v-btn>
                             </div>
@@ -72,35 +71,44 @@ const validURL = (value) => {
 <script>
 export default {
     props: {
-        Link: {
-            type: Object,
+        Project: {
+            type: Object, 
         },
     },
     methods: {
+        required(label) {
+            return (value) => !!value || `The ${label} field is required.`;
+        },
         async submitForm() {
-            const { valid } = await this.$refs.LinkForm.validate();
+            const { valid } = await this.$refs.ProjectForm.validate();
             if (valid) {
-                //insert backend logic here
+                // Insert backend logic here
                 this.$emit('getNext');
             }
         },
-        addNewLink() {
-            this.Link.push({
+        addNewProject() {
+            this.Project.push({
                 id: 0,
-                LinkName: "",
-                LinkDesc: ""
-            })
+                ProjectName: "",
+                ProjectDesc: ""
+            });
         },
-        removeLink(index) {
-            this.Link.splice(index, 1);
+        removeProject(index) {
+            this.Project.splice(index, 1);
         },
         getPrevious() {
             this.$emit('getPrevious');
         },
         skip() {
-            this.Link.splice(0, this.Link.length);
+            this.Project.splice(0, this.Project.length);
             this.$emit('getNext');
         },
     }
 }
 </script>
+
+<style scoped>
+.formField {
+    margin-bottom: 16px; 
+}
+</style>

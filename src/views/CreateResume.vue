@@ -16,6 +16,12 @@
       <LinksInfo @getNext="getNext" :Link="Link"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 5">
+      <ProjectInfo @getNext="getNext" :Project="Project"  @getPrevious="getPrevious"/>
+    </div>
+    <div v-if="componentSelected == 6">
+      <AwardsInfo @getNext="getNext" :Award="Award"  @getPrevious="getPrevious"/>
+    </div>
+    <div v-if="componentSelected == 7">
       <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
     </div>
   </v-container>
@@ -27,6 +33,8 @@ import EducationInfo from "../components/EducationInfo.vue"
 import ExperienceInfo from "../components/ExperienceInfo.vue"
 import SkillInfo from "../components/SkillInfo.vue"
 import InterestInfo from "../components/InterestInfo.vue"
+import AwardsInfo from "../components/AwardsInfo.vue"
+import ProjectInfo from "../components/ProjectInfo.vue"
 import LinksInfo from "../components/LinksInfo.vue"
 import { reactive, ref } from 'vue';
 
@@ -36,8 +44,10 @@ export default {
     EducationInfo,
     ExperienceInfo,
     InterestInfo,
+    ProjectInfo,
+    AwardsInfo,
     LinksInfo,
-    SkillInfo,
+    SkillInfo
   },
   setup() {
     const Person = reactive({
@@ -59,6 +69,13 @@ export default {
         GPA: 0
       }
     ]);
+    const Interest = reactive([
+      {
+        id: 0,
+        InterestName: "",
+        InterestDesc: "",
+      }
+    ]);
     const Experience = reactive([
       {
         id: 0,
@@ -68,27 +85,38 @@ export default {
         Date: null
       }
     ]);
-    const Skill = ref([])
-    const Interest = reactive([
-      {
-        id: 0,
-        InterestName: "",
-        InterestDesc: "",
-      }
-    ]);
     const Link = reactive([
       {
         id: 0,
-        linkName: "",
-        link: "",
+        LinkName: "",
+        LinkDesc: ""
       }
     ]);
+    const Award = reactive([
+      {
+        id: 0,
+        AwardName: "",
+        AwardDesc: "",
+      }
+    ]);
+    const Project = reactive([
+      {
+        id: 0,
+        ProjectName: "",
+        ProjectDesc: "",
+      }
+    ]);
+
+    const Skill = ref([])
+
+
     const componentSelected = ref(0);
-    return { Person, ContactInfo, Education, Interest, componentSelected, Experience, Link };
+    return { Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill};
   },
+
   methods: {
     getNext() {
-      if(this.componentSelected < 6){
+      if(this.componentSelected < 7){
         this.componentSelected ++
       }
     },
