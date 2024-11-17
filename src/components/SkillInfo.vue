@@ -1,8 +1,9 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, reactive, defineProps, defineEmits } from 'vue';
+
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 
-const emit = defineEmits(['getNext', 'getPrevious'])
+const emit = defineEmits(['getNext', 'getPrevious']);
 
 const skillList = ref([
     { id: 1, skill: 'JavaScript' },
@@ -14,27 +15,34 @@ const skillList = ref([
 
 const props = defineProps({
     Skill: {
-        type: Object,
+        type: Array,
+        required: true,
     },
-})
+});
+
+const skillForm = ref(null);
+const localSkill = reactive([...props.Skill]);
 
 async function submitForm() {
-    const { valid } = await this.$refs.SkillForm.validate();
+    const { valid } = await skillForm.value.validate();
     if (valid) {
-        this.$emit('getNext');
+        emit('getNext', localSkill); // Emit the updated localSkill
     }
 }
+
 function getPrevious() {
     emit('getPrevious');
 }
+
 function skip() {
-    props.Skill.value.splice(0,props.Skill.value.length);
-    emit('getNext')
+    localSkill.splice(0, localSkill.length); // Clear local skills
+    emit('getNext', localSkill);
 }
 </script>
+
 <template>
     <div>
-        <v-form ref="SkillForm">
+        <v-form ref="skillForm">
             <v-row align="center" justify="center">
                 <v-card class="mx-auto" width="400" height="515" :style="'overflow-y: scroll'">
                     <v-card-title style="text-align:center">
@@ -44,9 +52,17 @@ function skip() {
                     <v-card-text>
                         <v-row>
                             <v-col cols="12">
-                                <v-combobox :items="skillList" label="Select a Skill or type a new one" v-model="props.Skill.value"
-                                    item-title="skill" multiple return-object chips clearable style="height: 200px;">
-                                </v-combobox>
+                                <v-combobox
+                                    :items="skillList"
+                                    label="Select a Skill or type a new one"
+                                    v-model="localSkill"
+                                    item-title="skill"
+                                    multiple
+                                    return-object
+                                    chips
+                                    clearable
+                                    style="height: 200px;"
+                                />
                             </v-col>
                             <v-divider class="my-5"></v-divider>
                             <v-spacer></v-spacer>
