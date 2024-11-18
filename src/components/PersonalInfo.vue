@@ -62,6 +62,8 @@ export default {
         async submitForm() {
             const { valid } = await this.$refs.personalInfoForm.validate();
             if (valid) {
+                console.log( "contact info from PersonalInfo: ",this.ContactInfo)
+                this.$emit('updateContactInfo', this.ContactInfo);
                 this.$emit('getNext');
             }
         }

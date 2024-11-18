@@ -24,19 +24,24 @@
     <div v-if="componentSelected == 7">
       <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
     </div>
+    <div v-if="componentSelected == 8">
+
+      <TemplateSelector :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
+    </div>
   </v-container>
 </template>
 
 <script>
-import PersonalInfo from "../components/PersonalInfo.vue"
-import EducationInfo from "../components/EducationInfo.vue"
-import ExperienceInfo from "../components/ExperienceInfo.vue"
-import SkillInfo from "../components/SkillInfo.vue"
-import InterestInfo from "../components/InterestInfo.vue"
-import AwardsInfo from "../components/AwardsInfo.vue"
-import ProjectInfo from "../components/ProjectInfo.vue"
-import LinksInfo from "../components/LinksInfo.vue"
-import { reactive, ref } from 'vue';
+import PersonalInfo from "../components/PersonalInfo.vue";
+import EducationInfo from "../components/EducationInfo.vue";
+import ExperienceInfo from "../components/ExperienceInfo.vue";
+import SkillInfo from "../components/SkillInfo.vue";
+import InterestInfo from "../components/InterestInfo.vue";
+import AwardsInfo from "../components/AwardsInfo.vue";
+import ProjectInfo from "../components/ProjectInfo.vue";
+import LinksInfo from "../components/LinksInfo.vue";
+import TemplateSelector from "../components/TemplateSelector.vue";
+import { reactive, ref } from "vue";
 
 export default {
   components: {
@@ -47,84 +52,99 @@ export default {
     ProjectInfo,
     AwardsInfo,
     LinksInfo,
-    SkillInfo
+    SkillInfo,
+    TemplateSelector,
   },
   setup() {
     const Person = reactive({
       id: 0,
-      fName: '',
-      lName: ''
+      fName: "",
+      lName: "",
     });
     const ContactInfo = reactive({
       id: 0,
-      Email: '',
-      PhoneNumber: '',
-      Address: ''
+      Email: "",
+      PhoneNumber: "",
+      Address: "",
     });
     const Education = reactive([
       {
         id: 0,
         SchoolName: "",
         Degree: "",
-        GPA: 0
-      }
+        GPA: 0,
+      },
     ]);
     const Interest = reactive([
       {
         id: 0,
         InterestName: "",
         InterestDesc: "",
-      }
+      },
     ]);
     const Experience = reactive([
       {
         id: 0,
         Organization: "",
-        Title:"",
+        Title: "",
         JobDescription: "",
-        Date: null
-      }
+        Date: null,
+      },
     ]);
     const Link = reactive([
       {
         id: 0,
         LinkName: "",
-        LinkDesc: ""
-      }
+        LinkDesc: "",
+      },
     ]);
     const Award = reactive([
       {
         id: 0,
         AwardName: "",
         AwardDesc: "",
-      }
+      },
     ]);
     const Project = reactive([
       {
         id: 0,
         ProjectName: "",
         ProjectDesc: "",
-      }
+      },
     ]);
 
-    const Skill = ref([])
-
+    const Skill = ref([]);
 
     const componentSelected = ref(0);
-    return { Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill};
-  },
 
   methods: {
     getNext() {
       if(this.componentSelected < 8){
         this.componentSelected ++
       }
-    },
-    getPrevious() {
-      if (this.componentSelected > 0) {
-        this.componentSelected --
+    };
+
+    getPrevious = () => {
+      if (componentSelected.value > 0) {
+        componentSelected.value--;
       }
-    }
-  }
+    };
+
+    return {
+      Person,
+      ContactInfo,
+      Education,
+      Interest,
+      Link,
+      componentSelected,
+      Experience,
+      Award,
+      Project,
+      Skill,
+      TemplateSelector,
+      getNext,
+      getPrevious,
+    };
+  },
 };
 </script>
