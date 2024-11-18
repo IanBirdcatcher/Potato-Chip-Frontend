@@ -1,10 +1,10 @@
-// resumesService.js
-import apiClient from '../services/services';
+// resumeService.js
+import apiClient from './services';
 
-const resumesService = {
+const resumeService = {
   // Get all resumes for a specific user
-  getAllResumes(userId) {
-    return apiClient.get(`/resume/byuser/${userId}`);
+  getAllForUser(userId) {
+    return apiClient.get(`/resume/byUser/${userId}`);
   },
   
   // Get a specific resume by ID
@@ -26,6 +26,11 @@ const resumesService = {
   deleteResume(resumeId) {
     return apiClient.delete(`/resume/${resumeId}`);
   },
+
+  // Delete all resumes for a user
+  deleteResume(userId) {
+    return apiClient.delete(`/resume/byUser/${userId}`);
+  },
 };
 
-export default resumesService;
+export default resumeService;

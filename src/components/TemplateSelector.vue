@@ -46,6 +46,11 @@ export default {
         this.showTemplate(1); 
       }
     },
+
+    // Saves the resume content
+    save() {
+
+    }
   },
 };
 
@@ -88,7 +93,8 @@ export default {
         <v-btn 
             style="float: right; background-color: #28a745; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" 
             @mouseover="this.style.backgroundColor='#1e7e34'" 
-            @mouseout="this.style.backgroundColor='#28a745'">
+            @mouseout="this.style.backgroundColor='#28a745'"
+            @click=save>
         Save
         </v-btn>
 
