@@ -1,33 +1,37 @@
 <template>
   <v-container>
     <div v-if="componentSelected == 0">
-      <PersonalInfo @getNext="getNext" :Person="Person" :ContactInfo="ContactInfo" />
+      <ResumeInfo @getNext="getNext" :Resume="Resume" />
     </div>
     <div v-if="componentSelected == 1">
-      <EducationInfo @getNext="getNext" :Education="Education"  @getPrevious="getPrevious"/>
+      <PersonalInfo @getNext="getNext" :Person="Person" :ContactInfo="ContactInfo" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 2">
-      <ExperienceInfo @getNext="getNext" :Experience="Experience"  @getPrevious="getPrevious"/>
+      <EducationInfo @getNext="getNext" :Education="Education"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 3">
+      <ExperienceInfo @getNext="getNext" :Experience="Experience"  @getPrevious="getPrevious"/>
+    </div>
+    <div v-if="componentSelected == 4">
       <InterestInfo @getNext="getNext" :Interest="Interest"  @getPrevious="getPrevious"/>
     </div>    
-    <div v-if="componentSelected == 4">
+    <div v-if="componentSelected == 5">
       <LinksInfo @getNext="getNext" :Link="Link"  @getPrevious="getPrevious"/>
     </div>
-    <div v-if="componentSelected == 5">
+    <div v-if="componentSelected == 6">
       <ProjectInfo @getNext="getNext" :Project="Project"  @getPrevious="getPrevious"/>
     </div>
-    <div v-if="componentSelected == 6">
+    <div v-if="componentSelected == 7">
       <AwardsInfo @getNext="getNext" :Award="Award"  @getPrevious="getPrevious"/>
     </div>
-    <div v-if="componentSelected == 7">
+    <div v-if="componentSelected == 8">
       <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
     </div>
   </v-container>
 </template>
 
 <script>
+import ResumeInfo from "../components/ResumeInfo.vue"
 import PersonalInfo from "../components/PersonalInfo.vue"
 import EducationInfo from "../components/EducationInfo.vue"
 import ExperienceInfo from "../components/ExperienceInfo.vue"
@@ -40,6 +44,7 @@ import { reactive, ref } from 'vue';
 
 export default {
   components: {
+    ResumeInfo,
     PersonalInfo,
     EducationInfo,
     ExperienceInfo,
@@ -50,6 +55,12 @@ export default {
     SkillInfo
   },
   setup() {
+    const Resume = reactive({
+      id: 0,
+      resumeName: '',
+      jobTitle: '',
+      ProfSummary: ''
+    });
     const Person = reactive({
       id: 0,
       fName: '',
@@ -111,12 +122,12 @@ export default {
 
 
     const componentSelected = ref(0);
-    return { Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill};
+    return { Resume, Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill};
   },
 
   methods: {
     getNext() {
-      if(this.componentSelected < 7){
+      if(this.componentSelected < 8){
         this.componentSelected ++
       }
     },
