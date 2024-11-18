@@ -13,7 +13,7 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
                         <v-row v-for="(item, index)  in Interest" :key="index">
-                            <v-col cols="6">
+                            <v-col cols="12">
                                 <v-text-field class="formField" v-model="item.InterestName" label="Interest Name*"
                                     :rules="[required('Interest Name')]"></v-text-field>
                             </v-col>
