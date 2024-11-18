@@ -116,7 +116,7 @@ export default {
 
   methods: {
     getNext() {
-      if(this.componentSelected < 7){
+      if(this.componentSelected < 8){
         this.componentSelected ++
       }
     },
