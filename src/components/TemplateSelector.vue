@@ -52,7 +52,7 @@ export default {
 </script>
 
 <template>
-  <v-card class="mx-auto" width="1000" height="1000">
+  <v-card class="mx-auto" width="1000" height="1500">
     <v-card-title style="text-align: center;" >      
       {{ selectedTemplate === 1 ? "Basic Template" : selectedTemplate === 2 ? "Modern Template" : "Gothic Template" }}
     </v-card-title>
@@ -78,6 +78,19 @@ export default {
       <ModernTemplate v-if="selectedTemplate === 2" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
       <GothicTemplate v-if="selectedTemplate === 3" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
     </div>
+        <v-btn 
+            style="float: left; background-color: #007BFF; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" 
+            @mouseover="this.style.backgroundColor='#0056b3'" 
+            @mouseout="this.style.backgroundColor='#007BFF'">
+        PDF
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn 
+            style="float: right; background-color: #28a745; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" 
+            @mouseover="this.style.backgroundColor='#1e7e34'" 
+            @mouseout="this.style.backgroundColor='#28a745'">
+        Save
+        </v-btn>
 
   </v-card>
 </template>
