@@ -7,7 +7,12 @@ const required = (label) => (value) => !!value || `The ${label} field is require
             <v-row align="center" justify="center" >
                 <v-card class="mx-auto" width="400" height="515" :style="'overflow-y: scroll'">
                     <v-card-title style="text-align:center">
+                        <v-row>
+                        <v-col cols="8">
                         <span class="text-h6">Education</span>
+                        </v-col>
+                        <ImportModal :dataToImportTo="Education" :dataType="'Education'" />
+                    </v-row>
                     </v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
@@ -65,7 +70,11 @@ const required = (label) => (value) => !!value || `The ${label} field is require
 </template>
 
 <script>
+import ImportModal from "../components/ImportModal.vue"
 export default {
+    components: {
+        ImportModal
+    },
     props: {
         Education: {
             type: Object,
