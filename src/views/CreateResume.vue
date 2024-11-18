@@ -134,13 +134,12 @@ export default {
       if(this.componentSelected < 9){
         this.componentSelected ++
       }
-    };
-
-    getPrevious = () => {
+    },
+    getPrevious() {
       if (componentSelected.value > 0) {
         componentSelected.value--;
       }
-    };
+    },
   },
 };
 </script>
