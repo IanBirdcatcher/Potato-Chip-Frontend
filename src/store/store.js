@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
-import Utils from "./config/utils";
-
-Vue.use(Vuex);
+import Utils from "../config/utils.js";
+import { reactive } from "vue";
 
 const user = Utils.getStore("user");
 
@@ -20,6 +19,15 @@ const store = createStore({
     getLoginUserInfo(state) {
       return state.loginUser;
     },
+  },
+});
+
+export const userState = reactive({
+  isAdmin: false,
+  user: null,
+  reset() {
+    this.user = null;
+    this.isAdmin = false;
   },
 });
 
