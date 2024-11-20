@@ -20,7 +20,7 @@ const modalEditIndex = ref(0)
                                 <span class="text-h6">Education</span>
                             </v-col>
                             <v-col cols="4">
-                                <ImportModal :dataType="'Education'" :keyName="'school'"
+                                <ImportModal :dataType="'Education'" :keyName="'major'"
                                     @sendToParent="handleArrayChange" />
                             </v-col>
                         </v-row>
@@ -28,7 +28,7 @@ const modalEditIndex = ref(0)
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
                         <v-row v-for="(item, index)  in Education" :key="index">
-                            <slot v-if="item.educationId < 0">
+                            <slot v-if="item.educationId == 0">
                                 <v-col cols="12">
                                     <v-text-field class="formField" v-model="item.school" label="School Name"
                                         :rules="[required('School Name')]" density="compact"></v-text-field>
