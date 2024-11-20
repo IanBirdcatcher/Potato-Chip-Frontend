@@ -142,32 +142,12 @@ export default {
         </div>
       </section>
     </div>
-    <!-- Professional Experience Section -->
-    <section id="experience">
-
-      <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
-        <h2>PROFESSIONAL EXPERIENCE</h2>
-        <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
-        <p>{{ Experience.JobDescription }}</p>
-      </div>
-    </section>
-
-    <!-- Skills and Awards Section -->
-    <section id="skills-awards">
-      <h2>SKILLS & AWARDS</h2>
-      <div>
-        <h3 class="skillsAndAwards">Skills:</h3>
-        <ul>
-          <li v-for="skill in Skill" :key="skill.id">{{ Skill.Skill }}</li>
-        </ul>
-      </div>
-    </section>
   </body>
 
   </html>
 </template>
 
-<style scoped>
+<style>
 .body {
   font-family: 'Times New Roman', Times, serif;
   margin: 0;
