@@ -1,6 +1,8 @@
 <script>
 import { ref, onMounted } from "vue";
 import Utils from "/src/config/utils";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 export default {
   name: "BasicTemplate",
@@ -9,10 +11,11 @@ export default {
     Education: { type: Array, required: true },
     Experience: { type: Array, required: true },
     Interest: { type: Array, required: true },
-    Link: { type: Array, required: true },
+    Link: { type: Object, required: true },
     Project: { type: Array, required: true },
     Award: { type: Array, required: true },
-    Skill: { type: Array, required: true }
+    Skill: { type: Array, required: true },
+    Resume: { type: Array, required: true }
   },
   setup(props) {
     const user = ref(null);
@@ -20,6 +23,7 @@ export default {
     const email = ref("");
     const address = ref("");
     const phoneNumber = ref("");
+    const resumeRef = ref(null); // for the pdf
 
     onMounted(() => {
       const storedUser = Utils.getStore("user");
@@ -31,6 +35,17 @@ export default {
         phoneNumber.value = props.ContactInfo.PhoneNumber || "No PhoneNumber provided";
       }
     });
+    const generatePDF = () => {
+      const resumeElement = resumeRef.value;  
+
+      html2canvas(resumeElement).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+
+        const doc = new jsPDF();
+        doc.addImage(imgData, "PNG", 15, 15, 190, 250);
+        doc.save("resume.pdf"); 
+      });
+    };
 
     return {
       user,
@@ -38,12 +53,15 @@ export default {
       email,
       address,
       phoneNumber,
-      link: props.link,
+      Link: props.Link.Link,
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
-      Skill: props.Skill,
-      Projects: props.Project
+      Skill: props.Skill.value,
+      Projects: props.Project,
+      resumeRef,
+      generatePDF,
+      Resume: props.Resume
     };
   },
 };
@@ -56,7 +74,7 @@ export default {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Basic Template</title>
     </head>
-    <body>
+    <body class="body">
       <div class="container">
         <header>
           <h1>{{ name }}</h1>
@@ -122,12 +140,40 @@ export default {
           </div>
         </section>
       </div>
-    </body>
-  </html>
+    </section>
+
+    <!-- Professional Experience Section -->
+    <section id="experience">
+      
+      <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
+        <h2>PROFESSIONAL EXPERIENCE</h2>
+        <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
+        <p>{{ Experience.JobDescription }}</p>
+      </div>
+    </section>
+
+    <!-- Skills and Awards Section -->
+    <section id="skills-awards">
+      <h2>SKILLS & AWARDS</h2>
+      <div>
+        <h3 class="skillsAndAwards">Skills:</h3>
+        <ul>
+          <li v-for="skill in Skill" :key="skill.id">{{ Skill.Skill }}</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="skillsAndAwards">Awards:</h3>
+        <ul>
+          <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
 </template>
 
 <style>
-body {
+.body {
   font-family: 'Times New Roman', Times, serif;
   margin: 0;
   padding: 0;

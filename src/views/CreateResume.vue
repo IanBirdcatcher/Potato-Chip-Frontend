@@ -28,7 +28,7 @@
       <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
     </div>
     <div v-if="componentSelected == 9">
-      <TemplateSelector :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
+      <TemplateSelector :Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
     </div>
   </v-container>
 </template>
