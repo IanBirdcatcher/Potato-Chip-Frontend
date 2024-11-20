@@ -68,44 +68,77 @@ export default {
 </script>
 
 <template>
-  <div ref="resumeRef" class="container">
-    <header>
-      <h1>{{ name }}</h1>
-      <p>
-        {{ address }} | {{ phoneNumber }} |
-        <a>{{ email }}</a> |
-        <a href="#">{{ Link }}</a>
-      </p>
-    </header>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Basic Template</title>
+    </head>
+    <body class="body">
+      <div class="container">
+        <header>
+          <h1>{{ name }}</h1>
+          <p>
+            {{ address }} | {{ phoneNumber }} |
+            <a>{{ email }}</a> |
+            <a href="#">{{ link }}</a>
+          </p>
+        </header>
+        
+        <!-- PROFESSIONAL SUMMARY Section -->
+        <section id="summary">
+          <h2>PROFESSIONAL SUMMARY</h2>
+          <p></p>
+        </section>
 
-    <!-- PROFESSIONAL SUMMARY Section -->
-    <section id="summary">
-      <h2>PROFESSIONAL SUMMARY</h2>
-      <p>{{ Resume.ProfSummary }}</p>
-    </section>
+        <!-- Education Section -->
+        <section id="education">
+          <h2>EDUCATION</h2>
+          <div v-for="Education in Education" :key="Education.id">
+            <p>
+              <strong>{{ Education.SchoolName }}</strong><br />
+              {{ Education.Degree }} <br />
+              GPA: {{ Education.GPA }}
+            </p>
+          </div>
+        </section>
+        <!-- Projects Section -->
+        <section id="education">
+          <h2>PROJECTS</h2>
+          <div v-for="Project in Project" :key="Project.id">
+            <p>
+              <strong>{{ Project.ProjectName }}</strong><br />
+              {{ Project.ProjectDesc }} <br />
 
-    <!-- Education Section -->
-    <section id="education">
-      
-      <div v-for="Education in Education" :key="Education.id">
-        <h2>EDUCATION</h2>
-        <p>
-          <strong>{{ Education.SchoolName }}</strong><br />
-          {{ Education.Degree }} <br />
-          GPA: {{ Education.GPA }}
-        </p>
-      </div>
-    </section>
+            </p>
+          </div>
+        </section>
 
-    <!-- Projects Section -->
-    <section id="projects">
-      
-      <div v-for="Project in Projects" :key="Project.id">
-        <h2>PROJECTS</h2>
-        <p>
-          <strong>{{ Project.ProjectName }}</strong><br />
-          {{ Project.ProjectDesc }} <br />
-        </p>
+        <!-- Professional Experience Section -->
+        <section id="experience">
+          <h2>PROFESSIONAL EXPERIENCE</h2>
+          <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
+            <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
+            <p>{{ Experience.JobDescription }}</p>
+          </div>
+        </section>
+
+        <!-- Skills and Awards Section -->
+        <section id="skills-awards">
+          <h2>SKILLS & AWARDS</h2>
+          <div>
+            <h3 class = "skillsAndAwards">Skills:</h3>
+            <ul>
+              <li v-for="skill in Skill" :key="skill.id">{{ skill.Name }}</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class = "skillsAndAwards">Awards:</h3>
+            <ul>
+              <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
+            </ul>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -140,7 +173,7 @@ export default {
 </template>
 
 <style>
-body {
+.body {
   font-family: 'Times New Roman', Times, serif;
   margin: 0;
   padding: 0;
