@@ -56,7 +56,7 @@ export default {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Basic Template</title>
     </head>
-    <body>
+    <body class="body">
       <div class="container">
         <header>
           <h1>{{ name }}</h1>
@@ -127,7 +127,7 @@ export default {
 </template>
 
 <style>
-body {
+.body {
   font-family: 'Times New Roman', Times, serif;
   margin: 0;
   padding: 0;
