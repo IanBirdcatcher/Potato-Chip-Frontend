@@ -161,12 +161,6 @@ export default {
           <li v-for="skill in Skill" :key="skill.id">{{ Skill.Skill }}</li>
         </ul>
       </div>
-      <div>
-        <h3 class="skillsAndAwards">Awards:</h3>
-        <ul>
-          <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
-        </ul>
-      </div>
     </section>
   </body>
 
