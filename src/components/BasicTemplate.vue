@@ -173,7 +173,7 @@ export default {
   </html>
 </template>
 
-<style>
+<style scoped>
 .body {
   font-family: 'Times New Roman', Times, serif;
   margin: 0;
