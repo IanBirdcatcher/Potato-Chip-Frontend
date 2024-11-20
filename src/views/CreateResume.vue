@@ -7,28 +7,29 @@
       <PersonalInfo @getNext="getNext" :Person="Person" :ContactInfo="ContactInfo" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 2">
-      <EducationInfo @getNext="getNext" :Education="Education"  @getPrevious="getPrevious"/>
+      <EducationInfo @getNext="getNext" :Education="Education" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 3">
-      <ExperienceInfo @getNext="getNext" :Experience="Experience"  @getPrevious="getPrevious"/>
+      <ExperienceInfo @getNext="getNext" :Experience="Experience" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 4">
-      <InterestInfo @getNext="getNext" :Interest="Interest"  @getPrevious="getPrevious"/>
-    </div>    
+      <InterestInfo @getNext="getNext" :Interest="Interest" @getPrevious="getPrevious" />
+    </div>
     <div v-if="componentSelected == 5">
-      <LinksInfo @getNext="getNext" :Link="Link"  @getPrevious="getPrevious"/>
+      <LinksInfo @getNext="getNext" :Link="Link" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 6">
-      <ProjectInfo @getNext="getNext" :Project="Project"  @getPrevious="getPrevious"/>
+      <ProjectInfo @getNext="getNext" :Project="Project" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 7">
-      <AwardsInfo @getNext="getNext" :Award="Award"  @getPrevious="getPrevious"/>
+      <AwardsInfo @getNext="getNext" :Award="Award" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 8">
-      <SkillInfo @getNext="getNext" :Skill="Skill"  @getPrevious="getPrevious"/>
+      <SkillInfo @getNext="getNext" :Skill="Skill" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 9">
-      <TemplateSelector :Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
+      <TemplateSelector :Resume="Resume" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience"
+        :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
   </v-container>
 </template>
@@ -126,13 +127,13 @@ export default {
     const Skill = ref([]);
 
     const componentSelected = ref(0);
-    return { Resume, Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill};
+    return { Resume, Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill };
   },
 
   methods: {
     getNext() {
-      if(this.componentSelected < 9){
-        this.componentSelected ++
+      if (this.componentSelected < 9) {
+        this.componentSelected++
       }
     },
     getPrevious() {
@@ -140,6 +141,9 @@ export default {
         this.componentSelected--;
       }
     },
+    unmounted() {
+      console.log('Component unmounted');
+    }
   },
 };
 </script>
