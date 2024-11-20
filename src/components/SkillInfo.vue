@@ -4,6 +4,8 @@ const required = (label) => (value) => !!value || `The ${label} field is require
 
 const emit = defineEmits(['getNext', 'getPrevious'])
 
+const SkillForm = ref(null);
+
 const skillList = ref([
     { id: 1, skill: 'JavaScript' },
     { id: 2, skill: 'Python' },
@@ -19,9 +21,9 @@ const props = defineProps({
 })
 
 async function submitForm() {
-    const { valid } = await this.$refs.SkillForm.validate();
+   const { valid } = await SkillForm.value.validate();
     if (valid) {
-        this.$emit('getNext');
+        emit('getNext');
     }
 }
 function getPrevious() {
@@ -45,7 +47,7 @@ function skip() {
                         <v-row>
                             <v-col cols="12">
                                 <v-combobox :items="skillList" label="Select a Skill or type a new one" v-model="props.Skill.value"
-                                    item-title="skill" multiple return-object chips clearable style="height: 200px;">
+                                    item-title="skill" multiple return-object chips clearable style="height: 200px;"  :rules="[required('Please choose at least 1 skill')]">
                                 </v-combobox>
                             </v-col>
                             <v-divider class="my-5"></v-divider>
