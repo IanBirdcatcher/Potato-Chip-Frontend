@@ -63,10 +63,13 @@ export default {
     });
     const Education = reactive([
       {
-        id: 0,
-        SchoolName: "",
-        Degree: "",
-        GPA: 0
+        educationId: -1,
+        userId: 0,
+        school: "",
+        GPA: 0,
+        degree: "",
+        major: "",
+        dateRange:""
       }
     ]);
     const Interest = reactive([
@@ -110,7 +113,7 @@ export default {
     const Skill = ref([])
 
 
-    const componentSelected = ref(0);
+    const componentSelected = ref(1);
     return { Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill};
   },
 

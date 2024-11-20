@@ -1,31 +1,31 @@
-// EducationsService.js
-import apiClient from './services';
+// educationService.js
+import apiClient from '../services/services';
 
-const EducationsService = {
-  // Get all Educations for a specific user
-  getAllEducations(userId) {
-    return apiClient.get(`/Education/byuser/${userId}`);
+const EducationService = {
+  // Get all education for a specific user
+  getAllEducation(userId) {
+    return apiClient.get(`/education/byuser/${userId}`);
   },
   
-  // Get a specific Education by ID
-  getEducationById(EducationId) {
-    return apiClient.get(`/Education/${EducationId}`);
+  // Get a specific education by ID
+  getEducationById(educationId) {
+    return apiClient.get(`/education/${educationId}`);
   },
   
-  // Create a new Education
-  createEducation(EducationData) {
-    return apiClient.post('/Education', EducationData);
+  // Create a new education
+  createEducation(educationData) {
+    return apiClient.post('/education', educationData);
   },
   
-  // Update a specific Education
-  updateEducation(EducationId, EducationData) {
-    return apiClient.put(`/Education/${EducationId}`, EducationData);
+  // Update a specific education
+  updateEducation(educationId, educationData) {
+    return apiClient.put(`/education/${educationId}`, educationData);
   },
   
-  // Delete a specific Education
-  deleteEducation(EducationId) {
-    return apiClient.delete(`/Education/${EducationId}`);
+  // Delete a specific education
+  deleteEducation(educationId) {
+    return apiClient.delete(`/education/${educationId}`);
   },
 };
 
-export default educationService;
+export default EducationService;
