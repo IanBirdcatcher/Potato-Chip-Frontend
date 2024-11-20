@@ -30,7 +30,7 @@ function getPrevious() {
     emit('getPrevious');
 }
 function skip() {
-    props.Skill.value.splice(0,props.Skill.value.length);
+    props.Skill.splice(0,props.Skill.length);
     emit('getNext')
 }
 </script>

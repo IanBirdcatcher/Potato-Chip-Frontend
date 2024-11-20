@@ -136,8 +136,8 @@ export default {
       }
     },
     getPrevious() {
-      if (componentSelected.value > 0) {
-        componentSelected.value--;
+      if (this.componentSelected > 0) {
+        this.componentSelected--;
       }
     },
   },
