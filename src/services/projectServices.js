@@ -28,4 +28,4 @@ const projectService = {
   },
 };
 
-export default projectService;
+export default ProjectService;

@@ -28,4 +28,4 @@ const contactInfoService = {
   },
 };
 
-export default contactInfoService;
+export default ContactInfoService;

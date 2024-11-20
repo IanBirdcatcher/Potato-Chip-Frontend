@@ -28,4 +28,4 @@ const awardService = {
   },
 };
 
-export default awardService;
+export default AwardService;

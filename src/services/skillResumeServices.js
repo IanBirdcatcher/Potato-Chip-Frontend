@@ -23,4 +23,4 @@ const skillResumeService = {
   },
 };
 
-export default skillResumeService;
+export default SkillResumeService;

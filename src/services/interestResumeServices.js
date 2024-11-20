@@ -23,4 +23,4 @@ const interestResumeService = {
   },
 };
 
-export default interestResumeService;
+export default InterestResumeService;

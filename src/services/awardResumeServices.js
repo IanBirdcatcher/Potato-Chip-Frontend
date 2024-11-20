@@ -23,4 +23,4 @@ const awardResumeService = {
   },
 };
 
-export default awardResumeService;
+export default AwardResumeService;

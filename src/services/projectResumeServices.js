@@ -23,4 +23,4 @@ const projectResumeService = {
   },
 };
 
-export default projectResumeService;
+export default ProjectResumeService;

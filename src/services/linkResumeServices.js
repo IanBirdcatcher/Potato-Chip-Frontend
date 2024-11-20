@@ -23,4 +23,4 @@ const linkResumeService = {
   },
 };
 
-export default linkResumeService;
+export default LinkResumeService;

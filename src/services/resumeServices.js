@@ -33,4 +33,4 @@ const resumeService = {
   },
 };
 
-export default resumeService;
+export default ResumeService;

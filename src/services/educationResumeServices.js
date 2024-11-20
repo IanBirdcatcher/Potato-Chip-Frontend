@@ -23,4 +23,4 @@ const educationResumeService = {
   },
 };
 
-export default educationResumeService;
+export default EducationResumeService;

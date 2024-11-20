@@ -28,4 +28,4 @@ const experienceService = {
   },
 };
 
-export default experienceService;
+export default ExperienceService;

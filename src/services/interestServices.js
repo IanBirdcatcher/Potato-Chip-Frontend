@@ -28,4 +28,4 @@ const interestService = {
   },
 };
 
-export default interestService;
+export default InterestService;

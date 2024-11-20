@@ -28,4 +28,4 @@ const linkService = {
   },
 };
 
-export default linkService;
+export default LinkService;

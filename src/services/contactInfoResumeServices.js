@@ -23,4 +23,4 @@ const contactInfoResumeService = {
   },
 };
 
-export default contactInfoResumeService;
+export default ContactInfoResumeService;

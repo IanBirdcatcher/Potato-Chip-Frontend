@@ -28,4 +28,4 @@ const skillService = {
   },
 };
 
-export default skillService;
+export default SkillService;

@@ -23,4 +23,4 @@ const experienceResumeService = {
   },
 };
 
-export default experienceResumeService;
+export default ExperienceResumeService;
