@@ -173,7 +173,7 @@ export default {
         },
         addNewEducation() {
             this.Education.push({
-                educationId: -1,
+                educationId: 0,
                 userId: 0,
                 school: "",
                 GPA: 0,

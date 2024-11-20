@@ -63,7 +63,7 @@ export default {
     });
     const Education = reactive([
       {
-        educationId: -1,
+        educationId: 0,
         userId: 0,
         school: "",
         GPA: 0,
@@ -113,7 +113,7 @@ export default {
     const Skill = ref([])
 
 
-    const componentSelected = ref(1);
+    const componentSelected = ref(0);
     return { Person, ContactInfo, Education, Interest, Link, componentSelected, Experience, Award, Project, Skill};
   },
 
