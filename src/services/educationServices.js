@@ -3,7 +3,7 @@ import apiClient from '../services/services';
 
 const EducationService = {
   // Get all education for a specific user
-  getAllEducation(userId) {
+  getAllForUser(userId) {
     return apiClient.get(`/education/byuser/${userId}`);
   },
   

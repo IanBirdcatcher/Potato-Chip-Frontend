@@ -20,7 +20,7 @@ const List = ref(null)
 const user = Utils.getStore("user");
 const Selected = ref([])
 
-eval(`${props.dataType}sService.getAll${props.dataType}(${user.userId})
+eval(`${props.dataType}sService.getAllForUser(${user.userId})
     .then(response => {
             List.value = response.data;
           })
