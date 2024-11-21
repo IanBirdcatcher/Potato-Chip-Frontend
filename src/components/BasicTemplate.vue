@@ -36,14 +36,14 @@ export default {
       }
     });
     const generatePDF = () => {
-      const resumeElement = resumeRef.value;  
+      const resumeElement = resumeRef.value;
 
       html2canvas(resumeElement).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
 
         const doc = new jsPDF();
         doc.addImage(imgData, "PNG", 15, 15, 190, 250);
-        doc.save("resume.pdf"); 
+        doc.save("resume.pdf");
       });
     };
 
@@ -69,107 +69,82 @@ export default {
 
 <template>
   <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Basic Template</title>
-    </head>
-    <body class="body">
-      <div class="container">
-        <header>
-          <h1>{{ name }}</h1>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Template</title>
+  </head>
+
+  <body class="body">
+    <div class="container">
+      <header>
+        <h1>{{ name }}</h1>
+        <p>
+          {{ address }} | {{ phoneNumber }} |
+          <a>{{ email }}</a> |
+          <a href="#">{{ link }}</a>
+        </p>
+      </header>
+
+      <!-- PROFESSIONAL SUMMARY Section -->
+      <section id="summary">
+        <h2>PROFESSIONAL SUMMARY</h2>
+        <p></p>
+      </section>
+
+      <!-- Education Section -->
+      <section id="education">
+        <h2>EDUCATION</h2>
+        <div v-for="Education in Education" :key="Education.id">
           <p>
-            {{ address }} | {{ phoneNumber }} |
-            <a>{{ email }}</a> |
-            <a href="#">{{ link }}</a>
+            <strong>{{ Education.SchoolName }}</strong><br />
+            {{ Education.Degree }} <br />
+            GPA: {{ Education.GPA }}
           </p>
-        </header>
-        
-        <!-- PROFESSIONAL SUMMARY Section -->
-        <section id="summary">
-          <h2>PROFESSIONAL SUMMARY</h2>
-          <p></p>
-        </section>
+        </div>
+      </section>
+      <!-- Projects Section -->
+      <section id="education">
+        <h2>PROJECTS</h2>
+        <div v-for="Project in Project" :key="Project.id">
+          <p>
+            <strong>{{ Project.ProjectName }}</strong><br />
+            {{ Project.ProjectDesc }} <br />
 
-        <!-- Education Section -->
-        <section id="education">
-          <h2>EDUCATION</h2>
-          <div v-for="Education in Education" :key="Education.id">
-            <p>
-              <strong>{{ Education.SchoolName }}</strong><br />
-              {{ Education.Degree }} <br />
-              GPA: {{ Education.GPA }}
-            </p>
-          </div>
-        </section>
-        <!-- Projects Section -->
-        <section id="education">
-          <h2>PROJECTS</h2>
-          <div v-for="Project in Project" :key="Project.id">
-            <p>
-              <strong>{{ Project.ProjectName }}</strong><br />
-              {{ Project.ProjectDesc }} <br />
+          </p>
+        </div>
+      </section>
 
-            </p>
-          </div>
-        </section>
-
-        <!-- Professional Experience Section -->
-        <section id="experience">
-          <h2>PROFESSIONAL EXPERIENCE</h2>
-          <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
-            <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
-            <p>{{ Experience.JobDescription }}</p>
-          </div>
-        </section>
-
-        <!-- Skills and Awards Section -->
-        <section id="skills-awards">
-          <h2>SKILLS & AWARDS</h2>
-          <div>
-            <h3 class = "skillsAndAwards">Skills:</h3>
-            <ul>
-              <li v-for="skill in Skill" :key="skill.id">{{ skill.Name }}</li>
-            </ul>
-          </div>
-          <div>
-            <h3 class = "skillsAndAwards">Awards:</h3>
-            <ul>
-              <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
-            </ul>
-          </div>
-        </section>
-      </div>
-    </section>
-
-    <!-- Professional Experience Section -->
-    <section id="experience">
-      
-      <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
+      <!-- Professional Experience Section -->
+      <section id="experience">
         <h2>PROFESSIONAL EXPERIENCE</h2>
-        <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
-        <p>{{ Experience.JobDescription }}</p>
-      </div>
-    </section>
+        <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
+          <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
+          <p>{{ Experience.JobDescription }}</p>
+        </div>
+      </section>
 
-    <!-- Skills and Awards Section -->
-    <section id="skills-awards">
-      <h2>SKILLS & AWARDS</h2>
-      <div>
-        <h3 class="skillsAndAwards">Skills:</h3>
-        <ul>
-          <li v-for="skill in Skill" :key="skill.id">{{ Skill.Skill }}</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="skillsAndAwards">Awards:</h3>
-        <ul>
-          <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
-        </ul>
-      </div>
-    </section>
+      <!-- Skills and Awards Section -->
+      <section id="skills-awards">
+        <h2>SKILLS & AWARDS</h2>
+        <div>
+          <h3 class="skillsAndAwards">Skills:</h3>
+          <ul>
+            <li v-for="skill in Skill" :key="skill.id">{{ skill.Name }}</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="skillsAndAwards">Awards:</h3>
+          <ul>
+            <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </body>
 
-  </div>
+  </html>
 </template>
 
 <style>
@@ -200,12 +175,12 @@ header {
 }
 
 header h1 {
-  font-size: 32px; 
+  font-size: 32px;
   margin-bottom: 10px;
 }
 
 header p {
-  font-size: 16px; 
+  font-size: 16px;
   color: #555;
 }
 
@@ -216,7 +191,7 @@ header a {
 
 /* Section Titles */
 section h2 {
-  font-size: 20px; 
+  font-size: 20px;
   margin-top: 20px;
   border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
@@ -224,7 +199,7 @@ section h2 {
 }
 
 #education p {
-  font-size: 16px; 
+  font-size: 16px;
   margin-bottom: 10px;
 }
 
@@ -233,14 +208,14 @@ section h2 {
 }
 
 #experience h3 {
-  font-size: 18px; 
+  font-size: 18px;
   margin-bottom: 5px;
 }
 
 #skills-awards ul {
   margin: 0;
   padding-left: 20px;
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 #skills-awards ul li {
