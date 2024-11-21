@@ -117,9 +117,9 @@ const modalEditIndex = ref(0)
     </div>
 
     <v-dialog v-model="dialog" width="auto" height="auto">
-        <v-card width="400" max-height="600" class="my-auto">
+        <v-card width="420" max-height="600" class="my-auto">
             <v-card-title style="text-align:center">
-                Warning Editing This Could Change Existing Reumes Using This
+            This Could Change Existing Resumes Using This
             </v-card-title>
             <v-divider class='my-5'></v-divider>
             <v-card-text>
