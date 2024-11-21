@@ -131,13 +131,13 @@ export default {
         <div>
           <h3 class="skillsAndAwards">Skills:</h3>
           <ul>
-            <li v-for="skill in Skill" :key="skill.id">{{ skill.Name }}</li>
+            <li v-for="Skill in Skill" :key="Skill.id">{{ Skill.Skill }}</li>
           </ul>
         </div>
         <div>
           <h3 class="skillsAndAwards">Awards:</h3>
           <ul>
-            <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
+            <li v-for="Award in Award" :key="Award.id">{{ Award.AwardName }}</li>
           </ul>
         </div>
       </section>
@@ -147,7 +147,7 @@ export default {
   </html>
 </template>
 
-<style>
+<style scoped>
 .body {
   font-family: 'Times New Roman', Times, serif;
   margin: 0;
