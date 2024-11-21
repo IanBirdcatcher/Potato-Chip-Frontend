@@ -129,7 +129,7 @@ const Project = reactive([
 
 const Skill = reactive([]);
 
-const componentSelected = ref(3);
+const componentSelected = ref(0);
 
 function getNext() {
   if (componentSelected.value < 9) {
