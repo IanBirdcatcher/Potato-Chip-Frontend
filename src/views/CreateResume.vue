@@ -32,7 +32,7 @@
         :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
     <v-dialog v-model="dialog" width="auto" height="300">
-        <v-card
+        <v-card persistent
         title="It looks like you didn't finish a resume!"
         subtitle="Warning you will loose any new data you put in this resume">
             <v-divider></v-divider>
