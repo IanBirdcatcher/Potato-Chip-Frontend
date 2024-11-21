@@ -69,7 +69,7 @@ const modalEditIndex = ref(0)
                                         <p>GPA: {{ item.GPA }}</p>
                                     </v-row>
                                     <v-row v-if="item.dateRange">
-                                        <p>Start and End Date:{{ item.dateRange[0].toLocaleDateString() + " - " + item.dateRange[item.dateRange.length -1].toLocaleDateString()}}</p>
+                                        <p>Start and End Date:{{ new Date(item.dateRange[0]).toLocaleDateString() + " - " + new Date(item.dateRange[item.dateRange.length -1]).toLocaleDateString()}}</p>
                                     </v-row>
                                 </v-col>
                                 <v-col cols="2">
