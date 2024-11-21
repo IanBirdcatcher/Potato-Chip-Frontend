@@ -1,7 +1,7 @@
 // awardResumeService.js
 import apiClient from './services';
 
-const awardResumeService = {  
+const AwardResumeService = {  
   // Get a specific awardResume by resume ID
   getAwardResumeById(awardResumeId) {
     return apiClient.get(`/awardResume/${awardResumeId}`);

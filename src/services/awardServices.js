@@ -1,7 +1,7 @@
 // awardService.js
 import apiClient from './services';
 
-const awardService = {
+const AwardService = {
   // Get all awards for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/award/byUser/${userId}`);

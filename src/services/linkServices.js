@@ -1,7 +1,7 @@
 // linkService.js
 import apiClient from './services';
 
-const linkService = {
+const LinkService = {
   // Get all links for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/link/byUser/${userId}`);

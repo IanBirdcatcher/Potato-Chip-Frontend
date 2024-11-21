@@ -1,7 +1,7 @@
 // projectResumeService.js
 import apiClient from './services';
 
-const projectResumeService = {  
+const ProjectResumeService = {  
   // Get a specific projectResume by resume ID
   getProjectResumeById(projectResumeId) {
     return apiClient.get(`/projectResume/${projectResumeId}`);

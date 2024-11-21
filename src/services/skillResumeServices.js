@@ -1,7 +1,7 @@
 // skillResumeService.js
 import apiClient from './services';
 
-const skillResumeService = {  
+const SkillResumeService = {  
   // Get a specific skillResume by resume ID
   getSkillResumeById(skillResumeId) {
     return apiClient.get(`/skillResume/${skillResumeId}`);

@@ -1,7 +1,7 @@
 // experienceService.js
 import apiClient from './services';
 
-const experienceService = {
+const ExperienceService = {
   // Get all experiences for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/experience/byUser/${userId}`);

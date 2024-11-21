@@ -1,7 +1,7 @@
 // educationResumeService.js
 import apiClient from './services';
 
-const educationResumeService = {  
+const EducationResumeService = {  
   // Get a specific educationResume by resume ID
   getEducationResumeById(educationResumeId) {
     return apiClient.get(`/educationResume/${educationResumeId}`);

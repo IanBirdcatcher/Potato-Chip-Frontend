@@ -1,7 +1,7 @@
 // educationService.js
 import apiClient from './services';
 
-const educationService = {
+const EducationService = {
   // Get all educations for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/education/byUser/${userId}`);

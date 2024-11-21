@@ -1,7 +1,7 @@
 // contactInfoService.js
 import apiClient from './services';
 
-const contactInfoService = {
+const ContactInfoService = {
   // Get all contactInfos for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/contactInfo/byUser/${userId}`);

@@ -1,7 +1,7 @@
 // skillService.js
 import apiClient from './services';
 
-const skillService = {
+const SkillService = {
   // Get all skills for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/skill/byUser/${userId}`);

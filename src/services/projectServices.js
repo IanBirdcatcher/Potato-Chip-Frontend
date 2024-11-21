@@ -1,7 +1,7 @@
 // projectService.js
 import apiClient from './services';
 
-const projectService = {
+const ProjectService = {
   // Get all projects for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/project/byUser/${userId}`);

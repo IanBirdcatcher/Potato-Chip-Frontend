@@ -1,7 +1,7 @@
 // contactInfoResumeService.js
 import apiClient from './services';
 
-const contactInfoResumeService = {  
+const ContactInfoResumeService = {  
   // Get a specific contactInfoResume by resume ID
   getContactInfoResumeById(contactInfoResumeId) {
     return apiClient.get(`/contactInfoResume/${contactInfoResumeId}`);

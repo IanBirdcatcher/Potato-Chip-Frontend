@@ -1,7 +1,7 @@
 // resumeService.js
 import apiClient from './services';
 
-const resumeService = {
+const ResumeService = {
   // Get all resumes for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/resume/byUser/${userId}`);

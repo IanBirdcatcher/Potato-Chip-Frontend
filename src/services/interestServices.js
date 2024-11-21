@@ -1,7 +1,7 @@
 // interestService.js
 import apiClient from './services';
 
-const interestService = {
+const InterestService = {
   // Get all interests for a specific user
   getAllForUser(userId) {
     return apiClient.get(`/interest/byUser/${userId}`);

@@ -1,7 +1,7 @@
 // linkResumeService.js
 import apiClient from './services';
 
-const linkResumeService = {  
+const LinkResumeService = {  
   // Get a specific linkResume by resume ID
   getLinkResumeById(linkResumeId) {
     return apiClient.get(`/linkResume/${linkResumeId}`);
