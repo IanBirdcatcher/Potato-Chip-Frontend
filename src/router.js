@@ -4,7 +4,6 @@ import Login from "./views/Login.vue";
 import HomePage from "./views/HomePage.vue";
 import CreateResume from "./views/CreateResume.vue";
 import AdminPage from "./components/AdminPage.vue"
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

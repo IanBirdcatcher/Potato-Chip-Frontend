@@ -35,6 +35,11 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                         </v-row>
                     </v-card-text>
                     <v-card-actions>
+                        <div>
+                            <v-btn @click="getPrevious" style="float:left">
+                                <v-icon icon="mdi-chevron-left" style="font-size: 30px;"></v-icon>
+                            </v-btn>
+                        </div>
                         <v-spacer></v-spacer>
                         <div>
                             <v-btn @click="submitForm" style="float:right">
@@ -62,8 +67,13 @@ export default {
         async submitForm() {
             const { valid } = await this.$refs.personalInfoForm.validate();
             if (valid) {
+                console.log( "contact info from PersonalInfo: ",this.ContactInfo)
+                this.$emit('updateContactInfo', this.ContactInfo);
                 this.$emit('getNext');
             }
+        },
+        getPrevious() {
+            this.$emit('getPrevious');
         }
     }
 };

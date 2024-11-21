@@ -1,5 +1,10 @@
 <script setup>
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
+// URL validation rule
+const validURL = (value) => {
+  const pattern = /^(https?:\/\/)?([^\s$.?#].[^\s]*)$/;
+  return pattern.test(value) || "Please enter a valid URL.";
+};
 </script>
 <template>
     <div>
@@ -19,7 +24,7 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                             </v-col>
                             <v-col cols="12">
                                 <v-text-field class="formField" v-model="item.Link" label="Link*"
-                                    :rules="[required('Link')]"></v-text-field>
+                                    :rules="[required('Link'), validURL]"></v-text-field>
                             </v-col>
 
                             <div v-if="index > 0" class="mx-auto">
