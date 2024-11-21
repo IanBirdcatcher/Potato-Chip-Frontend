@@ -117,7 +117,7 @@ const modalEditIndex = ref(0)
     </div>
 
     <v-dialog v-model="dialog" width="auto" height="auto">
-        <v-card width="420" max-height="600" class="my-auto">
+        <v-card width="500" max-height="600" class="my-auto">
             <v-card-title style="text-align:center">
             This Could Change Existing Resumes Using This
             </v-card-title>
