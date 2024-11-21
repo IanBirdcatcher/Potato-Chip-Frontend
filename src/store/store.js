@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import Utils from "./config/utils";
+import resumesService from "@/services/resumesServices";
 
 Vue.use(Vuex);
 
@@ -8,6 +9,7 @@ const user = Utils.getStore("user");
 const store = createStore({
   state: {
     loginUser: user,
+    pendingResume: resumes
   },
   mutations: {
     setLoginUser(state, user) {
