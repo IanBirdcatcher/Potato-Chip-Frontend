@@ -31,8 +31,8 @@
       <TemplateSelector :Resume="Resume" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience"
         :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
-    <v-dialog v-model="dialog" width="auto" height="300">
-        <v-card persistent
+    <v-dialog v-model="dialog" width="auto" height="300" persistent>
+        <v-card
         title="It looks like you didn't finish a resume!"
         subtitle="Warning you will loose any new data you put in this resume">
             <v-divider></v-divider>
