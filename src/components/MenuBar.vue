@@ -22,6 +22,18 @@ const resetMenu = () => {
   }
 };
 
+const switchToAdmin = () => {
+    if (user.isAdmin === true) {
+      router.push({ name: "AdminPage" });
+    } else {
+      alert("You are not authorized to access the Admin Page.");
+    }
+  };
+  //Switch back to a user
+  const switchToUser = () => {
+    router.push({ name: "HomePage" });
+  };
+
 const logout = () => {
   AuthServices.logoutUser(user.value)
     .then((response) => {
@@ -70,6 +82,14 @@ onMounted(() => {
                 {{ user.email }}
               </p>
               <v-divider class="my-3"></v-divider>
+              <v-btn v-if="user.isAdmin == true && $route.name !== 'AdminPage'" class="mx-2"
+                color="primary" @click="switchToAdmin">
+                Switch To Admin
+              </v-btn>
+              <v-btn v-if="user.isAdmin == true && $route.name === 'AdminPage'" class="mx-2"
+                color="primary" @click="switchToUser">
+                Switch To User
+              </v-btn>
               <v-btn depressed rounded text @click="logout"> Logout </v-btn>
             </div>
           </v-card-text>

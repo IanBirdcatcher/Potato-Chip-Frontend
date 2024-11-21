@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
     <div class="admin-page">
       <h1>Admin Dashboard</h1>
   
@@ -93,7 +92,7 @@
     {
       id: 5,
       name: "David North",
-      resumes: Array.from({ length: 1 }, (_, index) => ({
+      resumes: Array.from({ length: 12 }, (_, index) => ({
         id: 200 + index,
         name: `Resume ${index + 1}`
       }))
@@ -142,7 +141,6 @@
         if (this.searchQuery.trim() === "") {
           this.filteredUsers = this.users;
         } else {
-          // Filter users based on the search query
           this.filteredUsers = this.users.filter((user) =>
             user.name.toLowerCase().includes(this.searchQuery.toLowerCase())
           );
@@ -179,7 +177,6 @@
       }
     },
     watch: {
-      // Watch for changes in the searchQuery and trigger the filter function
       searchQuery() {
         this.searchUsers();
       }
