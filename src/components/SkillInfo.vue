@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps ,  onMounted , onUnmounted , defineEmits } from 'vue';
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 
 const emit = defineEmits(['getNext', 'getPrevious'])
@@ -19,6 +19,7 @@ const props = defineProps({
         type: Object,
     },
 })
+const selected = ref([])
 
 async function submitForm() {
    const { valid } = await SkillForm.value.validate();
@@ -30,9 +31,16 @@ function getPrevious() {
     emit('getPrevious');
 }
 function skip() {
-    props.Skill.value.splice(0,props.Skill.value.length);
+    selected.value.splice(0,selected.value.length);
     emit('getNext')
 }
+onUnmounted(() => {
+    Object.assign(props.Skill, selected.value)
+});
+onMounted(() => {
+    selected.value = props.Skill
+});
+
 </script>
 <template>
     <div>
@@ -46,7 +54,7 @@ function skip() {
                     <v-card-text>
                         <v-row>
                             <v-col cols="12">
-                                <v-combobox :items="skillList" label="Select a Skill or type a new one" v-model="props.Skill.value"
+                                <v-combobox :items="skillList" label="Select a Skill or type a new one" v-model="selected"
                                     item-title="skill" multiple return-object chips clearable style="height: 200px;"  :rules="[required('Please choose at least 1 skill')]">
                                 </v-combobox>
                             </v-col>
