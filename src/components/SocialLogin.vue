@@ -8,6 +8,7 @@ const router = useRouter();
 const fName = ref("");
 const lName = ref("");
 const user = ref({});
+const isAdmin = ref({});
 
 const loginWithGoogle = () => {
   window.handleCredentialResponse = handleCredentialResponse;
@@ -38,8 +39,13 @@ const handleCredentialResponse = async (response) => {
       Utils.setStore("user", user.value);
       fName.value = user.value.fName;
       lName.value = user.value.lName;
-      router.push({ name: 'HomePage'}
-      );
+      if (isAdmin) {
+        router.push({ name: 'AdminPage' });
+      }
+      else {
+        router.push({ name: 'HomePage' }
+        );
+      }
     })
     .catch((error) => {
       console.log("error", error);

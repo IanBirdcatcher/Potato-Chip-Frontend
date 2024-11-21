@@ -270,7 +270,7 @@ h1 {
   font-size: 20px;
   font-weight: bold;
   color: #424242;
-  text-align: left !important; 
+  justify-content: left;
   width: 100%;
   padding: 10px;
   border-radius: 4px;
