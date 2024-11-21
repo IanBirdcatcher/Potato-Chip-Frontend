@@ -47,7 +47,7 @@ const modalEditIndex = ref(0)
                                         density="compact"></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date*"
+                                    <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date"
                                         multiple="range" density="compact"></v-date-input>
                                 </v-col>
                                 <div v-if="Education.length > 1" class="mx-auto">
