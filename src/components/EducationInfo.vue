@@ -1,4 +1,5 @@
 <script setup>
+import { VDateInput } from 'vuetify/labs/VDateInput'
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 </script>
 <template>
@@ -20,8 +21,16 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                                 <v-text-field class="formField" v-model="item.Degree" label="Degree"></v-text-field>
                             </v-col>
                             <v-col cols="12">
+                                <v-text-field class="formField" v-model="item.Major" label="Major"></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
                                 <v-text-field class="formField" v-model="item.GPA" label="GPA"></v-text-field>
                             </v-col>
+                            <v-col cols="12">
+                                <v-date-input class="formField" v-model="item.Date" label="Start and End Date*"
+                                    multiple="range" :rules="[required('Start and End Date')]"></v-date-input>
+                            </v-col>
+
                             <div v-if="index > 0" class="mx-auto">
                                 <v-btn @click="removeEducation(index)" style="float:left">
                                     <v-icon icon="mdi-minus" style="font-size: 20px;"></v-icon>
@@ -83,7 +92,10 @@ export default {
                 id: 0,
                 SchoolName: "",
                 Degree: "",
-                GPA: ""
+                Major: "",
+                GPA: "",
+                Date: null
+
             })
         },
         removeEducation(index) {
