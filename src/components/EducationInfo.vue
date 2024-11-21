@@ -5,8 +5,6 @@ import { ref } from 'vue';
 
 import { VDateInput } from 'vuetify/labs/VDateInput'
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
-
-const dialog = ref(false)
 const modalEditIndex = ref(0)
 
 </script>
@@ -157,6 +155,7 @@ const modalEditIndex = ref(0)
 </template>
 
 <script>
+const dialog = ref(false)
 export default {
     components: {
         ImportModal
@@ -205,11 +204,10 @@ export default {
                     this.Education.unshift(data[i])
                 }
         },
-        
         async saveEducation(item) {
             const { valid } = await this.$refs.modalForm.validate();
             if (valid) {
-                this.dialog.value = false
+                dialog.value = false
                 EducationsService.updateEducation(item.educationId, item)
             }
             
