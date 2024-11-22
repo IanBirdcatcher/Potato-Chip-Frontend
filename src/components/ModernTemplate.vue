@@ -23,7 +23,7 @@ export default {
     const email = ref("");
     const address = ref("");
     const phoneNumber = ref("");
-    const resumeRef = ref(null); // for the PDF export
+    const resumeRef = ref(null); // for the PDF thing
 
     onMounted(() => {
       const storedUser = Utils.getStore("user");
@@ -93,6 +93,14 @@ export default {
       </div>
     </section>
     <section>
+      <div>
+        <h3 class="skillsAndAwards">Skills:</h3>
+          <ul>
+            <li v-for="Skill in Skill" :key="Skill.id">{{ Skill.Skill }}</li>
+          </ul>
+    </div>
+    </section>
+    <section>
       <h2>Experience</h2> 
       <div class="Experience" v-for="Experience in Experience" :key="Experience.id">
         <h3>{{Experience.Title }}, {{ Experience.Organization }}</h3>
@@ -100,6 +108,7 @@ export default {
         <p>{{ Experience.JobDescription }}</p>
       </div>
     </section>
+
   </div>
 </template>
 

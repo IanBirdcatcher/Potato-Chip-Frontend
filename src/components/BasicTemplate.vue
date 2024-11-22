@@ -97,8 +97,9 @@ export default {
       <section id="education">
         <h2>EDUCATION</h2>
         <div v-for="Education in Education" :key="Education.id">
-          <p>
-            <strong>{{ Education.SchoolName }}</strong><br />
+          <p >
+            <strong>{{ Education.SchoolName }}</strong >     
+            {{ new Date(Education.Date[0]).toLocaleDateString() }} - {{ new Date(Education.Date[Education.Date.length - 1]).toLocaleDateString() }}                                                <br />
             {{ Education.Degree }} <br />
             GPA: {{ Education.GPA }}
           </p>
@@ -120,7 +121,9 @@ export default {
       <section id="experience">
         <h2>PROFESSIONAL EXPERIENCE</h2>
         <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
-          <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
+          <strong>{{ Experience.Organization }}, {{ Experience.Title }}</strong>
+          {{ new Date(Experience.Date[0]).toLocaleDateString() }} - {{ new Date(Experience.Date[Experience.Date.length - 1]).toLocaleDateString() }}                                                <br />
+
           <p>{{ Experience.JobDescription }}</p>
         </div>
       </section>
@@ -149,7 +152,7 @@ export default {
 
 <style scoped>
 .body {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman',Serif;
   margin: 0;
   padding: 0;
   line-height: 1.6;
