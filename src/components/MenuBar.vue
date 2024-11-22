@@ -22,7 +22,7 @@ const resetMenu = () => {
 
 //Switch to the Admin
 const switchToAdmin = () => {
-  if (user.value?.email === "cally.piland@eagles.oc.edu" || user.value?.email === "logan.murrie@eagles.oc.edu") {
+  if (user.value.isAdmin = true) {
     router.push({ name: "AdminPage" }); 
   } else {
     alert("You are not authorized to access the Admin Page.");
@@ -71,11 +71,11 @@ onMounted(() => {
                 {{ user.email }}
               </p>
               <v-divider class="my-3"></v-divider>
-              <v-btn v-if="user?.email === 'cally.piland@eagles.oc.edu'|| user?.email === 'logan.murrie@eagles.oc.edu' && $route.name !== 'AdminPage'" class="mx-2"
+              <v-btn v-if="user.isAdmin === true && $route.name !== 'AdminPage'" class="mx-2"
                 color="primary" @click="switchToAdmin">
                 Switch To Admin
               </v-btn>
-              <v-btn v-if="user?.email === 'cally.piland@eagles.oc.edu'|| user?.email === 'logan.murrie@eagles.oc.edu' && $route.name === 'AdminPage'" class="mx-2"
+              <v-btn v-if="user.isAdmin == true && $route.name === 'AdminPage'" class="mx-2"
                 color="primary" @click="switchToUser">
                 Switch To User
               </v-btn>
