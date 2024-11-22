@@ -29,9 +29,10 @@ eval(`${props.dataType}sService.getAllForUser(${user.userId})
             console.log("Error fetching resumes:", error);
           });
     `)
+    isActive.value = true
 }
 catch{
-    isActive.value = true
+    console.log("No existing data")
 }
 const dialog = ref(false)
 
