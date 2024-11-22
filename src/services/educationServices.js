@@ -1,10 +1,10 @@
 // educationService.js
-import apiClient from '../services/services';
+import apiClient from './services';
 
 const EducationService = {
-  // Get all education for a specific user
+  // Get all educations for a specific user
   getAllForUser(userId) {
-    return apiClient.get(`/education/byuser/${userId}`);
+    return apiClient.get(`/education/byUser/${userId}`);
   },
   
   // Get a specific education by ID

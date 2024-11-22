@@ -28,8 +28,7 @@
       <SkillInfo @getNext="getNext" :Skill="Skill" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 9">
-      <TemplateSelector :Resume="Resume" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience"
-        :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
+      <TemplateSelector :Resume="Resume" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
     </div>
     <v-dialog v-model="dialog" width="auto" height="300" persistent>
       <v-card title="It looks like you didn't finish a resume!"
@@ -65,7 +64,7 @@ const Resume = reactive({
   id: 0,
   resumeName: '',
   jobTitle: '',
-  ProfSummary: ''
+  profSummary: ''
 });
 const Person = reactive({
   id: 0,
