@@ -32,18 +32,19 @@
         :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
     <v-dialog v-model="dialog" width="auto" height="300" persistent>
-        <v-card
-        title="It looks like you didn't finish a resume!"
+      <v-card title="It looks like you didn't finish a resume!"
         subtitle="Warning you will loose any new data you put in this resume">
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-                <v-btn class="ms-auto" text="Delete" @click="Utils.removeItem('resume') , dialog = false" color="red" variant="tonal" style="float:right"></v-btn>
-                <v-btn class="ms-auto" text="Continue" @click="mountUserData(), dialog = false" color="green" variant="tonal" style="float:right"></v-btn>
-            </v-card-actions>
-        </v-card>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="ms-auto" text="Delete" @click="Utils.removeItem('resume'), dialog = false" color="red"
+            variant="tonal" style="float:right"></v-btn>
+          <v-btn class="ms-auto" text="Continue" @click="mountUserData(), dialog = false" color="green" variant="tonal"
+            style="float:right"></v-btn>
+        </v-card-actions>
+      </v-card>
     </v-dialog>
-    </v-container>
+  </v-container>
 </template>
 
 <script setup>
@@ -79,10 +80,13 @@ const ContactInfo = reactive({
 });
 const Education = reactive([
   {
-    id: 0,
-    SchoolName: "",
-    Degree: "",
+    educationId: 0,
+    userId: 0,
+    school: "",
     GPA: 0,
+    degree: "",
+    major: "",
+    dateRange: null
   },
 ]);
 const Interest = reactive([
@@ -138,7 +142,7 @@ function getPrevious() {
   }
 }
 onUnmounted(() => {
-  if (componentSelected.value != 9 && (Resume.jobTitle || Resume.resumeName ||  Resume.ProfSummary)) {
+  if (componentSelected.value != 9 && (Resume.jobTitle || Resume.resumeName || Resume.ProfSummary)) {
     const resume = ref({ Resume, Person, ContactInfo, Education, Experience, Interest, Link, Project, Award, Skill, componentSelected })
     Utils.setStore("resume", resume.value)
   }
@@ -156,17 +160,17 @@ onMounted(() => {
   }
 });
 
-function mountUserData(){
+function mountUserData() {
   componentSelected.value = storedResume.value.componentSelected
-    Object.assign(Resume, storedResume.value.Resume)
-    Object.assign(Person, storedResume.value.Person)
-    Object.assign(ContactInfo, storedResume.value.ContactInfo)
-    Object.assign(Education, storedResume.value.Education)
-    Object.assign(Experience, storedResume.value.Experience)
-    Object.assign(Interest, storedResume.value.Interest)
-    Object.assign(Link, storedResume.value.Link)
-    Object.assign(Project, storedResume.value.Project)
-    Object.assign(Award, storedResume.value.Award)
-    Object.assign(Skill, storedResume.value.Skill)
+  Object.assign(Resume, storedResume.value.Resume)
+  Object.assign(Person, storedResume.value.Person)
+  Object.assign(ContactInfo, storedResume.value.ContactInfo)
+  Object.assign(Education, storedResume.value.Education)
+  Object.assign(Experience, storedResume.value.Experience)
+  Object.assign(Interest, storedResume.value.Interest)
+  Object.assign(Link, storedResume.value.Link)
+  Object.assign(Project, storedResume.value.Project)
+  Object.assign(Award, storedResume.value.Award)
+  Object.assign(Skill, storedResume.value.Skill)
 }
 </script>
