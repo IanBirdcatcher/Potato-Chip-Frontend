@@ -8,7 +8,7 @@ export default {
   name: "BasicTemplate",
   props: {
     ContactInfo: { type: Object, required: true },
-    Education: { type: Array, required: true },
+    //Education: { type: Array, required: true },
     Experience: { type: Array, required: true },
     Interest: { type: Array, required: true },
     Link: { type: Object, required: true },
@@ -86,9 +86,9 @@ export default {
     <section>
       <h2>Education</h2>
       <div class="education" v-for="Education in Education" :key="Education.id">
-        <h3>{{ Education.SchoolName }}</h3>
+        <h3>{{ Education.school }}</h3>
         <p>{{ new Date(Education.Date[0]).toLocaleDateString() }} - {{ new Date(Education.Date[Education.Date.length - 1]).toLocaleDateString() }}</p>
-        <p>{{ Education.Degree }} | {{ Education.Major }}</p>
+        <p>{{ Education.degree }} | {{ Education.major }}</p>
         <p>GPA: {{ Education.GPA }}</p>
       </div>
     </section>
