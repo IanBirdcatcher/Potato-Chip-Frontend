@@ -114,9 +114,12 @@ export default {
               "contactInfoId": res.data.data.contactInfoId
             })
           })
-
-
-        }
+        } else {
+            ContactInfoResumeService.createContactInfoResume({
+                "resumeId": currResumeId, 
+                "contactInfoId": contactInfo.contactInfoId
+             })
+           }
         
         this.Award.forEach(award => {
           if (award.id == 0) {
@@ -131,7 +134,12 @@ export default {
               "awardId": res.data.awardId
               })
             })
-          }
+          } else {
+            AwardResumeService.createAwardResume({
+                "resumeId": currResumeId, 
+                "awardId": award.awardId
+             })
+           }
         });
 
         // Implement after education component is fixed.
@@ -151,8 +159,13 @@ export default {
                 "educationId": res.data.educationId
              })
 
-           })
-          }
+           }) 
+          } else {
+            EducationResumeService.createEducationResume({
+                "resumeId": currResumeId, 
+                "educationId": education.educationId
+             })
+           }
         });
 
         this.Experience.forEach(experience => {
@@ -170,7 +183,12 @@ export default {
                 "experienceId": res.data.experienceId
               })
             })
-          }
+          } else {
+            ExperienceResumeService.createExperienceResume({
+                "resumeId": currResumeId, 
+                "experienceId": experience.experienceId
+             })
+           }
         });
 
         this.Interest.forEach(interest => {
@@ -186,7 +204,12 @@ export default {
                 "interestId": res.data.interestId
               })
             })
-          }
+          } else {
+            InterestResumeService.createInterestResume({
+                "resumeId": currResumeId, 
+                "interestId": interest.interestId
+             })
+           }
         });
 
         this.Link.forEach(link => {
@@ -202,7 +225,12 @@ export default {
                 "linkId": res.data.linkId
               })
             })
-          }
+          } else {
+            LinkResumeService.createLinkResume({
+                "resumeId": currResumeId, 
+                "linkId": link.linkId
+             })
+           }
         });
 
         this.Project.forEach(project => {
@@ -218,7 +246,12 @@ export default {
                 "projectId": res.data.projectId
               })
             })
-          }
+          } else {
+            ProjectResumeService.createProjectResume({
+                "resumeId": currResumeId, 
+                "projectId": project.projectId
+             })
+           }
         });
 
         this.Skill.forEach(skill => {
@@ -233,7 +266,12 @@ export default {
               "skillId": res.data.skillId
               })
             })
-          }
+          } else {
+            SkillResumeService.createSkillResume({
+                "resumeId": currResumeId, 
+                  "skillId": skill.skillId
+             })
+           }
         });
 
 
