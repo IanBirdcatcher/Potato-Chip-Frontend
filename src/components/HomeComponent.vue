@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import resumesService from '../services/resumesServices';
+import resumeService from '../services/resumeServices';
 import Utils from '../config/utils';
 
 export default {
@@ -121,7 +121,7 @@ export default {
       const userId = user ? user.userId : null;
 
       if (userId) {
-        resumesService.getAllResumes(userId)
+        resumeService.getAllForUser(userId)
           .then(response => {
             this.resumes = response.data;  
             this.resumes.forEach(resume => {
@@ -155,7 +155,7 @@ export default {
 
     updateResume(item) {
       // Update resume name and job on the server when user finishes editing
-      resumesService.updateResume(item.resumeId, item)
+      resumeService.updateResume(item.resumeId, item)
         .then(() => {
           this.showSnackbar('Resume updated successfully', 'success');
           item.isEditingResumeName = false; 
@@ -180,7 +180,7 @@ export default {
       this.resumes = this.resumes.filter(resume => resume.resumeId !== item.resumeId);  // Changed from resumeID to resumeId
 
       // Call the delete API
-      resumesService.deleteResume(item.resumeId)  
+      resumeService.deleteResume(item.resumeId)  
         .then(() => {
           this.showSnackbar('Resume deleted successfully', 'success');
         })
