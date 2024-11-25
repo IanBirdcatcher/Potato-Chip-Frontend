@@ -1,24 +1,53 @@
+<script setup>
+import { onMounted } from "vue";
+import Utils from "../config/utils";
+onMounted(() => {
+  Utils.removeItem("resume")
+});
+</script>
 <script>
 import BasicTemplate from './BasicTemplate.vue';
 import ModernTemplate from '../components/ModernTemplate.vue';
 import GothicTemplate from '../components/GothicTemplate.vue';
 
+import ResumeService from '../services/resumeServices';
+import AwardService from '../services/awardServices';
+import AwardResumeService from '../services/awardResumeServices';
+import ContactInfoService from '../services/contactInfoServices';
+import ContactInfoResumeService from '../services/contactInfoResumeServices';
+import EducationService from '../services/educationServices';
+import EducationResumeService from '../services/educationResumeServices';
+import ExperienceService from '../services/experienceServices';
+import ExperienceResumeService from '../services/experienceResumeServices';
+import InterestService from '../services/interestServices';
+import InterestResumeService from '../services/interestResumeServices';
+import LinkService from '../services/linkServices';
+import LinkResumeService from '../services/linkResumeServices';
+import ProjectService from '../services/projectServices';
+import ProjectResumeService from '../services/projectResumeServices';
+import SkillService from '../services/skillServices';
+import SkillResumeService from '../services/skillResumeServices';
+import Utils from "../config/utils";
+import Router from "../router"
+
 export default {
-  name: 'App',
+  name: 'TemplateSelector',
   components: {
     BasicTemplate,
     ModernTemplate,
     GothicTemplate,
   },
   props: {
+    Resume: { type: Object, required: true },
     ContactInfo: { type: Object, required: true },
+    Award: { type: Array, required: true },
     Education: { type: Array, required: true },
     Experience: { type: Array, required: true },
     Interest: { type: Array, required: true },
     Link: { type: Array, required: true },
     Project: { type: Array, required: true },
-    Award: { type: Array, required: true },
-    Skill: { type: Array, required: true }
+    Skill: { type: Array, required: true },
+    Resume: { type: Array, required: true },
   },
   data() {
     return {
@@ -39,21 +68,203 @@ export default {
     },
     Next() {
       if (this.selectedTemplate < this.totalTemplates) {
-        console.log( "contact info from TemplateSelector: ",this.ContactInfo)
-
         this.showTemplate(this.selectedTemplate + 1);
       } else {
         this.showTemplate(1); 
       }
     },
+
+    // Saves the resume content
+    async save() {
+        // create new resume
+        const templateName = ( this.selectedTemplate === 1 ? "Basic Template" : this.selectedTemplate === 2 ? "Modern Template" : "Gothic Template" )
+        
+        const user = Utils.getStore("user");
+        const userId = user ? user.userId : null;
+        let currResumeId = null
+
+        await ResumeService.createResume(
+          {
+            "resumeName": this.Resume.resumeName,
+            "templateId": this.selectedTemplate,
+            "templateName": templateName,
+            "profSummary": this.Resume.profSummary,
+            "jobTitle": this.Resume.jobTitle,
+            "userId": userId
+          }
+        )
+        .then((res) => {
+          currResumeId = res.data.resumeId
+        })
+
+        // for all resume items, if item does not exist (i.e. has no id)
+        // then create a new instance of that resumeItem,
+        // else move on
+        if (this.ContactInfo.id == 0) {
+          ContactInfoService.createContactInfo(
+            {
+              "email": this.ContactInfo.Email,
+              "phone": this.ContactInfo.PhoneNumber,
+              "address": this.ContactInfo.Address
+            }
+          )
+          .then((res) => {
+            ContactInfoResumeService.createContactInfoResume({
+              "resumeId": currResumeId, 
+              "contactInfoId": res.data.data.contactInfoId
+            })
+          })
+
+
+        }
+        
+        this.Award.forEach(award => {
+          if (award.id == 0) {
+            AwardService.createAward({
+              "awardName": award.AwardName,
+              "awardDesc": award.AwardDesc,
+              "userId": userId
+            })
+            .then((res) => {
+              AwardResumeService.createAwardResume({
+              "resumeId": currResumeId, 
+              "awardId": res.data.awardId
+              })
+            })
+          }
+        });
+
+        // Implement after education component is fixed.
+        // this.Education.forEach(education => {
+        //   if (education.id == 0) {
+        //     let startDate = education.Date[0]
+        //     let endDate = education.Date[education.Date.length-1]
+        //     EducationService.createEducation({
+        //       school: education.school,
+        //       GPA: education.GPA,
+        //       major: education.major,
+        //       degree: education.degree,
+        //       startDate: startDate,
+        //       endDate: endDate,
+        //       userId: userId
+        //     })
+        //      .then => ((res) {
+        //        EducationResumeService.createEducationResume({
+        //      "resumeId": currResumeId, 
+        //      "educationId": res.data.educationId
+        //      })
+
+        //    })
+        //   }
+        // });
+
+        this.Experience.forEach(experience => {
+          if (experience.id == 0) {
+            let startDate = experience.Date[0]
+            let endDate = experience.Date[experience.Date.length-1]
+            ExperienceService.createExperience({
+              "organizationName": experience.Organization,
+              "jobTitle": experience.Title,
+              "jobDesc": experience.JobDescription,
+              "startDate": startDate,
+              "endDate": endDate,
+              "userId": userId
+            })
+            .then((res) => {
+              ExperienceResumeService.createExperienceResume({
+                "resumeId": currResumeId, 
+                "experienceId": res.data.experienceId
+              })
+            })
+          }
+        });
+
+        this.Interest.forEach(interest => {
+            if (interest.id == 0) {
+            InterestService.createInterest({
+              "interestName": interest.InterestName,
+              "interestDesc": interest.InterestDesc,
+              "userId": userId
+            })
+            .then((res) => {
+              InterestResumeService.createInterestResume({
+                "resumeId": currResumeId, 
+                "interestId": res.data.interestId
+              })
+            })
+          }
+        });
+
+        this.Link.forEach(link => {
+          if (link.id == 0) {
+            LinkService.createLink({
+              "linkName": link.LinkName,
+              "link": link.LinkDesc,
+              "userId": userId
+            })
+            .then((res) => {
+              LinkResumeService.createLinkResume({
+                "resumeId": currResumeId, 
+                "linkId": res.data.linkId
+              })
+            })
+          }
+        });
+
+        this.Project.forEach(project => {
+          if (project.id == 0 ) {  
+            ProjectService.createProject({
+              "projectName": project.ProjectName,
+              "projectDesc": project.ProjectDesc,
+              "userId": userId
+            })
+            .then((res) => {
+              ProjectResumeService.createProjectResume({
+                "resumeId": currResumeId, 
+                "projectId": res.data.projectId
+              })
+            })
+          }
+        });
+
+        this.Skill.forEach(skill => {
+          if (skill.id == 0) {  
+            SkillService.createSkill({
+              "skill": skill.Skill,
+              "userId": userId
+            })
+            .then((res) => {
+              SkillResumeService.createSkillResume({
+              "resumeId": currResumeId, 
+              "skillId": res.data.skillId
+              })
+            })
+          }
+        });
+
+
+        // route to homepage
+        Router.push({ name: 'HomePage' });
+    }
+    ,
+    generatePDF() {
+      if (this.selectedTemplate === 1 && this.$refs.basicTemplate) {
+        this.$refs.basicTemplate.generatePDF();
+      } else if (this.selectedTemplate === 2 && this.$refs.modernTemplate) {
+        this.$refs.modernTemplate.generatePDF();
+      } else if (this.selectedTemplate === 3 && this.$refs.gothicTemplate) {
+        this.$refs.gothicTemplate.generatePDF();
+      } else {
+        console.error("Template not found");
+      }
+    },
   },
 };
-
 </script>
 
 <template>
   <v-card class="mx-auto" width="1000" height="1500">
-    <v-card-title style="text-align: center;" >      
+    <v-card-title style="text-align: center;">
       {{ selectedTemplate === 1 ? "Basic Template" : selectedTemplate === 2 ? "Modern Template" : "Gothic Template" }}
     </v-card-title>
 
@@ -67,30 +278,38 @@ export default {
 
       <v-spacer></v-spacer>
 
-      <v-btn @click="Next" style="float: right;">next
+      <v-btn @click="Next" style="float: right;">Next
         <v-icon icon="mdi-chevron-right" style="font-size: 30px;"></v-icon>
       </v-btn>
 
     </v-card-actions>
     <v-divider class="mx-4"></v-divider>
     <div>
-      <BasicTemplate v-if="selectedTemplate === 1" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
-      <ModernTemplate v-if="selectedTemplate === 2" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
-      <GothicTemplate v-if="selectedTemplate === 3" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
+      <BasicTemplate v-show="selectedTemplate === 1" ref="basicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project":Award="Award" :Skill="Skill" />
+      <ModernTemplate v-show="selectedTemplate === 2" ref="modernTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
+      <GothicTemplate v-show="selectedTemplate === 3" ref="gothicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
-        <v-btn 
-            style="float: left; background-color: #007BFF; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" 
-            @mouseover="this.style.backgroundColor='#0056b3'" 
-            @mouseout="this.style.backgroundColor='#007BFF'">
+    
+        <v-btn color="#007BFF" class="float-left"> 
         PDF
         </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn 
-            style="float: right; background-color: #28a745; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" 
-            @mouseover="this.style.backgroundColor='#1e7e34'" 
-            @mouseout="this.style.backgroundColor='#28a745'">
+        <v-btn color="#28a745" class="float-right"
+            @click=save>
         Save
         </v-btn>
 
+    <v-btn @click="generatePDF"
+        style="float: left; background-color: #007BFF; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
+      PDF
+    </v-btn>
+    
+    <v-spacer></v-spacer>
+
+    <v-btn 
+        style="float: right; background-color: #28a745; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
+      Save
+    </v-btn>
+
   </v-card>
 </template>
+
