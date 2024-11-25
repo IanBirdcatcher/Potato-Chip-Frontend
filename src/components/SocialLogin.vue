@@ -39,7 +39,7 @@ const handleCredentialResponse = async (response) => {
       Utils.setStore("user", user.value);
       fName.value = user.value.fName;
       lName.value = user.value.lName;
-      if (isAdmin) {
+      if (user.value.isAdmin) {
         router.push({ name: 'AdminPage' });
       }
       else {
