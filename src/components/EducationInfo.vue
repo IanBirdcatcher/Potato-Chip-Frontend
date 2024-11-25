@@ -1,6 +1,6 @@
 <script setup>
 import ImportModal from "../components/ImportModal.vue"
-import EducationServices from '../services/educationServices';
+import EducationsService from '../services/educationServices';
 import { ref } from 'vue';
 
 import { VDateInput } from 'vuetify/labs/VDateInput'

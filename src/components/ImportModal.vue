@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref, defineEmits } from 'vue';
-import EducationServices from '../services/educationServices';
+import EducationsService from '../services/educationServices';
 import Utils from "../config/utils.js";
 
 const emit = defineEmits(['sendToParent']);
@@ -20,7 +20,7 @@ const List = ref(null)
 const user = Utils.getStore("user");
 const Selected = ref([])
 
-eval(`${props.dataType}Services.getAllForUser(${user.userId})
+eval(`${props.dataType}sService.getAll${props.dataType}(${user.userId})
     .then(response => {
             List.value = response.data;
           })
