@@ -135,39 +135,33 @@ export default {
         });
 
         // Implement after education component is fixed.
-        // this.Education.forEach(education => {
-        //   if (education.id == 0) {
-        //     let startDate = education.Date[0]
-        //     let endDate = education.Date[education.Date.length-1]
-        //     EducationService.createEducation({
-        //       school: education.school,
-        //       GPA: education.GPA,
-        //       major: education.major,
-        //       degree: education.degree,
-        //       startDate: startDate,
-        //       endDate: endDate,
-        //       userId: userId
-        //     })
-        //      .then => ((res) {
-        //        EducationResumeService.createEducationResume({
-        //      "resumeId": currResumeId, 
-        //      "educationId": res.data.educationId
-        //      })
+        this.Education.forEach(education => {
+          if (education.educationId == 0) {
+            EducationService.createEducation({
+              school: education.school,
+              GPA: education.GPA,
+              major: education.major,
+              degree: education.degree,
+              dateRange: education.dateRange,
+              userId: userId
+            })
+             .then((res) => {
+               EducationResumeService.createEducationResume({
+                "resumeId": currResumeId, 
+                "educationId": res.data.educationId
+             })
 
-        //    })
-        //   }
-        // });
+           })
+          }
+        });
 
         this.Experience.forEach(experience => {
           if (experience.id == 0) {
-            let startDate = experience.Date[0]
-            let endDate = experience.Date[experience.Date.length-1]
             ExperienceService.createExperience({
               "organizationName": experience.Organization,
               "jobTitle": experience.Title,
               "jobDesc": experience.JobDescription,
-              "startDate": startDate,
-              "endDate": endDate,
+              "dateRange": experience.dateRange,
               "userId": userId
             })
             .then((res) => {
@@ -245,7 +239,7 @@ export default {
 
         // route to homepage
         Router.push({ name: 'HomePage' });
-    }
+    },
     
     generatePDF() {
       if (this.selectedTemplate === 1 && this.$refs.basicTemplate) {
@@ -290,24 +284,12 @@ export default {
       <GothicTemplate v-show="selectedTemplate === 3" ref="gothicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
     
-        <v-btn color="#007BFF" class="float-left"> 
-        PDF
-        </v-btn>
-        <v-btn color="#28a745" class="float-right"
-            @click=save>
-        Save
-        </v-btn>
-
-    <v-btn @click="generatePDF"
-        style="float: left; background-color: #007BFF; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
-      PDF
+    <v-btn color="#007BFF" class="float-left" @click="generatePDF()"> 
+    PDF
     </v-btn>
-    
-    <v-spacer></v-spacer>
-
-    <v-btn 
-        style="float: right; background-color: #28a745; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
-      Save
+    <v-btn color="#28a745" class="float-right"
+        @click=save>
+    Save
     </v-btn>
 
   </v-card>

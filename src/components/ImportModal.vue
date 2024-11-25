@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, ref, defineEmits } from 'vue';
-import EducationsService from '../services/educationServices';
+import EducationServices from '../services/educationServices';
 import Utils from "../config/utils.js";
 
 const emit = defineEmits(['sendToParent']);
@@ -19,9 +19,8 @@ const props = defineProps({
 const List = ref(null)
 const user = Utils.getStore("user");
 const Selected = ref([])
-const isActive = ref(false)
-try{
-eval(`${props.dataType}sService.getAllForUser(${user.userId})
+
+eval(`${props.dataType}Services.getAllForUser(${user.userId})
     .then(response => {
             List.value = response.data;
           })
@@ -29,13 +28,7 @@ eval(`${props.dataType}sService.getAllForUser(${user.userId})
             console.log("Error fetching resumes:", error);
           });
     `)
-    isActive.value = true
-}
-catch{
-    console.log("No existing data")
-}
 const dialog = ref(false)
-
 
 function pushToParent() {
     dialog.value = false
@@ -45,7 +38,7 @@ function pushToParent() {
 
 </script>
 <template>
-    <v-btn @click="dialog = true" density="compact" :style="{ display: isActive ? 'block' : 'none' }">
+    <v-btn @click="dialog = true" density="compact">
         Import
     </v-btn>
     <v-dialog v-model="dialog" width="auto" height="auto">
