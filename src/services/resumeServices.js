@@ -28,7 +28,7 @@ const ResumeService = {
   },
 
   // Delete all resumes for a user
-  deleteResumeForUser(userId) {
+  deleteResume(userId) {
     return apiClient.delete(`/resume/byUser/${userId}`);
   },
 };
