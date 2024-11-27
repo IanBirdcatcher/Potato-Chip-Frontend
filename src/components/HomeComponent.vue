@@ -56,13 +56,13 @@
               </div>
             </template>
 
-            <template v-slot:item.job="{ item }">
+            <template v-slot:item.jobTitle="{ item }">
               <div v-if="!item.isEditingJob">
-                <span @click="editField(item, 'job')">{{ item.job }}</span>
+                <span @click="editField(item, 'job')">{{ item.jobTitle }}</span>
               </div>
               <div v-else>
                 <v-text-field
-                  v-model="item.job"
+                  v-model="item.jobTitle"
                   label="Job"
                   @blur="updateResume(item)"
                   @keyup.enter="updateResume(item)"
@@ -104,8 +104,8 @@ export default {
     snackbarColor: '',
     headers: [
       { title: 'Resume Name', key: 'resumeName' },
-      { title: 'Template', key: 'template' },
-      { title: 'Job', key: 'job' },
+      { title: 'Template', key: 'templateName' },
+      { title: 'Job', key: 'jobTitle' },
       { title: 'Actions', key: 'actions', sortable: false }
     ],
     resumes: [],
