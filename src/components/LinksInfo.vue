@@ -23,8 +23,8 @@ const validURL = (value) => {
                                     :rules="[required('Link Name')]"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.Link" label="Link*"
-                                    :rules="[required('Link'), validURL]"></v-text-field>
+                                <v-text-field class="formField" v-model="item.LinkDesc" label="Link*"
+                                    :rules="[required('LinkDesc'), validURL]"></v-text-field>
                             </v-col>
 
                             <div v-if="index > 0" class="mx-auto">

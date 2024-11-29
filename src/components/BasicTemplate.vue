@@ -15,7 +15,7 @@ export default {
     Project: { type: Array, required: true },
     Award: { type: Array, required: true },
     Skill: { type: Array, required: true },
-    Resume: { type: Array, required: true }
+    Resume: { type: Object, required: true }
   },
   setup(props) {
     const user = ref(null);
@@ -24,73 +24,80 @@ export default {
     const address = ref("");
     const phoneNumber = ref("");
     const resumeRef = ref(null); // for the pdf
+    const link = ref("");
+    const selectedSkills = ref([]);
+
 
     onMounted(() => {
       const storedUser = Utils.getStore("user");
+
       if (storedUser) {
         user.value = storedUser;
         name.value = `${storedUser.fName} ${storedUser.lName}`;
         email.value = storedUser.email;
         address.value = props.ContactInfo.Address || "No address provided";
         phoneNumber.value = props.ContactInfo.PhoneNumber || "No PhoneNumber provided";
+        link.value = props.Link[0].LinkDesc || "No Link provided";
+        
+        selectedSkills.value = props.Skill.map(skill => ({
+         skill: skill.skill || "Unnamed Skill", 
+        }));
       }
     });
     const generatePDF = () => {
-      const resumeElement = resumeRef.value;
-
-      html2canvas(resumeElement).then((canvas) => {
+      const resumeElement = resumeRef.value; 
+      html2canvas(resumeElement, { scale: 2 }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
-
-        const doc = new jsPDF();
-        doc.addImage(imgData, "PNG", 15, 15, 190, 250);
-        doc.save("resume.pdf");
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("Myresume.pdf");
       });
+
+
     };
 
     return {
-      user,
-      name,
-      email,
-      address,
-      phoneNumber,
-      Link: props.Link.Link,
-      Education: props.Education,
-      Experience: props.Experience,
-      Award: props.Award,
-      Skill: props.Skill.value,
-      Projects: props.Project,
-      resumeRef,
-      generatePDF,
-      Resume: props.Resume
-    };
+    user,
+    name,
+    email,
+    address,
+    phoneNumber,
+    link,
+    selectedSkills,
+    Education: props.Education,
+    Experience: props.Experience,
+    Award: props.Award,
+    Skill: props.Skill,
+    Projects: props.Project,
+    resumeRef,
+    generatePDF,
+    Resume: props.Resume,
+  }; 
   },
+
+
 };
 </script>
 
 <template>
   <html lang="en">
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Basic Template</title>
-  </head>
-
   <body class="body">
     <div class="container">
       <header>
         <h1>{{ name }}</h1>
-        <p>
-          {{ address }} | {{ phoneNumber }} |
-          <a>{{ email }}</a> |
-          <a href="#">{{ link }}</a>
-        </p>
-      </header>
+            <p>
+              {{ address }} | {{ phoneNumber }} | 
+              <a>{{ email }}</a> | 
+              <a :href="link" target="_blank">{{ link }}</a>
+            </p>
+      </header> 
 
       <!-- PROFESSIONAL SUMMARY Section -->
       <section id="summary">
         <h2>PROFESSIONAL SUMMARY</h2>
-        <p></p>
+        <p>{{ Resume.ProfSummary }}</p>
       </section>
 
       <!-- Education Section -->
@@ -135,7 +142,7 @@ export default {
         <div>
           <h3 class="skillsAndAwards">Skills:</h3>
           <ul>
-            <li v-for="Skill in Skill" :key="Skill.id">{{ Skill.Skill }}</li>
+            <li v-for="(skill, index) in selectedSkills" :key="index">{{ skill.skill }}</li>
           </ul>
         </div>
         <div>

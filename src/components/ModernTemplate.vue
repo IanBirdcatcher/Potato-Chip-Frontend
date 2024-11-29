@@ -11,11 +11,11 @@ export default {
     //Education: { type: Array, required: true },
     Experience: { type: Array, required: true },
     Interest: { type: Array, required: true },
-    Link: { type: Object, required: true },
+    Link: { type: Array, required: true },
     Project: { type: Array, required: true },
     Award: { type: Array, required: true },
     Skill: { type: Array, required: true },
-    Resume: { type: Array, required: true }
+    Resume: { type: Object, required: true }
   },
   setup(props) {
     const user = ref(null);
@@ -23,6 +23,10 @@ export default {
     const email = ref("");
     const address = ref("");
     const phoneNumber = ref("");
+    const link = ref("");
+    const selectedSkills = ref([]);
+
+
     const resumeRef = ref(null); // for the PDF thing
 
     onMounted(() => {
@@ -33,7 +37,14 @@ export default {
         email.value = storedUser.email;
         address.value = props.ContactInfo.Address || "No address provided";
         phoneNumber.value = props.ContactInfo.PhoneNumber || "No phone number provided";
+        link.value = props.Link[0].LinkDesc || "No Link provided";
+
       }
+
+
+      selectedSkills.value = props.Skill.map(skill => ({
+         skill: skill.skill || "Unnamed Skill", 
+      }));
     });
 
     const generatePDF = () => {
@@ -45,7 +56,7 @@ export default {
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
         pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("resume.pdf");
+        pdf.save("MyResume.pdf");
       });
     };
 
@@ -55,7 +66,8 @@ export default {
       email,
       address,
       phoneNumber,
-      Link: props.Link.Link,
+      link,
+      selectedSkills,
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
@@ -76,7 +88,7 @@ export default {
       <p>
         {{ address }} | {{ phoneNumber }} | 
         <a>{{ email }}</a> |  
-        <a :href="Link" target="_blank" rel="noopener noreferrer">{{ Link }}</a>
+        <a :href="link" target="_blank">{{ link }}</a>
       </p>
     </header>
     <section>
@@ -96,7 +108,7 @@ export default {
       <div>
         <h3 class="skillsAndAwards">Skills:</h3>
           <ul>
-            <li v-for="Skill in Skill" :key="Skill.id">{{ Skill.Skill }}</li>
+            <li v-for="(skill, index) in selectedSkills" :key="index">{{ skill.skill }}</li>
           </ul>
     </div>
     </section>
