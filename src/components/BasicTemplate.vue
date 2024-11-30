@@ -45,14 +45,15 @@ export default {
       }
     });
     const generatePDF = () => {
-      const resumeElement = resumeRef.value; 
+      const resumeElement = resumeRef.value;
+
       html2canvas(resumeElement, { scale: 2 }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("p", "mm", "a4");
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
         pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("Myresume.pdf");
+        pdf.save("MyResume.pdf");
       });
 
 

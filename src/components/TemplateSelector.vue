@@ -245,15 +245,10 @@ export default {
 
         // route to homepage
         Router.push({ name: 'HomePage' });
-<<<<<<< HEAD
     },
     
-=======
-    }
-    ,
->>>>>>> 45e24c15d12aff32faf47aca8dda2d3d0559ce62
     generatePDF() {
-      if (this.selectedTemplate === 1 && this.$refs.basicTemplate) {
+      if (this.selectedTemplate === 1) {
         this.$refs.basicTemplate.generatePDF();
       } else if (this.selectedTemplate === 2 && this.$refs.modernTemplate) {
         this.$refs.modernTemplate.generatePDF();
