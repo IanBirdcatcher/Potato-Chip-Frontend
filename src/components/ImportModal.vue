@@ -19,8 +19,7 @@ const props = defineProps({
 const List = ref(null)
 const user = Utils.getStore("user");
 const Selected = ref([])
-const isActive = ref(false)
-try{
+
 eval(`${props.dataType}sService.getAllForUser(${user.userId})
     .then(response => {
             List.value = response.data;
@@ -28,14 +27,9 @@ eval(`${props.dataType}sService.getAllForUser(${user.userId})
           .catch(error => {
             console.log("Error fetching resumes:", error);
           });
-    `)
-    isActive.value = true
-}
-catch{
-    console.log("No existing data")
-}
-const dialog = ref(false)
+`)
 
+const dialog = ref(false)
 
 function pushToParent() {
     dialog.value = false
@@ -45,7 +39,7 @@ function pushToParent() {
 
 </script>
 <template>
-    <v-btn @click="dialog = true" density="compact" :style="{ display: isActive ? 'block' : 'none' }">
+    <v-btn @click="dialog = true" density="compact" :style="{ display: List ? 'block' : 'none' }">
         Import
     </v-btn>
     <v-dialog v-model="dialog" width="auto" height="auto">

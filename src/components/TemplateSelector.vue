@@ -245,8 +245,13 @@ export default {
 
         // route to homepage
         Router.push({ name: 'HomePage' });
+<<<<<<< HEAD
     },
     
+=======
+    }
+    ,
+>>>>>>> 45e24c15d12aff32faf47aca8dda2d3d0559ce62
     generatePDF() {
       if (this.selectedTemplate === 1 && this.$refs.basicTemplate) {
         this.$refs.basicTemplate.generatePDF();
