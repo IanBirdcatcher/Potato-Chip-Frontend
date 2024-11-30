@@ -169,6 +169,7 @@ onMounted(() => {
 });
 
 function mountUserData() {
+  console.log("Saving Data")
   componentSelected.value = storedResume.value.componentSelected
   Object.assign(Resume, storedResume.value.Resume)
   Object.assign(Person, storedResume.value.Person)
