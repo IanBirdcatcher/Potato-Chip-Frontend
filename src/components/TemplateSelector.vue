@@ -87,7 +87,7 @@ export default {
           {
             "resumeName": this.Resume.resumeName,
             "templateId": this.selectedTemplate,
-            "templateName": templateName,
+           // "templateName": templateName,
             "profSummary": this.Resume.profSummary,
             "jobTitle": this.Resume.jobTitle,
             "userId": userId
@@ -96,7 +96,6 @@ export default {
         .then((res) => {
           currResumeId = res.data.resumeId
         })
-
         // for all resume items, if item does not exist (i.e. has no id)
         // then create a new instance of that resumeItem,
         // else move on
@@ -121,8 +120,8 @@ export default {
         this.Award.forEach(award => {
           if (award.id == 0) {
             AwardService.createAward({
-              "awardName": award.AwardName,
-              "awardDesc": award.AwardDesc,
+              "awardName": award.awardName,
+              "awardDesc": award.awardDesc,
               "userId": userId
             })
             .then((res) => {
@@ -137,8 +136,8 @@ export default {
         // Implement after education component is fixed.
         // this.Education.forEach(education => {
         //   if (education.id == 0) {
-        //     let startDate = education.Date[0]
-        //     let endDate = education.Date[education.Date.length-1]
+        //     let startDate = education.dateRange[0]
+        //     let endDate = education.dateRange[education.dateRange.length-1]
         //     EducationService.createEducation({
         //       school: education.school,
         //       GPA: education.GPA,
@@ -160,12 +159,12 @@ export default {
 
         this.Experience.forEach(experience => {
           if (experience.id == 0) {
-            let startDate = experience.Date[0]
-            let endDate = experience.Date[experience.Date.length-1]
+            let startDate = experience.dateRange[0]
+            let endDate = experience.dateRange[experience.dateRange.length-1]
             ExperienceService.createExperience({
-              "organizationName": experience.Organization,
-              "jobTitle": experience.Title,
-              "jobDesc": experience.JobDescription,
+              "organizationName": experience.jobTitle,
+              "jobTitle": experience.jobTitle,
+              "jobDesc": experience.jobDesc,
               "startDate": startDate,
               "endDate": endDate,
               "userId": userId
@@ -182,8 +181,8 @@ export default {
         this.Interest.forEach(interest => {
             if (interest.id == 0) {
             InterestService.createInterest({
-              "interestName": interest.InterestName,
-              "interestDesc": interest.InterestDesc,
+              "interestName": interest.interestName,
+              "interestDesc": interest.interestDesc,
               "userId": userId
             })
             .then((res) => {
@@ -198,8 +197,8 @@ export default {
         this.Link.forEach(link => {
           if (link.id == 0) {
             LinkService.createLink({
-              "linkName": link.LinkName,
-              "link": link.LinkDesc,
+              "linkName": link.linkName,
+              "link": link.link,
               "userId": userId
             })
             .then((res) => {
@@ -214,8 +213,8 @@ export default {
         this.Project.forEach(project => {
           if (project.id == 0 ) {  
             ProjectService.createProject({
-              "projectName": project.ProjectName,
-              "projectDesc": project.ProjectDesc,
+              "projectName": project.projectName,
+              "projectDesc": project.projectDesc,
               "userId": userId
             })
             .then((res) => {
@@ -290,9 +289,6 @@ export default {
       <GothicTemplate v-show="selectedTemplate === 3" ref="gothicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
     
-        <v-btn color="#007BFF" class="float-left"> 
-        PDF
-        </v-btn>
         <v-btn color="#28a745" class="float-right"
             @click=save>
         Save
@@ -301,13 +297,6 @@ export default {
     <v-btn @click="generatePDF"
         style="float: left; background-color: #007BFF; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
       PDF
-    </v-btn>
-    
-    <v-spacer></v-spacer>
-
-    <v-btn 
-        style="float: right; background-color: #28a745; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
-      Save
     </v-btn>
 
   </v-card>

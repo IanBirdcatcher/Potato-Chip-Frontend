@@ -1,29 +1,36 @@
 <script setup>
+import ImportModal from "../components/ImportModal.vue"
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 // URL validation rule
 const validURL = (value) => {
-  const pattern = /^(https?:\/\/)?([^\s$.?#].[^\s]*)$/;
-  return pattern.test(value) || "Please enter a valid URL.";
+    const pattern = /^(https?:\/\/)?([^\s$.?#].[^\s]*)$/;
+    return pattern.test(value) || "Please enter a valid URL.";
 };
 </script>
 <template>
     <div>
         <v-form ref="LinkForm">
             <v-row align="center" justify="center">
-                <v-card class="mx-auto" width="440" height="600"
-                    :style="'overflow-y: scroll'">
+                <v-card class="mx-auto" width="440" height="600" :style="'overflow-y: scroll'">
                     <v-card-title style="text-align:center">
-                        <span class="text-h6">Link</span>
+                        <v-row>
+                        <v-col col="8">
+                            <span class="text-h6">Link</span>
+                        </v-col>
+                        <v-col cols="4">
+                            <ImportModal :dataType="'Link'" :keyName="'linkName'" @sendToParent="handleArrayChange" />
+                        </v-col>
+                    </v-row>
                     </v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
                         <v-row v-for="(item, index)  in Link" :key="index">
                             <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.LinkName" label="Link Name*"
+                                <v-text-field class="formField" v-model="item.linkName" label="Link Name*"
                                     :rules="[required('Link Name')]"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.Link" label="Link*"
+                                <v-text-field class="formField" v-model="item.link" label="Link*"
                                     :rules="[required('Link'), validURL]"></v-text-field>
                             </v-col>
 
@@ -71,6 +78,9 @@ const validURL = (value) => {
 
 <script>
 export default {
+    components: {
+        ImportModal
+    },
     props: {
         Link: {
             type: Object,
@@ -86,10 +96,21 @@ export default {
         },
         addNewLink() {
             this.Link.push({
-                id: 0,
-                LinkName: "",
-                LinkDesc: ""
+                linkId: 0,
+                userId: 0,
+                linkName: "",
+                link: "",
             })
+        },
+        handleArrayChange(data) {
+                for (let i = 0; i < this.Link.length; i++) {
+                    if (this.Link[i].linkId > 0) {
+                        this.Link.splice(i)
+                    }
+                }
+                for (let i in data) {
+                    this.Link.unshift(data[i])
+                }
         },
         removeLink(index) {
             this.Link.splice(index, 1);

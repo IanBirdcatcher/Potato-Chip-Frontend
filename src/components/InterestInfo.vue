@@ -1,25 +1,33 @@
 <script setup>
+import ImportModal from "../components/ImportModal.vue"
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 </script>
 <template>
     <div>
         <v-form ref="InterestForm">
             <v-row align="center" justify="center">
-                <v-card class="mx-auto" width="440" height="600"
-                    :style="'overflow-y: scroll'">
+                <v-card class="mx-auto" width="440" height="600" :style="'overflow-y: scroll'">
                     <v-card-title style="text-align:center">
-                        <span class="text-h6">Interest</span>
+                        <v-row >
+                        <v-col col="8">
+                            <span class="text-h6">Interest</span>
+                        </v-col>
+                        <v-col cols="4">
+                            <ImportModal :dataType="'Interest'" :keyName="'interestName'"
+                                @sendToParent="handleArrayChange" />
+                        </v-col>
+                    </v-row>
                     </v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
                         <v-row v-for="(item, index)  in Interest" :key="index">
                             <v-col cols="12">
-                                <v-text-field class="formField" v-model="item.InterestName" label="Interest Name*"
+                                <v-text-field class="formField" v-model="item.interestName" label="Interest Name*"
                                     :rules="[required('Interest Name')]"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea class="formField" v-model="item.InterestDesc" label="Interest Description*" 
-                                :rules="[required('Interest Description')]"></v-textarea>
+                                <v-textarea class="formField" v-model="item.interestDesc" label="Interest Description*"
+                                    :rules="[required('Interest Description')]"></v-textarea>
                             </v-col>
 
                             <div v-if="index > 0" class="mx-auto">
@@ -66,6 +74,9 @@ const required = (label) => (value) => !!value || `The ${label} field is require
 
 <script>
 export default {
+    components: {
+        ImportModal
+    },
     props: {
         Interest: {
             type: Object,
@@ -81,10 +92,21 @@ export default {
         },
         addNewInterest() {
             this.Interest.push({
-                id: 0,
-                InterestName: "",
-                InterestDesc: ""
+                interestId: 0,
+                userId: 0,
+                interestName: "",
+                interestDesc: "",
             })
+        },
+        handleArrayChange(data) {
+                for (let i = 0; i < this.Interest.length; i++) {
+                    if (this.Interest[i].educationId > 0) {
+                        this.Interest.splice(i)
+                    }
+                }
+                for (let i in data) {
+                    this.Interest.unshift(data[i])
+                }
         },
         removeInterest(index) {
             this.Interest.splice(index, 1);

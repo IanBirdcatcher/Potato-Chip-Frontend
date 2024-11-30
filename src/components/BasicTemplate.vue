@@ -53,7 +53,7 @@ export default {
       email,
       address,
       phoneNumber,
-      Link: props.Link.Link,
+      Link: props.Link.link,
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
@@ -109,8 +109,8 @@ export default {
         <h2>PROJECTS</h2>
         <div v-for="Project in Project" :key="Project.id">
           <p>
-            <strong>{{ Project.ProjectName }}</strong><br />
-            {{ Project.ProjectDesc }} <br />
+            <strong>{{ Project.projectName }}</strong><br />
+            {{ Project.projectDesc }} <br />
 
           </p>
         </div>
@@ -120,8 +120,8 @@ export default {
       <section id="experience">
         <h2>PROFESSIONAL EXPERIENCE</h2>
         <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
-          <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
-          <p>{{ Experience.JobDescription }}</p>
+          <h3>{{ Experience.jobTitle }}, {{ Experience.Title }}</h3>
+          <p>{{ Experience.jobDesc }}</p>
         </div>
       </section>
 
@@ -137,7 +137,7 @@ export default {
         <div>
           <h3 class="skillsAndAwards">Awards:</h3>
           <ul>
-            <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
+            <li v-for="award in Award" :key="award.id">{{ award.awardName }}</li>
           </ul>
         </div>
       </section>

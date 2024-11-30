@@ -1,6 +1,12 @@
 <script setup>
 import { defineProps, ref, defineEmits } from 'vue';
-import EducationsService from '../services/educationServices';
+import EducationService from '../services/educationServices';
+import InterestService from '../services/interestServices';
+import ExperienceService from '../services/experienceServices';
+import AwardService from '../services/awardServices';
+import ProjectService from '../services/projectServices';
+import LinkService from '../services/linkServices';
+
 import Utils from "../config/utils.js";
 
 const emit = defineEmits(['sendToParent']);
@@ -20,7 +26,7 @@ const List = ref(null)
 const user = Utils.getStore("user");
 const Selected = ref([])
 
-eval(`${props.dataType}sService.getAllForUser(${user.userId})
+eval(`${props.dataType}Service.getAllForUser(${user.userId})
     .then(response => {
             List.value = response.data;
           })
@@ -50,7 +56,7 @@ function pushToParent() {
             <v-divider></v-divider>
             <v-card-text>
                 <v-select :items="List" label="Select as many as you would like" v-model="Selected"
-                    :item-title="props.keyName" multiple return-object chips clearable style="height: 100%;"
+                :item-value=" props.dataType.toLocaleLowerCase()+'id'" :item-title="props.keyName" multiple return-object chips clearable style="height: 100%;"
                     variant="solo">
                 </v-select>
             </v-card-text>

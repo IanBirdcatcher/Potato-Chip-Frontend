@@ -4,26 +4,26 @@
             <v-row align="center" justify="center">
                 <v-card class="mx-auto" width="440" height="600" :style="'overflow-y: scroll'">
                     <v-card-title style="text-align:center">
-                        <span class="text-h6">Project</span>
+                        <v-row>
+                            <v-col col="8">
+                                <span class="text-h6">Project</span>
+                            </v-col>
+                            <v-col cols="4">
+                                <ImportModal :dataType="'Project'" :keyName="'projectName'"
+                                    @sendToParent="handleArrayChange" />
+                            </v-col>
+                        </v-row>
                     </v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
                         <v-row v-for="(item, index) in Project" :key="index">
                             <v-col cols="12">
-                                <v-text-field
-                                    class="formField"
-                                    v-model="item.ProjectName"
-                                    label="Project Name*"
-                                    :rules="[required('Project Name')]"
-                                ></v-text-field>
+                                <v-text-field class="formField" v-model="item.projectName" label="Project Name*"
+                                    :rules="[required('Project Name')]"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea
-                                    class="formField"
-                                    v-model="item.ProjectDesc"
-                                    label="Project Description*"
-                                    :rules="[required('Project Description')]"
-                                ></v-textarea>
+                                <v-textarea class="formField" v-model="item.projectDesc" label="Project Description*"
+                                    :rules="[required('Project Description')]"></v-textarea>
                             </v-col>
 
                             <div v-if="index > 0" class="mx-auto">
@@ -69,10 +69,14 @@
 </template>
 
 <script>
+import ImportModal from "../components/ImportModal.vue"
 export default {
+    components: {
+        ImportModal
+    },
     props: {
         Project: {
-            type: Object, 
+            type: Object,
         },
     },
     methods: {
@@ -82,16 +86,27 @@ export default {
         async submitForm() {
             const { valid } = await this.$refs.ProjectForm.validate();
             if (valid) {
-                // Insert backend logic here
                 this.$emit('getNext');
             }
         },
         addNewProject() {
             this.Project.push({
-                id: 0,
-                ProjectName: "",
-                ProjectDesc: ""
+                projectId: 0,
+                userId: 0,
+                projectName: "",
+                projectDesc: "",
+                projectDate: ""
             });
+        },
+        handleArrayChange(data) {
+            for (let i = 0; i < this.Project.length; i++) {
+                if (this.Project[i].educationId > 0) {
+                    this.Project.splice(i)
+                }
+            }
+            for (let i in data) {
+                this.Project.unshift(data[i])
+            }
         },
         removeProject(index) {
             this.Project.splice(index, 1);
@@ -109,6 +124,6 @@ export default {
 
 <style scoped>
 .formField {
-    margin-bottom: 16px; 
+    margin-bottom: 16px;
 }
 </style>

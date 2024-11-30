@@ -1,4 +1,5 @@
 <script setup>
+import ImportModal from "../components/ImportModal.vue"
 import { VDateInput } from 'vuetify/labs/VDateInput'
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
 </script>
@@ -6,29 +7,32 @@ const required = (label) => (value) => !!value || `The ${label} field is require
     <div>
         <v-form ref="ExperienceForm">
             <v-row align="center" justify="center">
-                <v-card class="mx-auto" width="440" height="600"
-                    :style="'overflow-y: scroll'">
+                <v-card class="mx-auto" width="440" height="600" :style="'overflow-y: scroll'">
                     <v-card-title style="text-align:center">
-                        <span class="text-h6">Experience</span>
+                        <v-row>
+                            <v-col cols="8">
+                                <span class="text-h6">Experience</span>
+                            </v-col>
+                            <v-col cols="4">
+                                <ImportModal :dataType="'Experience'" :keyName="'jobTitle'"
+                                    @sendToParent="handleArrayChange" />
+                            </v-col>
+                        </v-row>
                     </v-card-title>
                     <v-divider class="mx-4"></v-divider>
                     <v-card-text>
                         <v-row v-for="(item, index)  in Experience" :key="index">
-                            <v-col cols="6">
-                                <v-text-field class="formField" v-model="item.Organization" label="Organization Name*"
-                                    :rules="[required('Organization Name')]"></v-text-field>
-                            </v-col>
-                            <v-col cols="6">
-                                <v-text-field class="formField" v-model="item.Title" label="Job Title*" 
-                                :rules="[required('Job Title')]"></v-text-field>
+                            <v-col cols="12">
+                                <v-text-field class="formField" v-model="item.jobTitle" label="Job Title*"
+                                    :rules="[required('Job Title')]" density="compact"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea class="formField" v-model="item.JobDescription" label="Job Description*" 
-                                :rules="[required('Job Description')]"></v-textarea>
+                                <v-textarea class="formField" v-model="item.jobDesc" label="Job Description*"
+                                    :rules="[required('Job Description')]" density="compact"></v-textarea>
                             </v-col>
                             <v-col cols="12">
-                                <v-date-input class="formField" v-model="item.Date" label="Start and End Date*"
-                                    multiple="range" :rules="[required('Start and End Date')]"></v-date-input>
+                                <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date"
+                                    multiple="range" density="compact"></v-date-input>
                             </v-col>
 
                             <div v-if="index > 0" class="mx-auto">
@@ -75,6 +79,9 @@ const required = (label) => (value) => !!value || `The ${label} field is require
 
 <script>
 export default {
+    components: {
+        ImportModal
+    },
     props: {
         Experience: {
             type: Object,
@@ -90,12 +97,22 @@ export default {
         },
         addNewExperience() {
             this.Experience.push({
-                id: 0,
-                Organization: "",
-                Title: "",
-                JobDescription: "",
-                Date: null
+                experienceId: 0,
+                userId: 0,
+                jobTitle: "",
+                jobDesc: "",
+                dateRange: null
             })
+        },
+        handleArrayChange(data) {
+            for (let i = 0; i < this.Experience.length; i++) {
+                if (this.Experience[i].educationId > 0) {
+                    this.Experience.splice(i)
+                }
+            }
+            for (let i in data) {
+                this.Experience.unshift(data[i])
+            }
         },
         removeExperience(index) {
             this.Experience.splice(index, 1);

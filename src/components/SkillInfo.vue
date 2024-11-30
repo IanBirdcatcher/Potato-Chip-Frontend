@@ -78,7 +78,7 @@ onMounted(() => {
                         <v-spacer></v-spacer>
                         <div>
                             <v-btn @click="submitForm" style="float:right">
-                                <v-icon icon="mdi-chevron-right" style="font-size: 30px;"></v-icon>
+                                <v-icon text="Finished" style="font-size: 30px;">Finish</v-icon>
                             </v-btn>
                         </div>
                     </v-card-actions>
