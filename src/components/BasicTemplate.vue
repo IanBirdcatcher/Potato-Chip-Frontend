@@ -131,7 +131,7 @@ export default {
         <div>
           <h3 class="skillsAndAwards">Skills:</h3>
           <ul>
-            <li v-for="skill in Skill" >{{ skill.slill }}</li>
+            <li v-for="skill in Skill" >{{ skill.skill }}</li>
           </ul>
         </div>
         <div>
