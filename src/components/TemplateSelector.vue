@@ -133,42 +133,21 @@ export default {
           }
         });
 
-        // Implement after education component is fixed.
-        // this.Education.forEach(education => {
-        //   if (education.id == 0) {
-        //     let startDate = education.dateRange[0]
-        //     let endDate = education.dateRange[education.dateRange.length-1]
-        //     EducationService.createEducation({
-        //       school: education.school,
-        //       GPA: education.GPA,
-        //       major: education.major,
-        //       degree: education.degree,
-        //       startDate: startDate,
-        //       endDate: endDate,
-        //       userId: userId
-        //     })
-        //      .then => ((res) {
-        //        EducationResumeService.createEducationResume({
-        //      "resumeId": currResumeId, 
-        //      "educationId": res.data.educationId
-        //      })
 
-        //    })
-        //   }
-        // });
-
+        this.Education.forEach(education => {
+          if (education.id == 0) {
+            EducationService.createEducation( education )
+             .then((res) => {
+               EducationResumeService.createEducationResume({
+             "resumeId": currResumeId, 
+             "educationId": res.data.educationId
+             })
+           })
+          }
+        });
         this.Experience.forEach(experience => {
           if (experience.id == 0) {
-            let startDate = experience.dateRange[0]
-            let endDate = experience.dateRange[experience.dateRange.length-1]
-            ExperienceService.createExperience({
-              "organizationName": experience.jobTitle,
-              "jobTitle": experience.jobTitle,
-              "jobDesc": experience.jobDesc,
-              "startDate": startDate,
-              "endDate": endDate,
-              "userId": userId
-            })
+            ExperienceService.createExperience(experience)
             .then((res) => {
               ExperienceResumeService.createExperienceResume({
                 "resumeId": currResumeId, 
