@@ -20,14 +20,15 @@ const List = ref(null)
 const user = Utils.getStore("user");
 const Selected = ref([])
 
-eval(`${props.dataType}sService.getAll${props.dataType}(${user.userId})
+eval(`${props.dataType}sService.getAllForUser(${user.userId})
     .then(response => {
             List.value = response.data;
           })
           .catch(error => {
             console.log("Error fetching resumes:", error);
           });
-    `)
+`)
+
 const dialog = ref(false)
 
 function pushToParent() {
@@ -38,7 +39,7 @@ function pushToParent() {
 
 </script>
 <template>
-    <v-btn @click="dialog = true" density="compact">
+    <v-btn @click="dialog = true" density="compact" :style="{ display: List ? 'block' : 'none' }">
         Import
     </v-btn>
     <v-dialog v-model="dialog" width="auto" height="auto">
