@@ -168,6 +168,11 @@ export default {
                 this.Experience.splice(0, len)
             }
             for (let i in data) {
+                if(data[i].dateRange){
+                    data[i].dateRange.forEach((element, index) => {
+                        data[i].dateRange[index] = new Date(element);
+                    });
+                }
                 this.Experience.unshift(data[i])
             }
         },

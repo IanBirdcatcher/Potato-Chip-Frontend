@@ -63,7 +63,7 @@ const modalEditIndex = ref(0)
                                         <p>GPA: {{ item.GPA }}</p>
                                     </v-row>
                                     <v-row v-if="item.dateRange">
-                                        <p>Start and End Date:{{ new Date(item.dateRange[0]).toLocaleDateString() + " - " + new Date(item.dateRange[item.dateRange.length -1]).toLocaleDateString()}}</p>
+                                        <p>Start and End Date:{{ new Date(item.dateRange[0]).toLocaleDateString() + " -" + new Date(item.dateRange[item.dateRange.length-1]).toLocaleDateString()}}</p>
                                     </v-row>
                                 </v-col>
                                 <v-col cols="2">
@@ -203,6 +203,11 @@ export default {
                 this.Education.splice(0, len)
             }
             for (let i in data) {
+                if(data[i].dateRange){
+                    data[i].dateRange.forEach((element, index) => {
+                        data[i].dateRange[index] = new Date(element);
+                    });
+                }
                 this.Education.unshift(data[i])
             }
         },
