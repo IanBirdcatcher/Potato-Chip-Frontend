@@ -55,7 +55,7 @@
   <script>
   import Utils from "../config/utils.js";
   import userServices from "../services/userServices.js";
-  import resumeServices from "../services/resumesServices.js";
+  import resumeServices from "../services/resumeServices.js";
   //Test Data 
   const testUsers = [
     {
