@@ -43,6 +43,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    {{ Skill }}
   </v-container>
 </template>
 

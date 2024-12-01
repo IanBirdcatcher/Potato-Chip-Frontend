@@ -99,7 +99,7 @@ export default {
         <div v-for="Education in Education" :key="Education.id">
           <p>
             <strong>{{ Education.school }}</strong><br />
-            {{ Education.degree }} : {{ Education.major }} <br/>
+            {{ Education.degree }} {{ Education.major }} <br/>
             GPA: {{ Education.GPA }}
           </p>
         </div>
@@ -124,14 +124,14 @@ export default {
           <p>{{ Experience.jobDesc }}</p>
         </div>
       </section>
-
+<div></div>
       <!-- Skills and Awards Section -->
       <section id="skills-awards">
         <h2>SKILLS & AWARDS</h2>
         <div>
           <h3 class="skillsAndAwards">Skills:</h3>
           <ul>
-            <li v-for="skill in Skill" :key="skill.id">{{ skill.Name }}</li>
+            <li v-for="skill in Skill" >{{ skill.slill }}</li>
           </ul>
         </div>
         <div>
