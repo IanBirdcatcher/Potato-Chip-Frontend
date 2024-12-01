@@ -49,10 +49,11 @@ onUnmounted(() => {
         }
         props.Skill.push(selected.value[i])
     }
- 
 });
 onMounted(() => {
-    selected.value = props.Skill
+    for(let i in props.Skill){
+        selected.value.push(props.Skill[i])
+    }
 });
 
 </script>
@@ -99,5 +100,6 @@ onMounted(() => {
                 </v-card>
             </v-row>
         </v-form>
+       
     </div>
 </template>

@@ -14,7 +14,7 @@ export default {
     Link: { type: Object, required: true },
     Project: { type: Array, required: true },
     Award: { type: Array, required: true },
-    Skill: { type: Array, required: true },
+    Skill: { type: Object, required: true },
     Resume: { type: Array, required: true }
   },
   setup(props) {
@@ -57,7 +57,7 @@ export default {
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
-      Skill: props.Skill.value,
+      Skill: props.Skill,
       Projects: props.Project,
       resumeRef,
       generatePDF,
@@ -143,10 +143,8 @@ export default {
       </section>
     </div>
   </body>
-
   </html>
 </template>
-
 <style>
 .body {
   font-family: 'Times New Roman', Times, serif;

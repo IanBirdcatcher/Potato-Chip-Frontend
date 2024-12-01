@@ -43,7 +43,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    {{ Skill }}
   </v-container>
 </template>
 
@@ -86,7 +85,7 @@ const Education = reactive([
     educationId: 0,
     userId: 0,
     school: "",
-    GPA: 0,
+    GPA: null,
     degree: "",
     major: "",
     dateRange: null
