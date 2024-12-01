@@ -4,6 +4,8 @@ import EducationService from '../services/educationServices';
 import { ref } from 'vue';
 import { VDateInput } from 'vuetify/labs/VDateInput'
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
+
+const dialog = ref(false)
 const modalEditIndex = ref(0)
 
 </script>
@@ -44,7 +46,7 @@ const modalEditIndex = ref(0)
                                         density="compact"></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date"
+                                    <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date*"
                                         multiple="range" density="compact"></v-date-input>
                                 </v-col>
                             </slot>
@@ -153,7 +155,6 @@ const modalEditIndex = ref(0)
 </template>
 
 <script>
-const dialog = ref(false)
 export default {
     components: {
         ImportModal
@@ -178,7 +179,7 @@ export default {
                 GPA: 0,
                 degree: "",
                 major: "",
-                dateRange: null
+                dateRange: ""
             })
         },
         removeEducation(index) {
