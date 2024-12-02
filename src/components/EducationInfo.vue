@@ -179,7 +179,7 @@ export default {
                 GPA: 0,
                 degree: "",
                 major: "",
-                dateRange: ""
+                dateRange: []
             })
         },
         removeEducation(index) {
