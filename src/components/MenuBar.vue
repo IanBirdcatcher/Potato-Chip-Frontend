@@ -49,6 +49,8 @@ onMounted(() => {
   logoURL.value = ocLogo;
   resetMenu();
 });
+
+}
 </script>
 
 <template>
