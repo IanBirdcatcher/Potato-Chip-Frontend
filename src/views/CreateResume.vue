@@ -88,7 +88,7 @@ const Education = reactive([
     GPA: null,
     degree: "",
     major: "",
-    dateRange: null
+    dateRange: []
   },
 ]);
 const Interest = reactive([
@@ -105,7 +105,7 @@ const Experience = reactive([
     userId: 0,
     jobTitle: "",
     jobDesc: "",
-    dateRange: null
+    dateRange: []
   },
 ]);
 const Link = reactive([
