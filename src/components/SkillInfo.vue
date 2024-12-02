@@ -1,18 +1,25 @@
 <script setup>
 import { ref, defineProps ,  onMounted , onUnmounted , defineEmits } from 'vue';
+import SkillService from '../services/skillServices';
+import Utils from "../config/utils.js";
+
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
+
+const user = Utils.getStore("user");
 
 const emit = defineEmits(['getNext', 'getPrevious'])
 
 const SkillForm = ref(null);
 
-const skillList = ref([
-    { id: 1, skill: 'JavaScript' },
-    { id: 2, skill: 'Python' },
-    { id: 3, skill: 'Ruby' },
-    { id: 4, skill: 'Java' },
-    { id: 5, skill: 'Go' }
-]);
+const skillList = ref([]);
+
+SkillService.getAllForUser()
+    .then(response => {
+        skillList.value = response.data;
+          })
+          .catch(error => {
+            console.log("Error fetching resumes:", error);
+          });
 
 const props = defineProps({
     Skill: {
@@ -35,10 +42,18 @@ function skip() {
     emit('getNext')
 }
 onUnmounted(() => {
-    Object.assign(props.Skill, selected.value)
+    props.Skill.splice(0,props.Skill.length)
+    for (let i in selected.value) {
+        if (selected.value[i].skillId === undefined ) {
+            selected.value[i] = { skillId: 0, skill: selected.value[i] }
+        }
+        props.Skill.push(selected.value[i])
+    }
 });
 onMounted(() => {
-    selected.value = props.Skill
+    for(let i in props.Skill){
+        selected.value.push(props.Skill[i])
+    }
 });
 
 </script>
@@ -78,12 +93,13 @@ onMounted(() => {
                         <v-spacer></v-spacer>
                         <div>
                             <v-btn @click="submitForm" style="float:right">
-                                <v-icon icon="mdi-chevron-right" style="font-size: 30px;"></v-icon>
+                                Finish
                             </v-btn>
                         </div>
                     </v-card-actions>
                 </v-card>
             </v-row>
         </v-form>
+       
     </div>
 </template>

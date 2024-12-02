@@ -1,10 +1,11 @@
 <script setup>
 import ImportModal from "../components/ImportModal.vue"
-import EducationsService from '../services/educationServices';
+import EducationService from '../services/educationServices';
 import { ref } from 'vue';
-
 import { VDateInput } from 'vuetify/labs/VDateInput'
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
+
+const dialog = ref(false)
 const modalEditIndex = ref(0)
 
 </script>
@@ -45,14 +46,9 @@ const modalEditIndex = ref(0)
                                         density="compact"></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date"
+                                    <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date*"
                                         multiple="range" density="compact"></v-date-input>
                                 </v-col>
-                                <div v-if="Education.length > 1" class="mx-auto">
-                                    <v-btn @click="removeEducation(index)" style="float:left">
-                                        <v-icon icon="mdi-minus" style="font-size: 20px;"></v-icon>
-                                    </v-btn>
-                                </div>
                             </slot>
                             <Slot v-else>
                                 <v-col cols="10">
@@ -69,7 +65,7 @@ const modalEditIndex = ref(0)
                                         <p>GPA: {{ item.GPA }}</p>
                                     </v-row>
                                     <v-row v-if="item.dateRange">
-                                        <p>Start and End Date:{{ new Date(item.dateRange[0]).toLocaleDateString() + " - " + new Date(item.dateRange[item.dateRange.length -1]).toLocaleDateString()}}</p>
+                                        <p>Start and End Date:{{ new Date(item.dateRange[0]).toLocaleDateString() + " -" + new Date(item.dateRange[item.dateRange.length-1]).toLocaleDateString()}}</p>
                                     </v-row>
                                 </v-col>
                                 <v-col cols="2">
@@ -79,6 +75,11 @@ const modalEditIndex = ref(0)
                                     </v-btn>
                                 </v-col>
                             </Slot>
+                            <div v-if="Education.length > 1" class="mx-auto">
+                                <v-btn @click="removeEducation(index)" style="float:left" class="my-2">
+                                    <v-icon icon="mdi-minus" style="font-size: 20px;"></v-icon>
+                                </v-btn>
+                            </div>
                             <v-divider class="my-1"></v-divider>
                         </v-row>
                         <v-row>
@@ -114,48 +115,46 @@ const modalEditIndex = ref(0)
         </v-form>
     </div>
     <v-form ref="modalForm">
-    <v-dialog v-model="dialog" width="auto" height="auto">
-        <v-card width="500" max-height="600" class="my-auto">
-            <v-card-title style="text-align:center">
-            This Could Change Existing Resumes Using This
-            </v-card-title>
-            <v-divider class='my-5'></v-divider>
-            <v-card-text>
-                <v-row>
-                    <v-col cols="12">
-                        <v-text-field class="formField" v-model="Education[modalEditIndex].school" label="School Name"
-                            :rules="[required('School Name')]" density="compact"></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-text-field class="formField" v-model="Education[modalEditIndex].degree" label="Degree"
-                            density="compact"></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-text-field class="formField" v-model="Education[modalEditIndex].major" label="Major"
-                            density="compact"></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-text-field class="formField" v-model="Education[modalEditIndex].GPA" label="GPA"
-                            density="compact"></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-date-input class="formField" v-model="Education[modalEditIndex].dateRange"
-                            label="Start and End Date*" multiple="range" density="compact"></v-date-input>
-                    </v-col>
-                </v-row>
-            </v-card-text>
-            <v-divider class="mx-4"></v-divider>
-            <template v-slot:actions>
-                <v-btn class="ms-auto" text="Save"
-                    @click="saveEducation(Education[modalEditIndex])"></v-btn>
-            </template>
-        </v-card>
-    </v-dialog>
-</v-form>
+        <v-dialog v-model="dialog" width="auto" height="auto">
+            <v-card width="500" max-height="600" class="my-auto">
+                <v-card-title style="text-align:center">
+                    This Will Change Existing Resumes Using This
+                </v-card-title>
+                <v-divider class='my-5'></v-divider>
+                <v-card-text>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-text-field class="formField" v-model="Education[modalEditIndex].school"
+                                label="School Name" :rules="[required('School Name')]" density="compact"></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field class="formField" v-model="Education[modalEditIndex].degree" label="Degree"
+                                density="compact"></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field class="formField" v-model="Education[modalEditIndex].major" label="Major"
+                                density="compact"></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field class="formField" v-model="Education[modalEditIndex].GPA" label="GPA"
+                                density="compact"></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-date-input class="formField" v-model="Education[modalEditIndex].dateRange"
+                                label="Start and End Date*" multiple="range" density="compact"></v-date-input>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+                <template v-slot:actions>
+                    <v-btn class="ms-auto" text="Save" @click="saveEducation(Education[modalEditIndex])"></v-btn>
+                </template>
+            </v-card>
+        </v-dialog>
+    </v-form>
 </template>
 
 <script>
-const dialog = ref(false)
 export default {
     components: {
         ImportModal
@@ -180,7 +179,7 @@ export default {
                 GPA: 0,
                 degree: "",
                 major: "",
-                dateRange: null
+                dateRange: ""
             })
         },
         removeEducation(index) {
@@ -195,22 +194,31 @@ export default {
             console.log(this.Education)
         },
         handleArrayChange(data) {
-                for (let i = 0; i < this.Education.length; i++) {
-                    if (this.Education[i].educationId > 0) {
-                        this.Education.splice(i)
-                    }
+            let len = 0
+            for (let i = 0; i < this.Education.length; i++) {
+                if (this.Education[i].educationId > 0) {
+                    len++
                 }
-                for (let i in data) {
-                    this.Education.unshift(data[i])
+            }
+            if (len > 0) {
+                this.Education.splice(0, len)
+            }
+            for (let i in data) {
+                if(data[i].dateRange){
+                    data[i].dateRange.forEach((element, index) => {
+                        data[i].dateRange[index] = new Date(element);
+                    });
                 }
+                this.Education.unshift(data[i])
+            }
         },
         async saveEducation(item) {
             const { valid } = await this.$refs.modalForm.validate();
             if (valid) {
                 dialog.value = false
-                EducationsService.updateEducation(item.educationId, item)
+                EducationService.updateEducation(item.educationId, item)
             }
-            
+
         }
     }
 }
