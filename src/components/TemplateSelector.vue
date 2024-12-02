@@ -279,7 +279,7 @@ export default {
     },
 
     generatePDF() {
-      if (this.selectedTemplate === 1 && this.$refs.basicTemplate) {
+      if (this.selectedTemplate === 1) {
         this.$refs.basicTemplate.generatePDF();
       } else if (this.selectedTemplate === 2 && this.$refs.modernTemplate) {
         this.$refs.modernTemplate.generatePDF();
@@ -316,7 +316,7 @@ export default {
     </v-card-actions>
     <v-divider class="mx-4"></v-divider>
     <div>
-      <BasicTemplate v-show="selectedTemplate === 1" ref="basicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project":Award="Award" :Skill="Skill" />
+      <BasicTemplate v-show="selectedTemplate === 1" ref="basicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest"   :Link="Link" :Project="Project":Award="Award" :Skill="Skill" />
       <ModernTemplate v-show="selectedTemplate === 2" ref="modernTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
       <GothicTemplate v-show="selectedTemplate === 3" ref="gothicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
