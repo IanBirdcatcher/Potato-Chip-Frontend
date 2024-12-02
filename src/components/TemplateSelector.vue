@@ -87,7 +87,7 @@ export default {
           {
             "resumeName": this.Resume.resumeName,
             "templateId": this.selectedTemplate,
-            "templateName": templateName,
+           // "templateName": templateName,
             "profSummary": this.Resume.profSummary,
             "jobTitle": this.Resume.jobTitle,
             "userId": userId
@@ -96,11 +96,10 @@ export default {
         .then((res) => {
           currResumeId = res.data.resumeId
         })
-
         // for all resume items, if item does not exist (i.e. has no id)
         // then create a new instance of that resumeItem,
         // else move on
-        if (this.ContactInfo.id == 0) {
+        if (this.ContactInfo.contactInfoId == 0) {
           ContactInfoService.createContactInfo(
             {
               "email": this.ContactInfo.Email,
@@ -111,21 +110,22 @@ export default {
           .then((res) => {
             ContactInfoResumeService.createContactInfoResume({
               "resumeId": currResumeId, 
-              "contactInfoId": res.data.data.contactInfoId
+              "contactInfoId": res.data.contactInfoId
             })
           })
-        } else {
+         }else { 
+          console.log("else")
             ContactInfoResumeService.createContactInfoResume({
                 "resumeId": currResumeId, 
                 "contactInfoId": contactInfo.contactInfoId
              })
-           }
+          }
         
         this.Award.forEach(award => {
-          if (award.id == 0) {
+          if (award.awardId == 0) {
             AwardService.createAward({
-              "awardName": award.AwardName,
-              "awardDesc": award.AwardDesc,
+              "awardName": award.awardName,
+              "awardDesc": award.awardDesc,
               "userId": userId
             })
             .then((res) => {
@@ -169,11 +169,10 @@ export default {
         });
 
         this.Experience.forEach(experience => {
-          if (experience.id == 0) {
+          if (experience.experienceId == 0) {
             ExperienceService.createExperience({
-              "organizationName": experience.Organization,
-              "jobTitle": experience.Title,
-              "jobDesc": experience.JobDescription,
+              "jobTitle": experience.jobTitle,
+              "jobDesc": experience.jobDesc,
               "dateRange": experience.dateRange,
               "userId": userId
             })
@@ -192,10 +191,10 @@ export default {
         });
 
         this.Interest.forEach(interest => {
-            if (interest.id == 0) {
+            if (interest.interestId == 0) {
             InterestService.createInterest({
-              "interestName": interest.InterestName,
-              "interestDesc": interest.InterestDesc,
+              "interestName": interest.interestName,
+              "interestDesc": interest.interestDesc,
               "userId": userId
             })
             .then((res) => {
@@ -213,10 +212,10 @@ export default {
         });
 
         this.Link.forEach(link => {
-          if (link.id == 0) {
+          if (link.linkId == 0) {
             LinkService.createLink({
-              "linkName": link.LinkName,
-              "link": link.LinkDesc,
+              "linkName": link.linkName,
+              "link": link.link,
               "userId": userId
             })
             .then((res) => {
@@ -234,10 +233,10 @@ export default {
         });
 
         this.Project.forEach(project => {
-          if (project.id == 0 ) {  
+          if (project.projectId == 0 ) {  
             ProjectService.createProject({
-              "projectName": project.ProjectName,
-              "projectDesc": project.ProjectDesc,
+              "projectName": project.projectName,
+              "projectDesc": project.projectDesc,
               "userId": userId
             })
             .then((res) => {
@@ -255,9 +254,9 @@ export default {
         });
 
         this.Skill.forEach(skill => {
-          if (skill.id == 0) {  
+          if (skill.skillId == 0) {  
             SkillService.createSkill({
-              "skill": skill.Skill,
+              "skill": skill.skill,
               "userId": userId
             })
             .then((res) => {

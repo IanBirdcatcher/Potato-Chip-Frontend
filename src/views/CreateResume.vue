@@ -62,27 +62,30 @@ import { reactive, ref, onUnmounted, onMounted } from "vue";
 
 const Resume = reactive({
   id: 0,
+  userId: 0,
   resumeName: '',
   jobTitle: '',
   profSummary: ''
 });
 const Person = reactive({
   id: 0,
+  userId: 0,
   fName: "",
   lName: "",
 });
 const ContactInfo = reactive({
-  id: 0,
-  Email: "",
-  PhoneNumber: "",
-  Address: "",
+  contactInfoId: 0,
+  userId: 0,
+  email: "",
+  phone: "",
+  address: "",
 });
 const Education = reactive([
   {
     educationId: 0,
     userId: 0,
     school: "",
-    GPA: 0,
+    GPA: null,
     degree: "",
     major: "",
     dateRange: null
@@ -90,39 +93,45 @@ const Education = reactive([
 ]);
 const Interest = reactive([
   {
-    id: 0,
-    InterestName: "",
-    InterestDesc: "",
+    interestId: 0,
+    userId: 0,
+    interestName: "",
+    interestDesc: "",
   },
 ]);
 const Experience = reactive([
   {
-    id: 0,
-    Organization: "",
-    Title: "",
-    JobDescription: "",
-    Date: null,
+    experienceId: 0,
+    userId: 0,
+    jobTitle: "",
+    jobDesc: "",
+    dateRange: null
   },
 ]);
 const Link = reactive([
   {
-    id: 0,
-    LinkName: "",
-    LinkDesc: "",
+    linkId: 0,
+    userId: 0,
+    linkName: "",
+    link: "",
   },
 ]);
 const Award = reactive([
   {
-    id: 0,
-    AwardName: "",
-    AwardDesc: "",
+    awardId: 0,
+    userId: 0,
+    awardName: "",
+    awardDesc: "",
+    awardDate: ""
   },
 ]);
 const Project = reactive([
   {
-    id: 0,
-    ProjectName: "",
-    ProjectDesc: "",
+    projectId: 0,
+    userId: 0,
+    projectName: "",
+    projectDesc: "",
+    projectDate: ""
   },
 ]);
 
@@ -160,6 +169,7 @@ onMounted(() => {
 });
 
 function mountUserData() {
+  console.log("Saving Data")
   componentSelected.value = storedResume.value.componentSelected
   Object.assign(Resume, storedResume.value.Resume)
   Object.assign(Person, storedResume.value.Person)

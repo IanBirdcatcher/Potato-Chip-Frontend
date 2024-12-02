@@ -14,7 +14,7 @@ export default {
     Link: { type: Object, required: true },
     Project: { type: Array, required: true },
     Award: { type: Array, required: true },
-    Skill: { type: Array, required: true },
+    Skill: { type: Object, required: true },
     Resume: { type: Array, required: true }
   },
   setup(props) {
@@ -53,11 +53,11 @@ export default {
       email,
       address,
       phoneNumber,
-      Link: props.Link.Link,
+      Link: props.Link.link,
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
-      Skill: props.Skill.value,
+      Skill: props.Skill,
       Projects: props.Project,
       resumeRef,
       generatePDF,
@@ -98,8 +98,8 @@ export default {
         <h2>EDUCATION</h2>
         <div v-for="Education in Education" :key="Education.id">
           <p>
-            <strong>{{ Education.SchoolName }}</strong><br />
-            {{ Education.Degree }} <br />
+            <strong>{{ Education.school }}</strong><br />
+            {{ Education.degree }} {{ Education.major }} <br/>
             GPA: {{ Education.GPA }}
           </p>
         </div>
@@ -109,8 +109,8 @@ export default {
         <h2>PROJECTS</h2>
         <div v-for="Project in Project" :key="Project.id">
           <p>
-            <strong>{{ Project.ProjectName }}</strong><br />
-            {{ Project.ProjectDesc }} <br />
+            <strong>{{ Project.projectName }}</strong><br />
+            {{ Project.projectDesc }} <br />
 
           </p>
         </div>
@@ -120,34 +120,31 @@ export default {
       <section id="experience">
         <h2>PROFESSIONAL EXPERIENCE</h2>
         <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
-          <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
-          <p>{{ Experience.JobDescription }}</p>
+          <h3>{{ Experience.jobTitle }}</h3>
+          <p>{{ Experience.jobDesc }}</p>
         </div>
       </section>
-
+<div></div>
       <!-- Skills and Awards Section -->
       <section id="skills-awards">
         <h2>SKILLS & AWARDS</h2>
         <div>
           <h3 class="skillsAndAwards">Skills:</h3>
           <ul>
-            <li v-for="skill in Skill" :key="skill.id">{{ skill.Name }}</li>
+            <li v-for="skill in Skill" >{{ skill.skill }}</li>
           </ul>
         </div>
         <div>
           <h3 class="skillsAndAwards">Awards:</h3>
           <ul>
-            <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
+            <li v-for="award in Award" :key="award.id">{{ award.awardName }}</li>
           </ul>
         </div>
       </section>
     </div>
   </body>
-
   </html>
 </template>
-
-
 <style>
 .body {
   font-family: 'Times New Roman', Times, serif;
