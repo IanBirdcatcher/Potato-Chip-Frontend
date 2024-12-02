@@ -290,19 +290,15 @@ export default {
       <GothicTemplate v-show="selectedTemplate === 3" ref="gothicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
     
-    
 
-    <v-btn @click="generatePDF"
-        style="float: left; background-color: #007BFF; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
-      PDF
-    </v-btn>
-    
-    <v-spacer></v-spacer>
-
-    <v-btn 
-        style="float: right; background-color: #28a745; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
-      Save
-    </v-btn>
+        <v-btn color="#007BFF" class="float-left"
+            @click="generatePDF"> 
+        PDF
+        </v-btn>
+        <v-btn color="#28a745" class="float-right"
+            @click=save>
+        Save
+        </v-btn>
 
   </v-card>
 </template>
