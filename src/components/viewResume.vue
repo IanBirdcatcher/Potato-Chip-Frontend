@@ -1,87 +1,100 @@
 <template>
-    <v-container fluid>
-      <v-row>
-        <v-col cols="12">
-          <v-toolbar flat color="#F7F6FE" dense>
-            <v-toolbar-title><b>Resume Preview</b></v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="closeView">
-              Back to List
-            </v-btn>
-          </v-toolbar>
-        </v-col>
-      </v-row>
-        <v-row>
-        <v-col cols="12">
-          <component
-            :is="getTemplateComponent(resume.templateName)":resume="resume"/>
-        </v-col>
-      </v-row>
-    </v-container>
-  </template>
-  
-  <script>
-  import BasicTemplate from '../components/BasicTemplate.vue';
-  import ModernTemplate from '../components/ModernTemplate.vue';
-  import GothicTemplate from '../components/GothicTemplate.vue';
-  
-  
-  export default {
-    props: {
-      resumeId: {
-        type: String,
-        required: true,
-      },
+  <v-container fluid>
+    <!-- Header Row with Comment -->
+    <v-row>
+      <v-col cols="12">
+        <v-card outlined>
+          <v-card-text>
+            <v-alert type="info" border="left" elevation="2">
+              {{ comment }}
+            </v-alert>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- Resume Preview Section -->
+    <v-row>
+      <v-col cols="12">
+        <!-- Hardcoded link for BasicTemplate -->
+        <a v-if="templateName === 1" :href="basicTemplateLink" target="_blank">
+          View Basic Template
+        </a>
+        <component v-else :is="getTemplateComponent(templateName)" />
+      </v-col>
+    </v-row>
+
+    <!-- Action Buttons -->
+    <v-row justify="space-between" class="mt-3">
+      <v-col cols="auto">
+        <v-btn color="primary" @click="generatePdf">
+          Generate PDF
+        </v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn color="secondary" @click="goToHomepage">
+          Back to Homepage
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import BasicTemplate from '../components/BasicTemplate.vue';
+import ModernTemplate from '../components/ModernTemplate.vue';
+import GothicTemplate from '../components/GothicTemplate.vue';
+
+export default {
+  props: {
+    templateName: {
+      type: [String, Number],
+      required: true,
     },
-    data() {
-      return {
-        resume: {
-          resumeName: '',
-          templateName: '',
-          jobTitle: '',
-          profile: '',
-          skills: [],
-          experience: [],
-          projects: [],
-          education: [],
-        },
-      };
+    comment: {
+      type: String,
+      default: 'This is a placeholder comment for the resume review.',
     },
-    mounted() {
-      this.fetchResume();
+  },
+  data() {
+    return {
+      // Hardcoded link for BasicTemplate
+      basicTemplateLink: 'https://example.com/basic-template', // Replace with your actual URL
+    };
+  },
+  methods: {
+    generatePdf() {
+      // Placeholder for PDF generation logic
+      console.log('PDF generation triggered');
     },
-    methods: {
-      fetchResume() {
-        // Replace with your service call
-        this.$http
-          .get(`/api/resumes/${this.resumeId}`)
-          .then((response) => {
-            this.resume = response.data;
-          })
-          .catch((error) => {
-            console.error('Error fetching resume:', error);
-          });
-      },
-      closeView() {
-        this.$emit('close');
-      },
-      getTemplateComponent(templateName) {
-        switch (templateName) {
-          case 'modern':
-            return ModernTemplate;
-          case 'gothic':
-            return GothicTemplate;
-          default:
-            return BasicTemplate;
-        }
-      },
+    goToHomepage() {
+      this.$router.push({ name: 'Homepage' }); // Assuming the homepage route is named 'Homepage'
     },
-  };
-  </script>
-  
-  <style scoped>
-  .v-toolbar-title {
-    font-size: 1.2rem;
-  }
-  </style>
-  
+    getTemplateComponent(templateName) {
+      switch (templateName) {
+        case '1':
+        case 1:
+          return BasicTemplate;
+        case '2':
+        case 2:
+          return ModernTemplate;
+        case '3':
+        case 3:
+          return GothicTemplate;
+        default:
+          return BasicTemplate; 
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+.v-alert {
+  font-size: 1rem;
+  padding: 16px;
+}
+.mt-3 {
+  margin-top: 16px;
+}
+</style>
