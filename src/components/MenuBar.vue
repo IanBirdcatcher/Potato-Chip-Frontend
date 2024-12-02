@@ -32,6 +32,17 @@ const switchToAdmin = () => {
 //Switch back to a user
 const switchToUser = () => {
   router.push({ name: "HomePage" }); 
+
+const logout = () => {
+  AuthServices.logoutUser(user.value)
+    .then((response) => {
+      console.log(response);
+      Utils.removeItem("user");
+      router.push({ name: "login" });  // Navigate to the login page after logout
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
 };
 
 onMounted(() => {

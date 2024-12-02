@@ -28,22 +28,22 @@
       <SkillInfo @getNext="getNext" :Skill="Skill" @getPrevious="getPrevious" />
     </div>
     <div v-if="componentSelected == 9">
-      <TemplateSelector :Resume="Resume" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience"
-        :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
+      <TemplateSelector :Resume="Resume" :ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill"/>
     </div>
     <v-dialog v-model="dialog" width="auto" height="300" persistent>
-        <v-card
-        title="It looks like you didn't finish a resume!"
+      <v-card title="It looks like you didn't finish a resume!"
         subtitle="Warning you will loose any new data you put in this resume">
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-                <v-btn class="ms-auto" text="Delete" @click="Utils.removeItem('resume') , dialog = false" color="red" variant="tonal" style="float:right"></v-btn>
-                <v-btn class="ms-auto" text="Continue" @click="mountUserData(), dialog = false" color="green" variant="tonal" style="float:right"></v-btn>
-            </v-card-actions>
-        </v-card>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="ms-auto" text="Delete" @click="Utils.removeItem('resume'), dialog = false" color="red"
+            variant="tonal" style="float:right"></v-btn>
+          <v-btn class="ms-auto" text="Continue" @click="mountUserData(), dialog = false" color="green" variant="tonal"
+            style="float:right"></v-btn>
+        </v-card-actions>
+      </v-card>
     </v-dialog>
-    </v-container>
+  </v-container>
 </template>
 
 <script setup>
@@ -62,64 +62,76 @@ import { reactive, ref, onUnmounted, onMounted } from "vue";
 
 const Resume = reactive({
   id: 0,
+  userId: 0,
   resumeName: '',
   jobTitle: '',
-  ProfSummary: ''
+  profSummary: ''
 });
 const Person = reactive({
   id: 0,
+  userId: 0,
   fName: "",
   lName: "",
 });
 const ContactInfo = reactive({
-  id: 0,
-  Email: "",
-  PhoneNumber: "",
-  Address: "",
+  contactInfoId: 0,
+  userId: 0,
+  email: "",
+  phone: "",
+  address: "",
 });
 const Education = reactive([
   {
-    id: 0,
-    SchoolName: "",
-    Degree: "",
-    GPA: 0,
+    educationId: 0,
+    userId: 0,
+    school: "",
+    GPA: null,
+    degree: "",
+    major: "",
+    dateRange: []
   },
 ]);
 const Interest = reactive([
   {
-    id: 0,
-    InterestName: "",
-    InterestDesc: "",
+    interestId: 0,
+    userId: 0,
+    interestName: "",
+    interestDesc: "",
   },
 ]);
 const Experience = reactive([
   {
-    id: 0,
-    Organization: "",
-    Title: "",
-    JobDescription: "",
-    Date: null,
+    experienceId: 0,
+    userId: 0,
+    jobTitle: "",
+    jobDesc: "",
+    dateRange: []
   },
 ]);
 const Link = reactive([
   {
-    id: 0,
-    LinkName: "",
-    LinkDesc: "",
+    linkId: 0,
+    userId: 0,
+    linkName: "",
+    link: "",
   },
 ]);
 const Award = reactive([
   {
-    id: 0,
-    AwardName: "",
-    AwardDesc: "",
+    awardId: 0,
+    userId: 0,
+    awardName: "",
+    awardDesc: "",
+    awardDate: ""
   },
 ]);
 const Project = reactive([
   {
-    id: 0,
-    ProjectName: "",
-    ProjectDesc: "",
+    projectId: 0,
+    userId: 0,
+    projectName: "",
+    projectDesc: "",
+    projectDate: ""
   },
 ]);
 
@@ -138,7 +150,7 @@ function getPrevious() {
   }
 }
 onUnmounted(() => {
-  if (componentSelected.value != 9 && (Resume.jobTitle || Resume.resumeName ||  Resume.ProfSummary)) {
+  if (componentSelected.value != 9 && (Resume.jobTitle || Resume.resumeName || Resume.ProfSummary)) {
     const resume = ref({ Resume, Person, ContactInfo, Education, Experience, Interest, Link, Project, Award, Skill, componentSelected })
     Utils.setStore("resume", resume.value)
   }
@@ -156,17 +168,18 @@ onMounted(() => {
   }
 });
 
-function mountUserData(){
+function mountUserData() {
+  console.log("Saving Data")
   componentSelected.value = storedResume.value.componentSelected
-    Object.assign(Resume, storedResume.value.Resume)
-    Object.assign(Person, storedResume.value.Person)
-    Object.assign(ContactInfo, storedResume.value.ContactInfo)
-    Object.assign(Education, storedResume.value.Education)
-    Object.assign(Experience, storedResume.value.Experience)
-    Object.assign(Interest, storedResume.value.Interest)
-    Object.assign(Link, storedResume.value.Link)
-    Object.assign(Project, storedResume.value.Project)
-    Object.assign(Award, storedResume.value.Award)
-    Object.assign(Skill, storedResume.value.Skill)
+  Object.assign(Resume, storedResume.value.Resume)
+  Object.assign(Person, storedResume.value.Person)
+  Object.assign(ContactInfo, storedResume.value.ContactInfo)
+  Object.assign(Education, storedResume.value.Education)
+  Object.assign(Experience, storedResume.value.Experience)
+  Object.assign(Interest, storedResume.value.Interest)
+  Object.assign(Link, storedResume.value.Link)
+  Object.assign(Project, storedResume.value.Project)
+  Object.assign(Award, storedResume.value.Award)
+  Object.assign(Skill, storedResume.value.Skill)
 }
 </script>

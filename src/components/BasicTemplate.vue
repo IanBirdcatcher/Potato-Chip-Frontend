@@ -14,7 +14,7 @@ export default {
     Link: { type: Object, required: true },
     Project: { type: Array, required: true },
     Award: { type: Array, required: true },
-    Skill: { type: Array, required: true },
+    Skill: { type: Object, required: true },
     Resume: { type: Array, required: true }
   },
   setup(props) {
@@ -24,27 +24,34 @@ export default {
     const address = ref("");
     const phoneNumber = ref("");
     const resumeRef = ref(null); // for the pdf
+    const link = ref("");
+
 
     onMounted(() => {
       const storedUser = Utils.getStore("user");
+
       if (storedUser) {
         user.value = storedUser;
         name.value = `${storedUser.fName} ${storedUser.lName}`;
         email.value = storedUser.email;
-        address.value = props.ContactInfo.Address || "No address provided";
-        phoneNumber.value = props.ContactInfo.PhoneNumber || "No PhoneNumber provided";
+        address.value = props.ContactInfo.Address || "";
+        phoneNumber.value = props.ContactInfo.PhoneNumber || "";
+        link.value = props.Link[0].link || "";
       }
     });
     const generatePDF = () => {
       const resumeElement = resumeRef.value;
 
-      html2canvas(resumeElement).then((canvas) => {
+      html2canvas(resumeElement, { scale: 2 }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
-
-        const doc = new jsPDF();
-        doc.addImage(imgData, "PNG", 15, 15, 190, 250);
-        doc.save("resume.pdf");
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("MyResume.pdf");
       });
+
+
     };
 
     return {
@@ -53,11 +60,11 @@ export default {
       email,
       address,
       phoneNumber,
-      Link: props.Link.Link,
+      Link: props.Link.link,
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
-      Skill: props.Skill.value,
+      Skill: props.Skill,
       Projects: props.Project,
       resumeRef,
       generatePDF,
@@ -69,28 +76,21 @@ export default {
 
 <template>
   <html lang="en">
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Basic Template</title>
-  </head>
-
   <body class="body">
     <div class="container">
       <header>
         <h1>{{ name }}</h1>
-        <p>
-          {{ address }} | {{ phoneNumber }} |
-          <a>{{ email }}</a> |
-          <a href="#">{{ link }}</a>
-        </p>
-      </header>
+            <p>
+              {{ address }} | {{ phoneNumber }} | 
+              <a>{{ email }}</a> | 
+              <a :href="link" target="_blank">{{ link }}</a>
+            </p>
+      </header> 
 
       <!-- PROFESSIONAL SUMMARY Section -->
       <section id="summary">
         <h2>PROFESSIONAL SUMMARY</h2>
-        <p></p>
+        <p>{{ Resume.profSummary }}</p>
       </section>
 
       <!-- Education Section -->
@@ -98,9 +98,10 @@ export default {
         <h2>EDUCATION</h2>
         <div v-for="Education in Education" :key="Education.id">
           <p>
-            <strong>{{ Education.SchoolName }}</strong><br />
-            {{ Education.Degree }} <br />
-            GPA: {{ Education.GPA }}
+            <strong>{{ Education.school }}</strong><br />
+            {{ Education.degree }} {{ Education.major }} <br/>
+            GPA: {{ Education.GPA }} <br />
+            {{ new Date(Education.dateRange[0]).toLocaleDateString() }} - {{ new Date(Education.dateRange[Education.dateRange.length - 1]).toLocaleDateString() }}
           </p>
         </div>
       </section>
@@ -109,8 +110,8 @@ export default {
         <h2>PROJECTS</h2>
         <div v-for="Project in Project" :key="Project.id">
           <p>
-            <strong>{{ Project.ProjectName }}</strong><br />
-            {{ Project.ProjectDesc }} <br />
+            <strong>{{ Project.projectName }}</strong><br />
+            {{ Project.projectDesc }} <br />
 
           </p>
         </div>
@@ -120,36 +121,34 @@ export default {
       <section id="experience">
         <h2>PROFESSIONAL EXPERIENCE</h2>
         <div v-for="Experience in Experience" :key="Experience.id" class="Experience">
-          <h3>{{ Experience.Organization }}, {{ Experience.Title }}</h3>
-          <p>{{ Experience.JobDescription }}</p>
+          <h3>{{ Experience.jobTitle }}</h3>
+          <p>{{ Experience.jobDesc }}</p>
         </div>
       </section>
-
+<div></div>
       <!-- Skills and Awards Section -->
       <section id="skills-awards">
         <h2>SKILLS & AWARDS</h2>
         <div>
           <h3 class="skillsAndAwards">Skills:</h3>
           <ul>
-            <li v-for="skill in Skill" :key="skill.id">{{ skill.Name }}</li>
+            <li v-for="skill in Skill" >{{ skill.skill }}</li>
           </ul>
         </div>
         <div>
           <h3 class="skillsAndAwards">Awards:</h3>
           <ul>
-            <li v-for="award in Award" :key="award.id">{{ award.AwardName }}</li>
+            <li v-for="award in Award" :key="award.id">{{ award.awardName }}</li>
           </ul>
         </div>
       </section>
     </div>
   </body>
-
   </html>
 </template>
-
 <style>
 .body {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman',Serif;
   margin: 0;
   padding: 0;
   line-height: 1.6;

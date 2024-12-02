@@ -10,6 +10,26 @@ import BasicTemplate from './BasicTemplate.vue';
 import ModernTemplate from '../components/ModernTemplate.vue';
 import GothicTemplate from '../components/GothicTemplate.vue';
 
+import ResumeService from '../services/resumeServices';
+import AwardService from '../services/awardServices';
+import AwardResumeService from '../services/awardResumeServices';
+import ContactInfoService from '../services/contactInfoServices';
+import ContactInfoResumeService from '../services/contactInfoResumeServices';
+import EducationService from '../services/educationServices';
+import EducationResumeService from '../services/educationResumeServices';
+import ExperienceService from '../services/experienceServices';
+import ExperienceResumeService from '../services/experienceResumeServices';
+import InterestService from '../services/interestServices';
+import InterestResumeService from '../services/interestResumeServices';
+import LinkService from '../services/linkServices';
+import LinkResumeService from '../services/linkResumeServices';
+import ProjectService from '../services/projectServices';
+import ProjectResumeService from '../services/projectResumeServices';
+import SkillService from '../services/skillServices';
+import SkillResumeService from '../services/skillResumeServices';
+import Utils from "../config/utils";
+import Router from "../router"
+
 export default {
   name: 'TemplateSelector',
   components: {
@@ -18,13 +38,14 @@ export default {
     GothicTemplate,
   },
   props: {
+    Resume: { type: Object, required: true },
     ContactInfo: { type: Object, required: true },
+    Award: { type: Array, required: true },
     Education: { type: Array, required: true },
     Experience: { type: Array, required: true },
     Interest: { type: Array, required: true },
     Link: { type: Array, required: true },
     Project: { type: Array, required: true },
-    Award: { type: Array, required: true },
     Skill: { type: Array, required: true },
     Resume: { type: Array, required: true },
   },
@@ -52,8 +73,213 @@ export default {
         this.showTemplate(1); 
       }
     },
+
+    // Saves the resume content
+    async save() {
+        // create new resume
+        const templateName = ( this.selectedTemplate === 1 ? "Basic Template" : this.selectedTemplate === 2 ? "Modern Template" : "Gothic Template" )
+        
+        const user = Utils.getStore("user");
+        const userId = user ? user.userId : null;
+        let currResumeId = null
+
+        await ResumeService.createResume(
+          {
+            "resumeName": this.Resume.resumeName,
+            "templateId": this.selectedTemplate,
+           // "templateName": templateName,
+            "profSummary": this.Resume.profSummary,
+            "jobTitle": this.Resume.jobTitle,
+            "userId": userId
+          }
+        )
+        .then((res) => {
+          currResumeId = res.data.resumeId
+        })
+        // for all resume items, if item does not exist (i.e. has no id)
+        // then create a new instance of that resumeItem,
+        // else move on
+        if (this.ContactInfo.contactInfoId == 0) {
+          ContactInfoService.createContactInfo(
+            {
+              "email": this.ContactInfo.Email,
+              "phone": this.ContactInfo.PhoneNumber,
+              "address": this.ContactInfo.Address
+            }
+          )
+          .then((res) => {
+            ContactInfoResumeService.createContactInfoResume({
+              "resumeId": currResumeId, 
+              "contactInfoId": res.data.contactInfoId
+            })
+          })
+         }else { 
+          console.log("else")
+            ContactInfoResumeService.createContactInfoResume({
+                "resumeId": currResumeId, 
+                "contactInfoId": contactInfo.contactInfoId
+             })
+          }
+        
+        this.Award.forEach(award => {
+          if (award.awardId == 0) {
+            AwardService.createAward({
+              "awardName": award.awardName,
+              "awardDesc": award.awardDesc,
+              "userId": userId
+            })
+            .then((res) => {
+              AwardResumeService.createAwardResume({
+              "resumeId": currResumeId, 
+              "awardId": res.data.awardId
+              })
+            })
+          } else {
+            AwardResumeService.createAwardResume({
+                "resumeId": currResumeId, 
+                "awardId": award.awardId
+             })
+           }
+        });
+
+        // Implement after education component is fixed.
+        this.Education.forEach(education => {
+          if (education.educationId == 0) {
+            EducationService.createEducation({
+              school: education.school,
+              GPA: education.GPA,
+              major: education.major,
+              degree: education.degree,
+              dateRange: education.dateRange,
+              userId: userId
+            })
+             .then((res) => {
+               EducationResumeService.createEducationResume({
+                "resumeId": currResumeId, 
+                "educationId": res.data.educationId
+             })
+
+           }) 
+          } else {
+            EducationResumeService.createEducationResume({
+                "resumeId": currResumeId, 
+                "educationId": education.educationId
+             })
+           }
+        });
+
+        this.Experience.forEach(experience => {
+          if (experience.experienceId == 0) {
+            ExperienceService.createExperience({
+              "jobTitle": experience.jobTitle,
+              "jobDesc": experience.jobDesc,
+              "dateRange": experience.dateRange,
+              "userId": userId
+            })
+            .then((res) => {
+              ExperienceResumeService.createExperienceResume({
+                "resumeId": currResumeId, 
+                "experienceId": res.data.experienceId
+              })
+            })
+          } else {
+            ExperienceResumeService.createExperienceResume({
+                "resumeId": currResumeId, 
+                "experienceId": experience.experienceId
+             })
+           }
+        });
+
+        this.Interest.forEach(interest => {
+            if (interest.interestId == 0) {
+            InterestService.createInterest({
+              "interestName": interest.interestName,
+              "interestDesc": interest.interestDesc,
+              "userId": userId
+            })
+            .then((res) => {
+              InterestResumeService.createInterestResume({
+                "resumeId": currResumeId, 
+                "interestId": res.data.interestId
+              })
+            })
+          } else {
+            InterestResumeService.createInterestResume({
+                "resumeId": currResumeId, 
+                "interestId": interest.interestId
+             })
+           }
+        });
+
+        this.Link.forEach(link => {
+          if (link.linkId == 0) {
+            LinkService.createLink({
+              "linkName": link.linkName,
+              "link": link.link,
+              "userId": userId
+            })
+            .then((res) => {
+              LinkResumeService.createLinkResume({
+                "resumeId": currResumeId, 
+                "linkId": res.data.linkId
+              })
+            })
+          } else {
+            LinkResumeService.createLinkResume({
+                "resumeId": currResumeId, 
+                "linkId": link.linkId
+             })
+           }
+        });
+
+        this.Project.forEach(project => {
+          if (project.projectId == 0 ) {  
+            ProjectService.createProject({
+              "projectName": project.projectName,
+              "projectDesc": project.projectDesc,
+              "userId": userId
+            })
+            .then((res) => {
+              ProjectResumeService.createProjectResume({
+                "resumeId": currResumeId, 
+                "projectId": res.data.projectId
+              })
+            })
+          } else {
+            ProjectResumeService.createProjectResume({
+                "resumeId": currResumeId, 
+                "projectId": project.projectId
+             })
+           }
+        });
+
+        this.Skill.forEach(skill => {
+          if (skill.skillId == 0) {  
+            SkillService.createSkill({
+              "skill": skill.skill,
+              "userId": userId
+            })
+            .then((res) => {
+              SkillResumeService.createSkillResume({
+              "resumeId": currResumeId, 
+              "skillId": res.data.skillId
+              })
+            })
+          } else {
+            SkillResumeService.createSkillResume({
+                "resumeId": currResumeId, 
+                  "skillId": skill.skillId
+             })
+           }
+        });
+
+
+        // route to homepage
+        Router.push({ name: 'HomePage' });
+    },
+
     generatePDF() {
-      if (this.selectedTemplate === 1 && this.$refs.basicTemplate) {
+      if (this.selectedTemplate === 1) {
         this.$refs.basicTemplate.generatePDF();
       } else if (this.selectedTemplate === 2 && this.$refs.modernTemplate) {
         this.$refs.modernTemplate.generatePDF();
@@ -90,23 +316,18 @@ export default {
     </v-card-actions>
     <v-divider class="mx-4"></v-divider>
     <div>
-      <BasicTemplate v-show="selectedTemplate === 1" ref="basicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project":Award="Award" :Skill="Skill" />
+      <BasicTemplate v-show="selectedTemplate === 1" ref="basicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest"   :Link="Link" :Project="Project":Award="Award" :Skill="Skill" />
       <ModernTemplate v-show="selectedTemplate === 2" ref="modernTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
       <GothicTemplate v-show="selectedTemplate === 3" ref="gothicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
-
-    <v-btn @click="generatePDF"
-        style="float: left; background-color: #007BFF; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
-      PDF
-    </v-btn>
     
-    <v-spacer></v-spacer>
-
-    <v-btn 
-        style="float: right; background-color: #28a745; color: white; font-weight: bold; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" >
-      Save
+    <v-btn color="#007BFF" class="float-left" @click="generatePDF()"> 
+    PDF
     </v-btn>
-
+    <v-btn color="#28a745" class="float-right"
+        @click=save>
+    Save
+    </v-btn>
   </v-card>
 </template>
 
