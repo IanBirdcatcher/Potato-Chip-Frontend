@@ -13,7 +13,7 @@ const SkillForm = ref(null);
 
 const skillList = ref([]);
 
-SkillService.getAllForUser(user)
+SkillService.getAllForUser(user.userId)
     .then(response => {
         skillList.value = response.data;
           })
