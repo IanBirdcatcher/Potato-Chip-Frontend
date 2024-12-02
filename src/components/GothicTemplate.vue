@@ -35,10 +35,10 @@ export default {
         user.value = storedUser;
         name.value = `${storedUser.fName} ${storedUser.lName}`;
         email.value = storedUser.email;
-        address.value = props.ContactInfo.Address || "No address provided";
-        phoneNumber.value = props.ContactInfo.PhoneNumber || "No PhoneNumber provided";
-        link.value = props.Link[0].LinkDesc || "No Link provided";
-        linkName.value = props.Link[0].LinkName || "No LinkName provided";
+        address.value = props.ContactInfo.Address || "";
+        phoneNumber.value = props.ContactInfo.PhoneNumber || "";
+        link.value = props.Link[0].link || "";
+        linkName.value = props.Link[0].linkName || "";
       }
     });
     const generatePDF = () => {
@@ -61,7 +61,6 @@ export default {
       phoneNumber,
       link,
       linkName,
-      selectedSkills,
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
@@ -104,7 +103,7 @@ export default {
         <h2>Experience</h2>
         <div class="job" v-for="(Experience, index) in Experience" :key="index">
           <h3>{{ Experience.jobTitle }},{{ Experience.Organization}}</h3>
-          <p>{{ new Date(Experience.Date[0]).toLocaleDateString() }} - {{ new Date(Experience.Date[Experience.Date.length - 1]).toLocaleDateString() }}</p>
+          <p>{{ new Date(Experience.dateRange[0]).toLocaleDateString() }} - {{ new Date(Experience.dateRange[Experience.dateRange.length - 1]).toLocaleDateString() }}</p>
           <p>{{ Experience.jobDesc }}</p>
         </div>
       </section>
@@ -117,8 +116,8 @@ export default {
           <h4 class="major">{{ education.major }}</h4> <p>GPA: {{ education.GPA }}</p>
             <p class="school-info">
               {{ education.school }}
-              <span v-if="education.Date && education.Date.length">
-                | {{ formatDate(education.Date[0]) }} - {{ formatDate(education.Date[education.Date.length - 1]) }}
+              <span v-if="education.dateRange && education.dateRange.length">
+                | {{ new Date(education.dateRange[0]).toLocaleDateString() }} - {{ new Date(education.dateRange[education.dateRange.length - 1]).toLocaleDateString() }}
               </span>
             </p>
         </div>

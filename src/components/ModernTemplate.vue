@@ -34,10 +34,9 @@ export default {
         user.value = storedUser;
         name.value = `${storedUser.fName} ${storedUser.lName}`;
         email.value = storedUser.email;
-        address.value = props.ContactInfo.Address || "No address provided";
-        phoneNumber.value = props.ContactInfo.PhoneNumber || "No phone number provided";
-        link.value = props.Link[0].LinkDesc || "No Link provided";
-
+        address.value = props.ContactInfo.Address || "";
+        phoneNumber.value = props.ContactInfo.PhoneNumber || "";
+        link.value = props.Link[0].link || "";
       }
     });
 
@@ -61,7 +60,6 @@ export default {
       address,
       phoneNumber,
       link,
-      selectedSkills,
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,

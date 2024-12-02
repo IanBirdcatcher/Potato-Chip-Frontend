@@ -25,7 +25,6 @@ export default {
     const phoneNumber = ref("");
     const resumeRef = ref(null); // for the pdf
     const link = ref("");
-    const selectedSkills = ref([]);
 
 
     onMounted(() => {
@@ -35,13 +34,9 @@ export default {
         user.value = storedUser;
         name.value = `${storedUser.fName} ${storedUser.lName}`;
         email.value = storedUser.email;
-        address.value = props.ContactInfo.Address || "No address provided";
-        phoneNumber.value = props.ContactInfo.PhoneNumber || "No PhoneNumber provided";
-        link.value = props.Link[0].LinkDesc || "No Link provided";
-        
-        selectedSkills.value = props.Skill.map(skill => ({
-         skill: skill.skill || "Unnamed Skill", 
-        }));
+        address.value = props.ContactInfo.Address || "";
+        phoneNumber.value = props.ContactInfo.PhoneNumber || "";
+        link.value = props.Link[0].link || "";
       }
     });
     const generatePDF = () => {
@@ -105,7 +100,8 @@ export default {
           <p>
             <strong>{{ Education.school }}</strong><br />
             {{ Education.degree }} {{ Education.major }} <br/>
-            GPA: {{ Education.GPA }}
+            GPA: {{ Education.GPA }} <br />
+            {{ new Date(Education.dateRange[0]).toLocaleDateString() }} - {{ new Date(Education.dateRange[Education.dateRange.length - 1]).toLocaleDateString() }}
           </p>
         </div>
       </section>
