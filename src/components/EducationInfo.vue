@@ -5,6 +5,8 @@ import { ref } from 'vue';
 
 import { VDateInput } from 'vuetify/labs/VDateInput'
 const required = (label) => (value) => !!value || `The ${label} field is required.`;
+
+const dialog = ref(false)
 const modalEditIndex = ref(0)
 
 </script>
@@ -45,7 +47,7 @@ const modalEditIndex = ref(0)
                                         density="compact"></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date"
+                                    <v-date-input class="formField" v-model="item.dateRange" label="Start and End Date*"
                                         multiple="range" density="compact"></v-date-input>
                                 </v-col>
                                 <div v-if="Education.length > 1" class="mx-auto">
@@ -68,8 +70,8 @@ const modalEditIndex = ref(0)
                                     <v-row>
                                         <p>GPA: {{ item.GPA }}</p>
                                     </v-row>
-                                    <v-row v-if="item.dateRange">
-                                        <p>Start and End Date:{{ new Date(item.dateRange[0]).toLocaleDateString() + " - " + new Date(item.dateRange[item.dateRange.length -1]).toLocaleDateString()}}</p>
+                                    <v-row>
+                                        <p>Start and End Date:{{ Education.dateRange }}</p>
                                     </v-row>
                                 </v-col>
                                 <v-col cols="2">
@@ -113,9 +115,9 @@ const modalEditIndex = ref(0)
             </v-row>
         </v-form>
     </div>
-    <v-form ref="modalForm">
+
     <v-dialog v-model="dialog" width="auto" height="auto">
-        <v-card width="500" max-height="600" class="my-auto">
+        <v-card width="420" max-height="600" class="my-auto">
             <v-card-title style="text-align:center">
             This Could Change Existing Resumes Using This
             </v-card-title>
@@ -147,15 +149,13 @@ const modalEditIndex = ref(0)
             <v-divider class="mx-4"></v-divider>
             <template v-slot:actions>
                 <v-btn class="ms-auto" text="Save"
-                    @click="saveEducation(Education[modalEditIndex])"></v-btn>
+                    @click="saveEducation(Education[modalEditIndex]), dialog = false"></v-btn>
             </template>
         </v-card>
     </v-dialog>
-</v-form>
 </template>
 
 <script>
-const dialog = ref(false)
 export default {
     components: {
         ImportModal
@@ -180,7 +180,7 @@ export default {
                 GPA: 0,
                 degree: "",
                 major: "",
-                dateRange: null
+                dateRange: ""
             })
         },
         removeEducation(index) {
@@ -204,13 +204,8 @@ export default {
                     this.Education.unshift(data[i])
                 }
         },
-        async saveEducation(item) {
-            const { valid } = await this.$refs.modalForm.validate();
-            if (valid) {
-                dialog.value = false
-                EducationsService.updateEducation(item.educationId, item)
-            }
-            
+        saveEducation(item) {
+            EducationsService.updateEducation(item.educationId, item)
         }
     }
 }

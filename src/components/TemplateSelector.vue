@@ -114,9 +114,12 @@ export default {
               "contactInfoId": res.data.data.contactInfoId
             })
           })
-
-
-        }
+        } else {
+            ContactInfoResumeService.createContactInfoResume({
+                "resumeId": currResumeId, 
+                "contactInfoId": contactInfo.contactInfoId
+             })
+           }
         
         this.Award.forEach(award => {
           if (award.id == 0) {
@@ -131,43 +134,47 @@ export default {
               "awardId": res.data.awardId
               })
             })
-          }
+          } else {
+            AwardResumeService.createAwardResume({
+                "resumeId": currResumeId, 
+                "awardId": award.awardId
+             })
+           }
         });
 
         // Implement after education component is fixed.
-        // this.Education.forEach(education => {
-        //   if (education.id == 0) {
-        //     let startDate = education.Date[0]
-        //     let endDate = education.Date[education.Date.length-1]
-        //     EducationService.createEducation({
-        //       school: education.school,
-        //       GPA: education.GPA,
-        //       major: education.major,
-        //       degree: education.degree,
-        //       startDate: startDate,
-        //       endDate: endDate,
-        //       userId: userId
-        //     })
-        //      .then => ((res) {
-        //        EducationResumeService.createEducationResume({
-        //      "resumeId": currResumeId, 
-        //      "educationId": res.data.educationId
-        //      })
+        this.Education.forEach(education => {
+          if (education.educationId == 0) {
+            EducationService.createEducation({
+              school: education.school,
+              GPA: education.GPA,
+              major: education.major,
+              degree: education.degree,
+              dateRange: education.dateRange,
+              userId: userId
+            })
+             .then((res) => {
+               EducationResumeService.createEducationResume({
+                "resumeId": currResumeId, 
+                "educationId": res.data.educationId
+             })
 
-        //    })
-        //   }
-        // });
+           }) 
+          } else {
+            EducationResumeService.createEducationResume({
+                "resumeId": currResumeId, 
+                "educationId": education.educationId
+             })
+           }
+        });
 
         this.Experience.forEach(experience => {
           if (experience.id == 0) {
-            let startDate = experience.Date[0]
-            let endDate = experience.Date[experience.Date.length-1]
             ExperienceService.createExperience({
               "organizationName": experience.Organization,
               "jobTitle": experience.Title,
               "jobDesc": experience.JobDescription,
-              "startDate": startDate,
-              "endDate": endDate,
+              "dateRange": experience.dateRange,
               "userId": userId
             })
             .then((res) => {
@@ -176,7 +183,12 @@ export default {
                 "experienceId": res.data.experienceId
               })
             })
-          }
+          } else {
+            ExperienceResumeService.createExperienceResume({
+                "resumeId": currResumeId, 
+                "experienceId": experience.experienceId
+             })
+           }
         });
 
         this.Interest.forEach(interest => {
@@ -192,7 +204,12 @@ export default {
                 "interestId": res.data.interestId
               })
             })
-          }
+          } else {
+            InterestResumeService.createInterestResume({
+                "resumeId": currResumeId, 
+                "interestId": interest.interestId
+             })
+           }
         });
 
         this.Link.forEach(link => {
@@ -208,7 +225,12 @@ export default {
                 "linkId": res.data.linkId
               })
             })
-          }
+          } else {
+            LinkResumeService.createLinkResume({
+                "resumeId": currResumeId, 
+                "linkId": link.linkId
+             })
+           }
         });
 
         this.Project.forEach(project => {
@@ -224,7 +246,12 @@ export default {
                 "projectId": res.data.projectId
               })
             })
-          }
+          } else {
+            ProjectResumeService.createProjectResume({
+                "resumeId": currResumeId, 
+                "projectId": project.projectId
+             })
+           }
         });
 
         this.Skill.forEach(skill => {
@@ -239,14 +266,19 @@ export default {
               "skillId": res.data.skillId
               })
             })
-          }
+          } else {
+            SkillResumeService.createSkillResume({
+                "resumeId": currResumeId, 
+                  "skillId": skill.skillId
+             })
+           }
         });
 
 
         // route to homepage
         Router.push({ name: 'HomePage' });
-    }
-    ,
+    },
+
     generatePDF() {
       if (this.selectedTemplate === 1 && this.$refs.basicTemplate) {
         this.$refs.basicTemplate.generatePDF();
@@ -290,14 +322,13 @@ export default {
       <GothicTemplate v-show="selectedTemplate === 3" ref="gothicTemplate":Resume="Resume":ContactInfo="ContactInfo" :Education="Education" :Experience="Experience" :Interest="Interest" :Link="Link" :Project="Project" :Award="Award" :Skill="Skill" />
     </div>
     
-        <v-btn color="#007BFF" class="float-left"
-            @click="generatePDF"> 
-        PDF
-        </v-btn>
-        <v-btn color="#28a745" class="float-right"
-            @click=save>
-        Save
-        </v-btn>
+    <v-btn color="#007BFF" class="float-left" @click="generatePDF()"> 
+    PDF
+    </v-btn>
+    <v-btn color="#28a745" class="float-right"
+        @click=save>
+    Save
+    </v-btn>
   </v-card>
 </template>
 
