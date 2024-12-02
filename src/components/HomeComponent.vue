@@ -1,10 +1,9 @@
 <template>
   <!-- Main Template Structure ------------------ -->
   <main>
-
-    <!-- Toolbar Section: Top bar with title and search field ------------------ -->
     <v-container fluid class="no-padding">
       <v-row class="no-padding">
+        <!-- Toolbar Section ------------------ -->
         <v-col cols="12" class="no-padding">
           <v-toolbar flat color="#F7F6FE" dense>
             <v-toolbar-title style="margin-left: 20px;"><b>Resumes List</b></v-toolbar-title>
@@ -27,60 +26,69 @@
         </v-col>
       </v-row>
 
-      <!-- Resumes Data Table Section ------------------ -->
       <v-row class="no-padding">
+        <!-- Resume List or View Resume ------------------ -->
         <v-col cols="12" class="no-padding">
-          <!-- Main Data Table for Resumes ------------------ -->
-          <v-data-table
-            :headers="headers"
-            :items="resumes"
-            :search="search"
-            :sort-by="[{ key: 'resumeName', order: 'asc' }]">
-            
-            <!-- Editable Columns: Resume Name and Job ------------------ -->
-            <template v-slot:item.resumeName="{ item }">
-              <div v-if="!item.isEditingResumeName">
-                <span @click="editField(item, 'resumeName')">{{ item.resumeName }}</span>
-              </div>
-              <div v-else>
-                <v-text-field
-                  v-model="item.resumeName"
-                  label="Resume Name"
-                  @blur="updateResume(item)"
-                  @keyup.enter="updateResume(item)"
-                  single-line
-                  hide-details
-                  class="edit-field"
-                  autofocus
-                />
-              </div>
-            </template>
+          <!-- Show Resumes List -->
+          <div v-if="!selectedResume">
+            <v-data-table
+              :headers="headers"
+              :items="resumes"
+              :search="search"
+              :sort-by="[{ key: 'resumeName', order: 'asc' }]">
+              
+              <!-- Editable Columns ------------------ -->
+              <template v-slot:item.resumeName="{ item }">
+                <div v-if="!item.isEditingResumeName">
+                  <span @click="editField(item, 'resumeName')">{{ item.resumeName }}</span>
+                </div>
+                <div v-else>
+                  <v-text-field
+                    v-model="item.resumeName"
+                    label="Resume Name"
+                    @blur="updateResume(item)"
+                    @keyup.enter="updateResume(item)"
+                    single-line
+                    hide-details
+                    class="edit-field"
+                    autofocus
+                  />
+                </div>
+              </template>
 
-            <template v-slot:item.jobTitle="{ item }">
-              <div v-if="!item.isEditingJob">
-                <span @click="editField(item, 'job')">{{ item.jobTitle }}</span>
-              </div>
-              <div v-else>
-                <v-text-field
-                  v-model="item.jobTitle"
-                  label="Job"
-                  @blur="updateResume(item)"
-                  @keyup.enter="updateResume(item)"
-                  single-line
-                  hide-details
-                  class="edit-field"
-                />
-              </div>
-            </template>
+              <template v-slot:item.jobTitle="{ item }">
+                <div v-if="!item.isEditingJob">
+                  <span @click="editField(item, 'job')">{{ item.jobTitle }}</span>
+                </div>
+                <div v-else>
+                  <v-text-field
+                    v-model="item.jobTitle"
+                    label="Job"
+                    @blur="updateResume(item)"
+                    @keyup.enter="updateResume(item)"
+                    single-line
+                    hide-details
+                    class="edit-field"
+                  />
+                </div>
+              </template>
 
-            <!-- Actions Column: View and Delete Icons ------------------ -->
-            <template v-slot:item.actions="{ item }">
-              <v-icon icon="mdi-eye" color="#624DE3" class="me-2" size="small" @click="viewItem(item)">
-                mdi-eye
-              </v-icon>
-              <v-icon size="small" color="#A30D11" @click="deleteItem(item)">mdi-delete</v-icon>
-            </template>
-          </v-data-table>
+              <!-- Actions Column ------------------ -->
+              <template v-slot:item.actions="{ item }">
+                <v-icon icon="mdi-eye" color="#624DE3" class="me-2" size="small" @click="viewItem(item)">
+                  mdi-eye
+                </v-icon>
+                <v-icon size="small" color="#A30D11" @click="deleteItem(item)">mdi-delete</v-icon>
+              </template>
+            </v-data-table>
+          </div>
+
+          <!-- Show ViewResume Component -->
+          <view-resume
+            v-if="selectedResume"
+            :resume-id="selectedResume.resumeId"
+            @close="selectedResume = null" 
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -95,8 +103,12 @@
 <script>
 import resumeService from '../services/resumeServices';
 import Utils from '../config/utils';
+import viewResume from "../components/viewResume.vue";
 
 export default {
+  components: {
+    viewResume, 
+  },
   data: () => ({
     search: '',
     snackbar: false,
@@ -106,9 +118,10 @@ export default {
       { title: 'Resume Name', key: 'resumeName' },
       { title: 'Template', key: 'templateName' },
       { title: 'Job', key: 'jobTitle' },
-      { title: 'Actions', key: 'actions', sortable: false }
+      { title: 'Actions', key: 'actions', sortable: false },
     ],
     resumes: [],
+    selectedResume: null, 
   }),
 
   mounted() {
@@ -154,7 +167,6 @@ export default {
     },
 
     updateResume(item) {
-      // Update resume name and job on the server when user finishes editing
       resumeService.updateResume(item.resumeId, item)
         .then(() => {
           this.showSnackbar('Resume updated successfully', 'success');
@@ -168,6 +180,7 @@ export default {
     },
 
     viewItem(item) {
+      this.selectedResume = item; 
       this.showSnackbar(`Viewing: ${item.resumeName}`, 'success');
     },
 
@@ -177,15 +190,13 @@ export default {
         return; 
       }
 
-      this.resumes = this.resumes.filter(resume => resume.resumeId !== item.resumeId);  // Changed from resumeID to resumeId
+      this.resumes = this.resumes.filter(resume => resume.resumeId !== item.resumeId);
 
-      // Call the delete API
-      resumeService.deleteResume(item.resumeId)  
+      resumeService.deleteResume(item.resumeId)
         .then(() => {
           this.showSnackbar('Resume deleted successfully', 'success');
         })
         .catch(error => {
-          // Re-add item on error if necessary
           this.resumes.push(item);
           this.showSnackbar('Error deleting resume', 'error');
           console.log("Error deleting resume:", error);
@@ -194,7 +205,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .no-padding {
   padding: 0 !important;
