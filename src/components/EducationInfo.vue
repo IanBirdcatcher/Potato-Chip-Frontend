@@ -17,7 +17,7 @@ const modalEditIndex = ref(0)
                     <v-card-title style="text-align:center">
                         <v-row>
                             <v-col cols="8">
-                                <span class="text-h6">Education</span>
+                                <span class="text-h6">Education</span> 
                             </v-col>
                             <v-col cols="4">
                                 <ImportModal :dataType="'Education'" :keyName="'major'"

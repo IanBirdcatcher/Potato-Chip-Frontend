@@ -277,7 +277,7 @@ export default {
         // route to homepage
         Router.push({ name: 'HomePage' });
     },
-    
+
     generatePDF() {
       if (this.selectedTemplate === 1 && this.$refs.basicTemplate) {
         this.$refs.basicTemplate.generatePDF();
@@ -328,7 +328,6 @@ export default {
         @click=save>
     Save
     </v-btn>
-
   </v-card>
 </template>
 
