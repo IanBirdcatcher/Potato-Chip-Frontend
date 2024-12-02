@@ -5,7 +5,7 @@ import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 
 export default {
-  name: "GothicTemplate",
+  name: "SnazzyTemplate",
   props: {
     ContactInfo: { type: Object, required: true },
     Education: { type: Array, required: true },
