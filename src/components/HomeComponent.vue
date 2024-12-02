@@ -1,10 +1,9 @@
 <template>
-  <!-- Main Template Structure ------------------ -->
   <main>
     <v-container fluid class="no-padding">
       <v-row class="no-padding">
         <!-- Toolbar Section ------------------ -->
-        <v-col cols="12" class="no-padding">
+        <v-col cols="12" class="no-padding" v-if="!selectedResume"><!--so it doesn't display that dumb "resume list" header when viewing -->
           <v-toolbar flat color="#F7F6FE" dense>
             <v-toolbar-title style="margin-left: 20px;"><b>Resumes List</b></v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
@@ -27,9 +26,7 @@
       </v-row>
 
       <v-row class="no-padding">
-        <!-- Resume List or View Resume ------------------ -->
         <v-col cols="12" class="no-padding">
-          <!-- Show Resumes List -->
           <div v-if="!selectedResume">
             <v-data-table
               :headers="headers"
@@ -37,7 +34,6 @@
               :search="search"
               :sort-by="[{ key: 'resumeName', order: 'asc' }]">
               
-              <!-- Editable Columns ------------------ -->
               <template v-slot:item.resumeName="{ item }">
                 <div v-if="!item.isEditingResumeName">
                   <span @click="editField(item, 'resumeName')">{{ item.resumeName }}</span>
@@ -78,22 +74,23 @@
                 <v-icon icon="mdi-eye" color="#624DE3" class="me-2" size="small" @click="viewItem(item)">
                   mdi-eye
                 </v-icon>
-                <v-icon size="small" color="#A30D11" @click="deleteItem(item)">mdi-delete</v-icon>
+                <v-icon size="small" color="#A30D11" @click="deleteItem(item)">
+                  mdi-delete
+                </v-icon>
               </template>
             </v-data-table>
           </div>
 
-          <!-- Show ViewResume Component -->
           <view-resume
             v-if="selectedResume"
             :resume-id="selectedResume.resumeId"
-            @close="selectedResume = null" 
+            @close="selectedResume = null"
           />
         </v-col>
       </v-row>
     </v-container>
 
-    <!-- Snackbar for Notifications ------------------ -->
+    <!-- Snackbar things! ------------------ -->
     <v-snackbar v-model="snackbar" :color="snackbarColor" top right timeout="3000">
       {{ snackbarMessage }}
     </v-snackbar>
@@ -205,42 +202,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.no-padding {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-.v-toolbar {
-  min-height: 48px !important;
-  padding: 0 16px !important;
-}
-
-.table-border {
-  border: 1px solid #E0E0E0 !important;
-}
-
-.v-toolbar-title {
-  line-height: 1.2 !important;
-  font-size: 1.1rem;
-}
-
-.v-text-field {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.edit-field {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  font-size: 1rem;
-  padding-left: 8px;
-}
-
-.edit-field input:focus {
-  border: none !important;
-  box-shadow: none !important;
-  background-color: transparent !important;
-}
-</style>

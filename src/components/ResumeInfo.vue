@@ -21,7 +21,7 @@ const required = (label) => (value) => !!value || `The ${label} field is require
                                     :rules="[required('Job Title')]"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea class="formField" v-model="Resume.ProfSummary" label="Professional Summary*"
+                                <v-textarea class="formField" v-model="Resume.profSummary" label="Professional Summary*"
                                     :rules="[required('Professional Summary')]"></v-textarea>
                             </v-col>
                         </v-row>

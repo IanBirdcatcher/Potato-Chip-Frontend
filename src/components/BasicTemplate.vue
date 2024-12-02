@@ -35,7 +35,7 @@ export default {
         name.value = `${storedUser.fName} ${storedUser.lName}`;
         email.value = storedUser.email;
         address.value = props.ContactInfo.Address || "";
-        phoneNumber.value = props.ContactInfo.PhoneNumber || "";
+        phoneNumber.value = props.ContactInfo.PhoneNumber || ""; 
         link.value = props.Link[0].link || "";
       }
     });
@@ -60,7 +60,7 @@ export default {
       email,
       address,
       phoneNumber,
-      Link: props.Link.link,
+      Link: props.Link,
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
@@ -146,7 +146,7 @@ export default {
   </body>
   </html>
 </template>
-<style>
+<style scoped>
 .body {
   font-family: 'Times New Roman',Serif;
   margin: 0;
