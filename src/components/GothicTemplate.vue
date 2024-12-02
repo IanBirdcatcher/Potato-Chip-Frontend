@@ -26,8 +26,6 @@ export default {
     const link = ref("");
     const linkName = ref("");
 
-    const selectedSkills = ref([]);
-
 
     const resumeRef = ref(null); // for the pdf
 
@@ -41,11 +39,6 @@ export default {
         phoneNumber.value = props.ContactInfo.PhoneNumber || "No PhoneNumber provided";
         link.value = props.Link[0].LinkDesc || "No Link provided";
         linkName.value = props.Link[0].LinkName || "No LinkName provided";
-
-        selectedSkills.value = props.Skill.map(skill => ({
-         skill: skill.skill || "Unnamed Skill", 
-        }));
-
       }
     });
     const generatePDF = () => {
@@ -72,7 +65,7 @@ export default {
       Education: props.Education,
       Experience: props.Experience,
       Award: props.Award,
-      Skill: props.Skill.value,
+      Skill: props.Skill,
       Projects: props.Project,
       resumeRef,
       generatePDF,
@@ -95,14 +88,14 @@ export default {
 
       <section>
         <h2>Summary</h2>
-        <p>{{ Resume.ProfSummary }}</p>
+        <p>{{ Resume.profSummary }}</p>
       </section>
 
       <!-- Skills -->
       <section>
         <h2>Skills</h2>
         <ul>
-          <li v-for="(skill, index) in selectedSkills" :key="index">{{ skill.skill }}</li>
+          <li v-for="(skill, index) in Skill" :key="index">{{ skill.skill }}</li>
         </ul>
       </section>
 
@@ -110,9 +103,9 @@ export default {
       <section>
         <h2>Experience</h2>
         <div class="job" v-for="(Experience, index) in Experience" :key="index">
-          <h3>{{ Experience.Title }},{{ Experience.Organization}}</h3>
+          <h3>{{ Experience.jobTitle }},{{ Experience.Organization}}</h3>
           <p>{{ new Date(Experience.Date[0]).toLocaleDateString() }} - {{ new Date(Experience.Date[Experience.Date.length - 1]).toLocaleDateString() }}</p>
-          <p>{{ Experience.JobDescription }}</p>
+          <p>{{ Experience.jobDesc }}</p>
         </div>
       </section>
 
@@ -135,8 +128,8 @@ export default {
       <section v-if="Projects && Projects.length">
         <h2>Projects</h2>
         <div v-for="(project, index) in Projects" :key="index">
-          <h3>{{ project.ProjectName }}</h3>
-          <p>{{ project.ProjectDesc }}</p>
+          <h3>{{ project.projectName }}</h3>
+          <p>{{ project.projectDesc }}</p>
         </div>
       </section>
 
@@ -144,7 +137,7 @@ export default {
       <section v-if="Award && Award.length">
         <h2>Awards</h2>
         <ul>
-          <li v-for="Award in Award" :key="Award.id">{{ Award.AwardName }}</li>
+          <li v-for="Award in Award" :key="Award.awardId">{{ Award.awardName }}</li>
         </ul>
       </section>
     </div>

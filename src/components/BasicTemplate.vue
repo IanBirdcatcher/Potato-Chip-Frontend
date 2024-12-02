@@ -8,7 +8,7 @@ export default {
   name: "BasicTemplate",
   props: {
     ContactInfo: { type: Object, required: true },
-    //Education: { type: Array, required: true },
+    Education: { type: Array, required: true },
     Experience: { type: Array, required: true },
     Interest: { type: Array, required: true },
     Link: { type: Object, required: true },
@@ -76,8 +76,6 @@ export default {
       Resume: props.Resume
     };
   },
-
-
 };
 </script>
 
@@ -97,7 +95,7 @@ export default {
       <!-- PROFESSIONAL SUMMARY Section -->
       <section id="summary">
         <h2>PROFESSIONAL SUMMARY</h2>
-        <p>{{ Resume.ProfSummary }}</p>
+        <p>{{ Resume.profSummary }}</p>
       </section>
 
       <!-- Education Section -->

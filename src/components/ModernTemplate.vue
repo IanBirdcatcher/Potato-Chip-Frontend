@@ -8,7 +8,7 @@ export default {
   name: "BasicTemplate",
   props: {
     ContactInfo: { type: Object, required: true },
-    //Education: { type: Array, required: true },
+    Education: { type: Array, required: true },
     Experience: { type: Array, required: true },
     Interest: { type: Array, required: true },
     Link: { type: Array, required: true },
@@ -24,7 +24,6 @@ export default {
     const address = ref("");
     const phoneNumber = ref("");
     const link = ref("");
-    const selectedSkills = ref([]);
 
 
     const resumeRef = ref(null); // for the PDF thing
@@ -40,11 +39,6 @@ export default {
         link.value = props.Link[0].LinkDesc || "No Link provided";
 
       }
-
-
-      selectedSkills.value = props.Skill.map(skill => ({
-         skill: skill.skill || "Unnamed Skill", 
-      }));
     });
 
     const generatePDF = () => {
@@ -80,7 +74,6 @@ export default {
   },
 };
 </script>
-
 <template>
   <div ref="resumeRef" class="resume-container">
     <header>
@@ -93,13 +86,13 @@ export default {
     </header>
     <section>
       <h2>Objective</h2>
-      <p>{{ Resume.ProfSummary }}</p>
+      <p>{{ Resume.profSummary }}</p>
     </section>
     <section>
       <h2>Education</h2>
-      <div class="education" v-for="Education in Education" :key="Education.id">
+      <div class="education" v-for="Education in Education" :key="Education.educationId">
         <h3>{{ Education.school }}</h3>
-        <p>{{ new Date(Education.Date[0]).toLocaleDateString() }} - {{ new Date(Education.Date[Education.Date.length - 1]).toLocaleDateString() }}</p>
+        <p>{{ new Date(Education.dateRange[0]).toLocaleDateString() }} - {{ new Date(Education.dateRange[Education.dateRange.length - 1]).toLocaleDateString() }}</p>
         <p>{{ Education.degree }} | {{ Education.major }}</p>
         <p>GPA: {{ Education.GPA }}</p>
       </div>
@@ -108,16 +101,16 @@ export default {
       <div>
         <h3 class="skillsAndAwards">Skills:</h3>
           <ul>
-            <li v-for="(skill, index) in selectedSkills" :key="index">{{ skill.skill }}</li>
+            <li v-for="(skill, index) in Skill" :key="index">{{ skill.skill }}</li>
           </ul>
     </div>
     </section>
     <section>
       <h2>Experience</h2> 
-      <div class="Experience" v-for="Experience in Experience" :key="Experience.id">
-        <h3>{{Experience.Title }}, {{ Experience.Organization }}</h3>
-        <p>{{ new Date(Experience.Date[0]).toLocaleDateString() }} - {{ new Date(Experience.Date[Experience.Date.length - 1]).toLocaleDateString() }}</p>
-        <p>{{ Experience.JobDescription }}</p>
+      <div class="Experience" v-for="Experience in Experience" :key="Experience.experienceId">
+        <h3>{{Experience.jobTitle }}</h3>
+        <p>{{ new Date(Experience.dateRange[0]).toLocaleDateString() }} - {{ new Date(Experience.dateRange[Experience.dateRange.length - 1]).toLocaleDateString() }}</p>
+        <p>{{ Experience.jobDesc }}</p>
       </div>
     </section>
 
