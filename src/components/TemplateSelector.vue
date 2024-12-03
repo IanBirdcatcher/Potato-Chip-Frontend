@@ -87,7 +87,7 @@ export default {
           {
             "resumeName": this.Resume.resumeName,
             "templateId": this.selectedTemplate,
-           // "templateName": templateName,
+            "templateName": templateName,
             "profSummary": this.Resume.profSummary,
             "jobTitle": this.Resume.jobTitle,
             "userId": userId
@@ -110,7 +110,7 @@ export default {
           .then((res) => {
             ContactInfoResumeService.createContactInfoResume({
               "resumeId": currResumeId, 
-              "contactInfoId": res.data.contactInfoId
+              "contactInfoId": res.data.data.contactInfoId
             })
           })
          }else { 
