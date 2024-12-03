@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import ocLogo from "/oc-logo-white.png";
 import Utils from "../config/utils";
+import userService from "../services/userServices";
 
 const user = ref(null);
 const title = ref("Resume Builder");
@@ -10,6 +11,7 @@ const initials = ref("");
 const name = ref("");
 const logoURL = ref("");
 const router = useRouter(); 
+const admin = ref(null);
 
 const resetMenu = () => {
   const storedUser = Utils.getStore("user"); 
@@ -18,6 +20,10 @@ const resetMenu = () => {
     initials.value = storedUser.fName[0] + storedUser.lName[0];
     name.value = storedUser.fName + " " + storedUser.lName;
   }
+  userService.getUserById(user.value.userId)
+  .then((response) => {
+    admin.value = response.data;
+  })
 };
 
 //Switch to the Admin
@@ -32,25 +38,12 @@ const switchToAdmin = () => {
 //Switch back to a user
 const switchToUser = () => {
   router.push({ name: "HomePage" }); 
-
-const logout = () => {
-  AuthServices.logoutUser(user.value)
-    .then((response) => {
-      console.log(response);
-      Utils.removeItem("user");
-      router.push({ name: "login" });  // Navigate to the login page after logout
-    })
-    .catch((error) => {
-      console.log("error", error);
-    });
 };
 
 onMounted(() => {
   logoURL.value = ocLogo;
   resetMenu();
 });
-
-}
 </script>
 
 <template>
@@ -84,11 +77,11 @@ onMounted(() => {
                 {{ user.email }}
               </p>
               <v-divider class="my-3"></v-divider>
-              <v-btn v-if="user.isAdmin === true && $route.name !== 'AdminPage'" class="mx-2"
+              <v-btn v-if="admin.isAdmin && $route.name !== 'AdminPage'" class="mx-2"
                 color="primary" @click="switchToAdmin">
                 Switch To Admin
               </v-btn>
-              <v-btn v-if="user.isAdmin == true && $route.name === 'AdminPage'" class="mx-2"
+              <v-btn v-if="admin.isAdmin && $route.name === 'AdminPage'" class="mx-2"
                 color="primary" @click="switchToUser">
                 Switch To User
               </v-btn>
