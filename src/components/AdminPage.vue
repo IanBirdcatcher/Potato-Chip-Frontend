@@ -1,4 +1,5 @@
-    <div class="admin-page">
+  <template> 
+   <div class="admin-page">
       <h1>Admin Dashboard</h1>
   
       <!-- Search Bar -->
