@@ -34,11 +34,12 @@ const router = createRouter({
       name: "CreateResume",
       component: CreateResume,
     },
+
     {
-      path: "/AdminView",
-      alias: "/AdminViewPage",
-      name: "AdminViewPage",
+      path: '/admin-view', 
+      name: 'AdminView', 
       component: AdminView,
+      props: route => ({ resumeId: route.query.resumeId })
     }
   ],
 });
