@@ -36,7 +36,7 @@ export default {
         email.value = storedUser.email;
         address.value = props.ContactInfo.Address || "";
         phoneNumber.value = props.ContactInfo.PhoneNumber || "";
-        link.value = props.Link[0].link || "";
+        link.value = props.Link[0].link || ""; 
       }
     });
 
