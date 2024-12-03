@@ -173,7 +173,7 @@
         }
       },
       navigateToHome(resumeId) {
-        this.$router.push({ name: "HomePage", query: { resumeId } });
+        this.$router.push({ name: "AdminView", query: { resumeId } });
       }
     },
     watch: {
