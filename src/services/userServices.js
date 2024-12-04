@@ -4,12 +4,12 @@ import apiClient from '../services/services';
 const userService = {
   // Get all users
   getAllUsers() {
-    return apiClient.get('/resume/user');
+    return apiClient.get('/user');
   },
 
   // Get a specific user by ID
   getUserById(userId) {
-    return apiClient.get(`/resume/user/${userId}`);
+    return apiClient.get(`/user/${userId}`);
   }
 };
 
