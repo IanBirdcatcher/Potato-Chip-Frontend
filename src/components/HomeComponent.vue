@@ -85,6 +85,7 @@
             v-if="selectedResume"
             :resume-id="selectedResume.resumeId"
             @close="selectedResume = null"
+            @goBack="goBack"
           />
         </v-col>
       </v-row>
@@ -178,6 +179,7 @@ export default {
 
     viewItem(item) {
       this.selectedResume = item; 
+
       this.showSnackbar(`Viewing: ${item.resumeName}`, 'success');
     },
 
@@ -199,6 +201,10 @@ export default {
           console.log("Error deleting resume:", error);
         });
     },
+    goBack(){
+      console.log("1")
+      this.selectedResume = false;
+    }
   }
 };
 </script>

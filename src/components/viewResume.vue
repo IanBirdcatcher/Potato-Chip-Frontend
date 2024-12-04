@@ -54,6 +54,7 @@ export default {
     this.loadTemplate = true
     this.selectedTemplate = this.resumeData.Resume.templateId
   },
+  emits:["goBack"],
   methods: {
     async fetchResumeAndData() {
       try {
@@ -218,7 +219,7 @@ export default {
       console.log("PDF download functionality to be implemented.");
     },
     goBack() {
-      this.$router.go(-1);
+      this.$emit("goBack")
     },
   },
 };
