@@ -1,72 +1,3 @@
-<template>
-  <v-container>
-    <v-textarea
-      label="Admin Comment"
-      v-model="adminComment"
-      readonly
-      rows="3"
-    ></v-textarea>
-
-    <v-divider class="my-4"></v-divider>
-
-    <v-row>
-      <v-col cols="12" class="d-flex justify-center">
-        <div v-if="resumeData.Resume">
-          <BasicTemplate
-            v-show="selectedTemplate === 1"
-            ref="basicTemplate"
-            :Resume="this.resumeData.Resume"
-            :ContactInfo="this.resumeData.ContactInfo"
-            :Education="resumeData.Education"
-            :Experience="resumeData.Experience"
-            :Interest="resumeData.Interest"
-            :Link="resumeData.Link"
-            :Project="resumeData.Project"
-            :Award="this.resumeData.Award"
-            :Skill="this.resumeData.Skill"
-          />
-          <ModernTemplate
-            v-show="selectedTemplate === 2"
-            ref="modernTemplate"
-            :Resume="resumeData.Resume"
-            :ContactInfo="resumeData.ContactInfo"
-            :Education="resumeData.Education"
-            :Experience="resumeData.Experience"
-            :Interest="resumeData.Interest"
-            :Link="resumeData.Link"
-            :Project="resumeData.Project"
-            :Award="this.resumeData.Award"
-            :Skill="this.resumeData.Skill"
-          />
-          <GothicTemplate
-            v-show="selectedTemplate === 3"
-            ref="gothicTemplate"
-            :Resume="resumeData.Resume"
-            :ContactInfo="resumeData.ContactInfo"
-            :Education="resumeData.Education"
-            :Experience="resumeData.Experience"
-            :Interest="resumeData.Interest"
-            :Link="resumeData.Link"
-            :Project="resumeData.Project"
-            :Award="this.resumeData.Award"
-            :Skill="this.resumeData.Skill"
-          />
-        </div>
-        <div v-else class="placeholder">Loading resume data...</div>
-      </v-col>
-    </v-row>
-
-    <v-row class="mt-5" justify="center">
-      <v-col cols="auto">
-        <v-btn color="primary" @click="downloadPdf">PDF</v-btn>
-      </v-col>
-      <v-col cols="auto">
-        <v-btn color="secondary" @click="goBack">Back</v-btn>
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
-
 <script>
 import BasicTemplate from "./BasicTemplate.vue";
 import ModernTemplate from "./ModernTemplate.vue";
@@ -89,15 +20,20 @@ import ProjectService from "../services/projectServices";
 import ProjectResumeService from "../services/projectResumeServices";
 import SkillService from "../services/skillServices";
 import SkillResumeService from "../services/skillResumeServices";
+import { reactive, ref, onUnmounted, onMounted } from "vue";
 
 export default {
   components: { BasicTemplate, ModernTemplate, GothicTemplate },
   props: {
     resumeId: { type: Number, required: true },
   },
+  setup(){
+    const loadTemplate = ref(false)
+    const selectedTemplate = ref(null)
+    return {loadTemplate, selectedTemplate}
+  },
   data() {
     return {
-      selectedTemplate: 1,
       resumeData: {
         Resume: null,
         ContactInfo: [],
@@ -112,13 +48,16 @@ export default {
       adminComment: "This is an admin comment about the resume.",
     };
   },
-  mounted() {
-    this.fetchResumeAndData();
+  async mounted() {
+    console.log("VIEW MOUNTED")
+    await this.fetchResumeAndData();
+    this.loadTemplate = true
+    this.selectedTemplate = this.resumeData.Resume.templateId
   },
   methods: {
     async fetchResumeAndData() {
       try {
-        console.log("Getting the resumeId");
+        console.log("FETCH REUSME");
 
         // Fetch Resume
         const resumeResponse = await ResumeService.getResumeById(this.resumeId);
@@ -126,12 +65,15 @@ export default {
         console.log("Resume data:", this.resumeData.Resume);
 
         // Fetch Contact Info
+        try{
         const contactInfoResumeResponse = await ContactInfoResumeService.getContactInfoResumeById(this.resumeId);
         console.log("Bridge table response for ContactInfo:", contactInfoResumeResponse.data);
         const contactInfoId = contactInfoResumeResponse.data[0].contactInfoId;
         const contactInfoResponse = await ContactInfoService.getContactInfoById(contactInfoId);
         this.resumeData.ContactInfo = contactInfoResponse.data;
         console.log("Contact Info data:", this.resumeData.ContactInfo);
+        }
+        catch{}
 
         // Fetch Awards
         const awardResumeResponse = await AwardResumeService.getAwardResumeById(this.resumeId);
@@ -264,21 +206,94 @@ export default {
         //   this.resumeData.Skill = skills.filter(Boolean);
         //   console.log("Skill data:", this.resumeData.Skill);
         // }
-
+        selectedTemplate = this.resumeData.resume.templateId;
+        console.log(this.resumeData);
     } catch (error) {
       console.error("Error fetching resume data:", error.response?.data || error.message);
     }
   },
+  
 
     downloadPdf() {
-      console.log("PDF function.");
+      console.log("PDF download functionality to be implemented.");
     },
     goBack() {
-      console.log("back function");
+      this.$router.go(-1);
     },
   },
 };
 </script>
+
+
+
+<template>
+  <v-container>
+    <v-textarea
+      label="Admin Comment"
+      v-model="adminComment"
+      readonly
+      rows="3"
+    ></v-textarea>
+    <v-divider class="my-4"></v-divider>
+
+    <v-row>
+      <v-col cols="12" >
+        <div v-if="resumeData.Resume && loadTemplate">
+          <BasicTemplate
+            :key="resumeData.Resume?.id || 'basic-template'"
+            v-show="selectedTemplate === 1"
+            ref="basicTemplate"
+            :Resume="resumeData.Resume"
+            :ContactInfo="resumeData.ContactInfo"
+            :Education="resumeData.Education"
+            :Experience="resumeData.Experience"
+            :Interest="resumeData.Interest"
+            :Link="resumeData.Link"
+            :Project="resumeData.Project"
+            :Award="resumeData.Award"
+            :Skill="resumeData.Skill"
+          />
+          <ModernTemplate
+            v-show="selectedTemplate === 2"
+            ref="modernTemplate"
+            :Resume="resumeData.Resume"
+            :ContactInfo="resumeData.ContactInfo"
+            :Education="resumeData.Education"
+            :Experience="resumeData.Experience"
+            :Interest="resumeData.Interest"
+            :Link="resumeData.Link"
+            :Project="resumeData.Project"
+            :Award="resumeData.Award"
+            :Skill="resumeData.Skill"
+          />
+          <GothicTemplate
+            v-show="selectedTemplate === 3"
+            ref="gothicTemplate"
+            :Resume="resumeData.Resume"
+            :ContactInfo="resumeData.ContactInfo"
+            :Education="resumeData.Education"
+            :Experience="resumeData.Experience"
+            :Interest="resumeData.Interest"
+            :Link="resumeData.Link"
+            :Project="resumeData.Project"
+            :Award="resumeData.Award"
+            :Skill="resumeData.Skill"
+          />
+        </div>
+        <div v-else class="placeholder">Loading resume data...</div>
+      </v-col>
+    </v-row>
+
+    <v-row class="mt-5" justify="center">
+      <v-col cols="auto">
+        <v-btn color="primary" @click="downloadPdf">PDF</v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn color="secondary" @click="goBack">Back</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
 
 <style scoped>
 .placeholder {

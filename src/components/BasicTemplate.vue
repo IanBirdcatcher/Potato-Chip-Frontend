@@ -29,34 +29,20 @@ export default {
 
     const loading = ref(true);
 
-      onMounted(async() => { 
+      onMounted(() => {
+        console.log("THE BASIC TEMPLATE ON MOUNT");
 
-
-
-        await nextTick();
-        console.log("Awards data:", props.Award);
-
-        const storedUser = await Utils.getStore("user");        
-
+        const storedUser = Utils.getStore("user");
         if (storedUser) {
           user.value = storedUser;
-          name.value = `${storedUser.fName} ${storedUser.lName}`;  
+          name.value = `${storedUser.fName} ${storedUser.lName}`;
           email.value = storedUser.email;
           address.value = props.ContactInfo.Address || "";
-          phoneNumber.value = props.ContactInfo.PhoneNumber || ""; 
-          link.value = props.Link[0].link || "";
+          phoneNumber.value = props.ContactInfo.PhoneNumber || "";
+          link.value = props.Link[0].link || "";  
         }
-        console.log("ContactInfo:", props.ContactInfo);
-      console.log("Education:", props.Education);
-      console.log("Experience:", props.Experience);
-      console.log("Interest:", props.Interest);
-      console.log("Link:", props.Link);
-      console.log("Project:", props.Project);
-      console.log("Award:", props.Award);
-      console.log("Skill:", props.Skill);
-      console.log("Resume:", props.Resume);
         loading.value = false;
-      }); 
+      });
       const generatePDF = () => {
         const resumeElement = resumeRef.value;
 
@@ -72,23 +58,23 @@ export default {
 
       };
 
-    return {
-      user,
-      name,
-      email,
-      ContactInfo: props.ContactInfo,
-      phoneNumber,
-      Link: props.Link,
-      Education: props.Education,
-      Experience: props.Experience,
-      Award: props.Award,
-      Skill: props.Skill,
-      Projects: props.Project,
-      resumeRef,
-      generatePDF,
-      Resume: props.Resume
-    };
-  },
+      return {
+        user,
+        name,
+        email,
+        address,
+        phoneNumber,
+        Link: props.Link,
+        Education: props.Education,
+        Experience: props.Experience,
+        Award: props.Award,
+        Skill: props.Skill,
+        Projects: props.Project,
+        resumeRef,
+        generatePDF,
+        Resume: props.Resume
+      };
+    },
 };
 </script>
 
@@ -99,7 +85,7 @@ export default {
       <header>
         <h1>{{ name }}</h1>
             <p>
-              {{ ContactInfo.address }} | {{ ContactInfo.phoneNumber }} | 
+              {{ address }} | {{ phoneNumber }} | 
               <a>{{ email }}</a> | 
               <a :href="link" target="_blank">{{ link }}</a>  
             </p>
