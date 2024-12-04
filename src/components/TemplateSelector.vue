@@ -110,7 +110,7 @@ export default {
           .then((res) => {
             ContactInfoResumeService.createContactInfoResume({
               "resumeId": currResumeId, 
-              "contactInfoId": res.data.contactInfoId
+              "contactInfoId": res.data.data.contactInfoId
             })
           })
          }else { 
