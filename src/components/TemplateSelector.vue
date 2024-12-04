@@ -87,7 +87,7 @@ export default {
           {
             "resumeName": this.Resume.resumeName,
             "templateId": this.selectedTemplate,
-           // "templateName": templateName,
+            "templateName": templateName,
             "profSummary": this.Resume.profSummary,
             "jobTitle": this.Resume.jobTitle,
             "userId": userId
