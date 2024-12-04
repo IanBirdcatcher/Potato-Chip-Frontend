@@ -190,23 +190,23 @@ export default {
         }
 
         // Fetch Skills
-        // const skillResumeResponse = await SkillResumeService.getSkillResumeById(this.resumeId);
-        // console.log("Bridge table response for Skill:", skillResumeResponse.data);
-        // if (Array.isArray(skillResumeResponse.data)) {
-        //   const skills = await Promise.all(
-        //     skillResumeResponse.data.map(async (skillEntry) => {
-        //       try {
-        //         const skillResponse = await SkillService.getSkillById(skillEntry.skillId);
-        //         return skillResponse.data;
-        //       } catch (error) {
-        //         console.error("Error fetching skill with ID:", skillEntry.skillId, error.message);
-        //         return null;
-        //       }
-        //     })
-        //   );
-        //   this.resumeData.Skill = skills.filter(Boolean);
-        //   console.log("Skill data:", this.resumeData.Skill);
-        // }
+        const skillResumeResponse = await SkillResumeService.getSkillResumeById(this.resumeId);
+        console.log("Bridge table response for Skill:", skillResumeResponse.data);
+        if (Array.isArray(skillResumeResponse.data)) {
+          const skills = await Promise.all(
+            skillResumeResponse.data.map(async (skillEntry) => {
+              try {
+                const skillResponse = await SkillService.getSkillById(skillEntry.skillId);
+                return skillResponse.data;
+              } catch (error) {
+                console.error("Error fetching skill with ID:", skillEntry.skillId, error.message);
+                return null;
+              }
+            })
+          );
+          this.resumeData.Skill = skills.filter(Boolean);
+          console.log("Skill data:", this.resumeData.Skill);
+        }
         selectedTemplate = this.resumeData.resume.templateId;
         console.log(this.resumeData);
     } catch (error) {
