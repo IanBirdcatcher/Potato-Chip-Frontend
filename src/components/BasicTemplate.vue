@@ -3,18 +3,19 @@ import { ref, onMounted } from "vue";
 import Utils from "/src/config/utils";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import {nextTick} from "vue";
 
 export default {
   name: "BasicTemplate",
   props: {
-    ContactInfo: { type: Object, required: true },
+    ContactInfo: { type: Array, required: true },
     Education: { type: Array, required: true },
     Experience: { type: Array, required: true },
     Interest: { type: Array, required: true },
-    Link: { type: Object, required: true },
+    Link: { type: Array, required: true },
     Project: { type: Array, required: true },
-    Award: { type: Array, required: true },
-    Skill: { type: Object, required: true },
+    Award: { type: Array, required: true }, 
+    Skill: { type: Object, required: true }, 
     Resume: { type: Array, required: true }
   },
   setup(props) {
@@ -26,55 +27,58 @@ export default {
     const resumeRef = ref(null); // for the pdf
     const link = ref("");
 
+    const loading = ref(true);
 
-    onMounted(() => {
-      const storedUser = Utils.getStore("user");
+      onMounted(() => {
+        console.log("THE BASIC TEMPLATE ON MOUNT");
 
-      if (storedUser) {
-        user.value = storedUser;
-        name.value = `${storedUser.fName} ${storedUser.lName}`;
-        email.value = storedUser.email;
-        address.value = props.ContactInfo.Address || "";
-        phoneNumber.value = props.ContactInfo.PhoneNumber || "";
-        link.value = props.Link[0].link || "";
-      }
-    });
-    const generatePDF = () => {
-      const resumeElement = resumeRef.value;
-
-      html2canvas(resumeElement, { scale: 2 }).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("MyResume.pdf");
+        const storedUser = Utils.getStore("user");
+        if (storedUser) {
+          user.value = storedUser;
+          name.value = `${storedUser.fName} ${storedUser.lName}`;
+          email.value = storedUser.email;
+          address.value = props.ContactInfo.Address || "";
+          phoneNumber.value = props.ContactInfo.PhoneNumber || "";
+          link.value = props.Link[0].link || "";  
+        }
+        loading.value = false;
       });
+      const generatePDF = () => {
+        const resumeElement = resumeRef.value;
+
+        html2canvas(resumeElement, { scale: 2 }).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF("p", "mm", "a4");
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+          pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+          pdf.save("MyResume.pdf");
+        }); 
 
 
-    };
+      };
 
-    return {
-      user,
-      name,
-      email,
-      address,
-      phoneNumber,
-      Link: props.Link.link,
-      Education: props.Education,
-      Experience: props.Experience,
-      Award: props.Award,
-      Skill: props.Skill,
-      Projects: props.Project,
-      resumeRef,
-      generatePDF,
-      Resume: props.Resume
-    };
-  },
+      return {
+        user,
+        name,
+        email,
+        address,
+        phoneNumber,
+        Link: props.Link,
+        Education: props.Education,
+        Experience: props.Experience,
+        Award: props.Award,
+        Skill: props.Skill,
+        Projects: props.Project,
+        resumeRef,
+        generatePDF,
+        Resume: props.Resume
+      };
+    },
 };
 </script>
 
-<template>
+<template v-if="!loading">
   <html lang="en">
   <body class="body">
     <div class="container">
@@ -83,7 +87,7 @@ export default {
             <p>
               {{ address }} | {{ phoneNumber }} | 
               <a>{{ email }}</a> | 
-              <a :href="link" target="_blank">{{ link }}</a>
+              <a :href="link" target="_blank">{{ link }}</a>  
             </p>
       </header> 
 
@@ -125,7 +129,7 @@ export default {
           <p>{{ Experience.jobDesc }}</p>
         </div>
       </section>
-<div></div>
+      <div></div>
       <!-- Skills and Awards Section -->
       <section id="skills-awards">
         <h2>SKILLS & AWARDS</h2>
@@ -138,7 +142,7 @@ export default {
         <div>
           <h3 class="skillsAndAwards">Awards:</h3>
           <ul>
-            <li v-for="award in Award" :key="award.id">{{ award.awardName }}</li>
+            <li v-for="award in Award" :key="award.awardId">{{ award.awardName }}</li>
           </ul>
         </div>
       </section>
@@ -146,7 +150,8 @@ export default {
   </body>
   </html>
 </template>
-<style>
+
+<style scoped>
 .body {
   font-family: 'Times New Roman',Serif;
   margin: 0;
